@@ -18,3 +18,9 @@ The initial project requirements involve building a custom online catalog for cu
 * Sebastian Ibarra - Frontend Developer
 * Jorge Ruiz - FullStack Developer
 * Christopher Bolosan - Software Engineer
+
+LIVE MAIN Site
+https://jjsc-auto.vercel.app/
+
+Development Site
+https://jjsc-auto-dev.vercel.app/
