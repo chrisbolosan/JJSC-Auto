@@ -44,3 +44,4 @@ next-env.d.ts
 #ignore vs settings
 .vscode/*
 !.vscode/extensions.json
+.vs/
