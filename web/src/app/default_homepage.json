@@ -1,0 +1,24 @@
+{
+  "sections": [
+    {
+      "href": "/allproducts",
+      "title": "Shop Parts",
+      "description": "Browse the current catalog, check a stock, and/or add parts to your cart."
+    },
+    {
+      "href": "/checkout",
+      "title": "Checkout",
+      "description": "Review customer order"
+    },
+    {
+      "href": "/warehouse",
+      "title": "Warehouse",
+      "description": "Warehouse information logistics and print orders"
+    },
+    {
+      "href": "/admin/orders",
+      "title": "Admin",
+      "description": "Set rates and search orders"
+    }
+  ]
+}

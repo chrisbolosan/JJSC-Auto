@@ -1,29 +1,30 @@
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
-//temp homepage with route links
-const sections = [
-  {
-    href: '/allproducts',
-    title: 'Shop Parts',
-    description:
-      'Browse the current catalog, check a stock, and/or add parts to your cart.',
-  },
-  {
-    href: '/checkout',
-    title: 'Checkout',
-    description: 'Review customer order',
-  },
-  {
-    href: '/warehouse',
-    title: 'Warehouse',
-    description: 'Warehouse information logistics and print orders',
-  },
-  {
-    href: '/admin/orders',
-    title: 'Admin',
-    description: 'Set rates and search orders',
-  },
-];
+import defaultHomepage from './default_homepage.json'; //temp homepage with route links
+//Can also import json file and call the variables since it's just key/value pairs
+// const sections = [
+//   {
+//     href: '/allproducts',
+//     title: 'Shop Parts',
+//     description:
+//       'Browse the current catalog, check a stock, and/or add parts to your cart.',
+//   },
+//   {
+//     href: '/checkout',
+//     title: 'Checkout',
+//     description: 'Review customer order',
+//   },
+//   {
+//     href: '/warehouse',
+//     title: 'Warehouse',
+//     description: 'Warehouse information logistics and print orders',
+//   },
+//   {
+//     href: '/admin/orders',
+//     title: 'Admin',
+//     description: 'Set rates and search orders',
+//   },
+// ];
 
 export default function Home() {
   return (
@@ -33,7 +34,7 @@ export default function Home() {
       </p>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
-        {sections.map((section) => (
+        {defaultHomepage.sections.map((section) => (
           <Link
             key={section.href}
             href={section.href}
