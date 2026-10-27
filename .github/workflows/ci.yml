@@ -20,8 +20,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           #nvmrc node 22 set
-          node-version-file: .nvmrc
-          cache: npm
+          node-version: '22'
           # 3 packages per our repo
           cache-dependency-path: |
             package-lock.json
