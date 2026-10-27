@@ -1,0 +1,3 @@
+-- migrations
+-- http://supabase.com/docs/guides/local-development/database-migrations
+-- drop schema here
