@@ -4,38 +4,44 @@ name: CI pipeline deployment
 on:
   pull_request:
   push:
-    branches: 
+    branches:
       - main
       - develop
 jobs:
   check:
     runs-on: ubuntu-latest
     steps:
-        #https://github.com/actions/checkout
-        - name: Acquire the code
-          uses: actions/checkout@v4
+      #https://github.com/actions/checkout
+      - name: Acquire the code
+        uses: actions/checkout@v4
 
-        #https://github.com/actions/setup-node
-        - name: Set node version
-          uses: actions/setup-node@v4
-            with:
-              #nvmrc node 22 set
-              node-version-file: .nvmrc
-              cache: npm
-              # 3 packages per our repo
-              cache-dependency-path:  |
-                package-lock.json
-                api/package-lock.json
-                web/package-lock.json
+      #https://github.com/actions/setup-node
+      - name: Set node version
+        uses: actions/setup-node@v4
+        with:
+          #nvmrc node 22 set
+          node-version-file: .nvmrc
+          cache: npm
+          # 3 packages per our repo
+          cache-dependency-path: |
+            package-lock.json
+            api/package-lock.json
+            web/package-lock.json
 
-        - name: Install root package
-          run: npm ci
-        
-        - name: Install api package
-          run: npm ci --prefix api
-        
-        - name: Install web package
-          run: npm ci --prefix web
-        
-        - name: Build web front
-          run: npm run build --prefix web
+      - name: Install root package
+        run: npm ci
+
+      - name: Install api package
+        run: npm ci --prefix api
+
+      - name: Install web package
+        run: npm ci --prefix web
+
+      - name: Typecheck api
+        run: npm run typecheck --prefix
+
+      - name: Linter
+        run: npm run lint--prefix
+
+      - name: Build web front
+        run: npm run build --prefix web
