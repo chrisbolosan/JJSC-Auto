@@ -37,10 +37,10 @@ jobs:
         run: npm ci --prefix web
 
       - name: Typecheck api
-        run: npm run typecheck --prefix
+        run: npm run typecheck --prefix api
 
       - name: Linter
-        run: npm run lint--prefix
+        run: npm run lint --prefix web
 
       - name: Build web front
         run: npm run build --prefix web
