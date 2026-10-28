@@ -19,6 +19,11 @@
       "href": "/admin/orders",
       "title": "Admin",
       "description": "Set rates and search orders"
+    },
+    {
+      "href": "/admin_shipping",
+      "title": "Shipping",
+      "description": "Shipping yes!"
     }
   ]
 }
