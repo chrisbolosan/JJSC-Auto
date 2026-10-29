@@ -5,7 +5,7 @@ import Link from 'next/link';
 export const metadata: Metadata = {
   title: 'Admin | JJSC AUTO',
 };
-export default function AdminLayout({ children }: LayoutProps<'./admin'>) {
+export default function AdminLayout({ children }: LayoutProps<'/admin'>) {
   return (
     <div>
       <nav>
