@@ -32,7 +32,7 @@
     "src/app/allproducts/page.jsx",
     "src/app/checkout/page.jsx",
     "src/app/warehouse/page.jsx",
-    "src/app/admin/orders/page.jsx"
+    "src/app/admin/page.jsx"
   ],
   "exclude": ["node_modules"]
 }

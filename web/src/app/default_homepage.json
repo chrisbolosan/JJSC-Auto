@@ -16,14 +16,9 @@
       "description": "Warehouse information logistics and print orders"
     },
     {
-      "href": "/admin/orders",
+      "href": "/admin/",
       "title": "Admin",
-      "description": "Set rates and search orders"
-    },
-    {
-      "href": "/admin_shipping",
-      "title": "Shipping",
-      "description": "Shipping yes!"
+      "description": "Admin UI"
     }
   ]
 }
