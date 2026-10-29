@@ -28,7 +28,11 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    "src/app/allproducts/page.jsx",
+    "src/app/checkout/page.jsx",
+    "src/app/warehouse/page.jsx",
+    "src/app/admin/orders/page.jsx"
   ],
   "exclude": ["node_modules"]
 }
