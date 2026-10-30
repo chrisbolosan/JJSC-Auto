@@ -13,11 +13,11 @@ jobs:
     steps:
       #https://github.com/actions/checkout
       - name: Acquire the code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       #https://github.com/actions/setup-node
       - name: Set node version
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           #nvmrc node 22 set
           node-version: '22'
