@@ -34,6 +34,6 @@ https://jjsc-auto-dev.vercel.app/
 
 ## Docs
 
-- [UI_flow_diagram](docs/JJSC_UI_Flow chart.png)
+- [UI_flow_diagram](docs/JJSC_UI_Flow_chart.png)
 - [database schema](docs/database_diagram.png)
-- [UML_diagram][docs/JJSC_UML_Diagram.webp]
+- [UML_diagram](docs/JJSC_UML_Diagram.webp)
