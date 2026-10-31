@@ -7,10 +7,13 @@
     "killall": "kill-port 3000 4000",
     "dev:api": "npm run dev --prefix api",
     "dev:web": "npm run dev --prefix web",
-    "dev": "concurrently npm:dev:api npm:dev:web"
+    "dev": "concurrently npm:dev:api npm:dev:web",
+    "generate:types": "supabase gen types typescript --linked --schema public > shared/src/database.types.ts",
+    "seed": "npx supabase --yes db push --linked --include-seed"
   },
   "devDependencies": {
     "concurrently": "^10.0.6",
-    "kill-port": "^2.0.1"
+    "kill-port": "^2.0.1",
+    "supabase": "^2.122.0"
   }
 }
