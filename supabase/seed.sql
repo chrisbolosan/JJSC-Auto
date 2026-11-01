@@ -1,4 +1,4 @@
-// SEED DATA
+--SEED DATA
 INSERT INTO INVENTORY(part_no, quantity) VALUES
 (123, 5),
 (124, 67);
