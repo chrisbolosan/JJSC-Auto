@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-//typescript dont touch
+const adminPanels = [
+  { href: '/admin', section: 'Dashboard' },
+  { href: '/admin/orders', section: 'Orders' },
+  { href: '/admin/shipping', section: 'Shipping' },
+];
+
 export const metadata: Metadata = {
   title: 'Admin | JJSC AUTO',
 };
@@ -9,11 +14,12 @@ export default function AdminLayout({ children }: LayoutProps<'/admin'>) {
   return (
     <div>
       <nav>
-        <Link href="/admin">Dashboard</Link>
-        <Link href="/admin/orders">Orders</Link>
-        <Link href="/admin/shipping">Shipping</Link>
+        {adminPanels.map((panel) => (
+          <Link key={panel.href} href={panel.href}>
+            {panel.section}
+          </Link>
+        ))}
       </nav>
-
       <main>{children}</main>
     </div>
   );
