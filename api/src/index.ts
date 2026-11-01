@@ -2,7 +2,7 @@ import express, { type Express, type Request, type Response } from 'express';
 import 'dotenv/config';
 import cors from 'cors';
 //import function from services
-import { getMessage } from './services/homepage.service';
+import { getMessage } from './services/homepage.service.js';
 const app: Express = express();
 app.use(cors());
 app.use(express.json());
@@ -20,3 +20,5 @@ app.get('/api/homepage/message', (req: Request, res: Response) => {
 app.listen(port, () => {
   console.log(`Listening on ${port}`);
 });
+
+export default app;
