@@ -31,8 +31,8 @@
     "**/*.mts",
     "src/app/allproducts/page.jsx",
     "src/app/checkout/page.jsx",
-    "src/app/warehouse/page.jsx",
-    "src/app/admin/page.jsx"
+    "src/app/operations/page.tsx",
+    "src/app/admin/page.tsx"
   ],
   "exclude": ["node_modules"]
 }
