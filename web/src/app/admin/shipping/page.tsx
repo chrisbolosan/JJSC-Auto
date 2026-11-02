@@ -1,10 +1,18 @@
 'use client';
 import { useState, useEffect} from 'react';
 
+interface Bracket {
+  id: string | number; // supports either string (UUID) or number IDs
+  min_weight: string | number;
+  max_weight: string | number;
+  shipping_charge: string | number;
+}
+
+
 export default function ShippingPage() {
 
-  const [brackets, setBrackets] = useState<any[]>([]);
-  const [editingId, setEditingId] = useState<any | null>(null);
+  const [brackets, setBrackets] = useState<Bracket[]>([]);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const [editForm, setEditForm] = useState({
     min_weight: '',
@@ -25,7 +33,7 @@ export default function ShippingPage() {
   }, []);
 
   // Populate form with current row values
-  const startEdit = (bracket: any) => {
+  const startEdit = (bracket: Bracket) => {
     setEditingId(bracket.id);
     setEditForm({
       min_weight: bracket.min_weight || '',
@@ -35,7 +43,7 @@ export default function ShippingPage() {
   };
 
   // Save edits by sending a request back to API
-  const saveEdit = async (id: any) => {
+  const saveEdit = async (id: Bracket) => {
     try {
       const res = await fetch(`/api/shipping`, {
         method: 'PATCH',
