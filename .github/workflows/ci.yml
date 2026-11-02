@@ -21,23 +21,22 @@ jobs:
         with:
           #nvmrc node 22 set
           node-version: '22'
-          # 3 packages per our repo
+          # root + web packages (api paused, moved to web route handlers)
           cache-dependency-path: |
             package-lock.json
-            api/package-lock.json
             web/package-lock.json
 
       - name: Install root package
         run: npm ci
 
-      - name: Install api package
-        run: npm ci --prefix api
+      # - name: Install api package
+      #   run: npm ci --prefix api
 
       - name: Install web package
         run: npm ci --prefix web
 
-      - name: Typecheck api
-        run: npm run typecheck --prefix api
+      # - name: Typecheck api
+      #   run: npm run typecheck --prefix api
 
       - name: Linter
         run: npm run lint --prefix web

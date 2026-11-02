@@ -12,9 +12,8 @@ export default function Home() {
       setMessage('');
       return;
     }
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/homepage/message`,
-    );
+    //same app, so a relative path works on localhost, preview, and production
+    const res = await fetch('/api/homepage/message');
     const data = await res.json();
 
     setMessage(data.message);
