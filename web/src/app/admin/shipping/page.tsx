@@ -11,11 +11,6 @@ export default function ShippingPage() {
     max_weight: '',
     shipping_charge: ''
   });
-
-  // Load data from Supabase when the component mounts
-  useEffect(() => {
-    fetchBrackets();
-  }, []);
  
   async function fetchBrackets() {
     const res = await fetch('/api/shipping');
@@ -23,6 +18,11 @@ export default function ShippingPage() {
 
     setBrackets(data.brackets || data || []);
   } 
+
+  // Load data from Supabase when the component mounts
+  useEffect(() => {
+    fetchBrackets();
+  }, []);
 
   // Populate form with current row values
   const startEdit = (bracket: any) => {
