@@ -7,7 +7,7 @@
     "dev:api": "npm run dev --prefix api",
     "dev:web": "npm run dev --prefix web",
     "dev": "npm run dev --prefix web",
-    "generate:types": "supabase gen types typescript --linked --schema public > shared/src/database.types.ts",
+    "generate:types": "supabase gen types typescript --linked --schema public > web/src/server/types/database.types.ts",
     "seed": "npx supabase --yes db push --linked --include-seed",
     "typecheck": "npm run typechecker --prefix web"
   },
