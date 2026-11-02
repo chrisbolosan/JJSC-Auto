@@ -24,7 +24,7 @@ export default function ShippingPage() {
     const res = await fetch('/api/shipping');
     const data = await res.json();
 
-    setBrackets(data.brackets || data || []);
+    setBrackets(data || []);
   } 
 
   // Load data from Supabase when the component mounts
