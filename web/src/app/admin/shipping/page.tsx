@@ -1,15 +1,11 @@
 'use client';
 import { useState, useEffect} from 'react';
+import { Tables } from '@/server/types/database.types';
 
-interface Bracket {
-  id: string | number; // supports either string (UUID) or number IDs
-  min_weight: string | number;
-  max_weight: string | number;
-  shipping_charge: string | number;
-}
-
+type Bracket = Tables<'SHIPPING_BRACKET'>
 
 export default function ShippingPage() {
+
 
   const [brackets, setBrackets] = useState<Bracket[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -36,9 +32,9 @@ export default function ShippingPage() {
   const startEdit = (bracket: Bracket) => {
     setEditingId(bracket.id);
     setEditForm({
-      min_weight: bracket.min_weight || '',
-      max_weight: bracket.max_weight || '',
-      shipping_charge: bracket.shipping_charge || ''
+      min_weight: String(bracket.min_weight ?? ''),
+      max_weight: String(bracket.max_weight ?? ''),
+      shipping_charge: String(bracket.shipping_charge ?? '')
     });
   };
 
