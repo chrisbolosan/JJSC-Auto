@@ -14,3 +14,26 @@ export async function getAllShipping() {
   }
   return data;
 }
+
+export async function updateShipping(
+  id: number,
+  updatedFields: {
+    shipping_charge: number;
+    min_weight: number;
+    max_weight: number;
+  }
+) {
+  const { data, error } = await supabaseAdmin
+    .from('SHIPPING_BRACKET')
+    .update(updatedFields)
+    .eq('id', id)
+    .select();
+
+  console.log('i am updated shipping from the DB:', data);
+
+  if (error) {
+    console.log('db error: ', error.message);
+  }
+
+  return data;
+}
