@@ -30,6 +30,9 @@ jobs:
 
       - name: Install web package
         run: npm ci --prefix web
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
 
       - name: Linter
         run: npm run lint --prefix web
