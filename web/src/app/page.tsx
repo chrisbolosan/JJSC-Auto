@@ -3,37 +3,22 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import defaultHomepage from './default_homepage.json'; //temp homepage with route links
-//Can also import json file and call the variables since it's just key/value pairs
-// const sections = [
-//   {
-//     href: '/allproducts',
-//     title: 'Shop Parts',
-//     description:
-//       'Browse the current catalog, check a stock, and/or add parts to your cart.',
-//   },
-//   {
-//     href: '/checkout',
-//     title: 'Checkout',
-//     description: 'Review customer order',
-//   },
-//   {
-//     href: '/warehouse',
-//     title: 'Warehouse',
-//     description: 'Warehouse information logistics and print orders',
-//   },
-//   {
-//     href: '/admin/orders',
-//     title: 'Admin',
-//     description: 'Set rates and search orders',
-//   },
-// ];
 
 export default function Home() {
-  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState('');
+  //make function fetch the message API from our backend
+  async function fetchMessage() {
+    if (message) {
+      setMessage('');
+      return;
+    }
+    //same app, so a relative path works on localhost, preview, and production
+    const res = await fetch('/api/homepage/message');
+    const data = await res.json();
 
-  function handleClick() {
-    setShowMessage((prev) => !prev);
+    setMessage(data.message);
   }
+
   return (
     <main className="mx-auto w-full max-w-4xl px-6 py-16">
       <p className="text-sm font-semibold uppercase text-zinc-500">
@@ -58,11 +43,11 @@ export default function Home() {
       <div className="my-10">
         <button
           className="bg-red-500 p-5 rounded-2xl border border-amber-50"
-          onClick={handleClick}
+          onClick={fetchMessage}
         >
           Click Me
         </button>
-        {showMessage && <p className="mt-4 text-zinc-500">Bingo Bango!</p>}
+        {message && <p className="mt-4 text-zinc-500">{message}</p>}
       </div>
       <div>
         <iframe

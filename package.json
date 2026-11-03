@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "root package sync with api and web package",
   "scripts": {
-    "setup": "npm install && npm install --prefix api && npm install --prefix web",
-    "killall": "kill-port 3000 4000",
+    "setup": "npm install && npm install --prefix web",
     "dev:api": "npm run dev --prefix api",
     "dev:web": "npm run dev --prefix web",
-    "dev": "concurrently npm:dev:api npm:dev:web",
-    "generate:types": "supabase gen types typescript --linked --schema public > shared/src/database.types.ts",
+    "dev": "npm run dev --prefix web",
+    "generate:types": "supabase gen types typescript --linked --schema public > web/src/server/types/database.types.ts",
     "seed": "npx supabase --yes db push --linked --include-seed",
     "typecheck": "npm run typechecker --prefix web"
   },
