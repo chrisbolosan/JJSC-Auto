@@ -1,28 +1,80 @@
+import { products } from "@/lib/products";
 
-//import {} from //path
-export default function Checkout() {
-  return (
-    <div className="bg-white">  
-      <h1 className="text-yellow-500">I am checkout page </h1>
-      <form >
-        <label htmlFor="name">Name</label><br></br>
-        <input type="text" id="name" placeholder="name"></input><br></br>
-        <label htmlFor="cardNum">CardNum</label><br></br>
-        <input type="text" id="cardNum" placeholder="cardNum"></input><br></br>
-        <input type="month" id="dat"></input><br></br>
-        <label htmlFor="cvv">cvv</label><br></br>
-        <input type="text" id="cvv" hint="cvv" placeholder="cvv"></input><br></br>
-        <button type="submit" className="bg-red-500 p-5 rounded-2xl border border-amber-50">Submit</button>
-      </form>
-    </div>
-  );
+export const metadata = { title: "Checkout" };
+// A labeled text input, used to build the form below
+// autoComplete is the hint browsers use to fill in saved details (e.g. "email", "postal-code")
+function Field({ label, name, type = "text", autoComplete }) {
+    return (
+        <label className="block text-sm">
+            {label}
+            <input
+                name={name}
+                type={type}
+                autoComplete={autoComplete}
+                className="mt-1 block w-full rounded border border-gray-300 px-3 py-2"
+            />
+        </label>
+    );
 }
-//function to check if there are current num of digits in inputs
-//check if cardnum and cvv are only numbers
-//check if date is valid
-//date will be text then formatted to date
-//get last 4 digits? or make auth code on confirm
 
-//create orders id if cart is empty
-//cookies with order id to save items on cart?
-//or same thing but a cart tablee
+// No proper cart page yet. 
+// Do Later: replace the placeholder items with the real cart, add form validation, connect a payment provider, and create the order when "Place order" is clicked
+export default function CheckoutPage() {
+    // Placeholder cart: the first two products, one of each
+    const items = products.slice(0, 2);
+    const subtotal = items.reduce((sum, p) => sum + p.price, 0);
+
+    return (
+        <div>
+            <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">Checkout</h1>
+
+            <div className="mt-6 grid gap-8 md:grid-cols-3">
+                <form className="space-y-8 md:col-span-2">
+                    <fieldset className="space-y-3">
+                        <legend className="text-lg font-semibold">Contact</legend>
+                        <Field label="Email" name="email" type="email" autoComplete="email" />
+                    </fieldset>
+
+                    <fieldset className="space-y-3">
+                        <legend className="text-lg font-semibold">Shipping address</legend>
+                        <Field label="Full name" name="name" autoComplete="name" />
+                        <Field label="Address" name="address" autoComplete="street-address" />
+                        <div className="grid grid-cols-3 gap-3">
+                            <Field label="City" name="city" autoComplete="address-level2" />
+                            <Field label="State" name="state" autoComplete="address-level1" />
+                            <Field label="ZIP code" name="zip" autoComplete="postal-code" />
+                        </div>
+                    </fieldset>
+
+                    <fieldset className="space-y-3">
+                        <legend className="text-lg font-semibold">Payment</legend>
+                        {/*Add the payment provider's card form here later. Don't collect */}
+                        <div className="flex h-24 items-center justify-center bg-gray-100 text-sm text-gray-500">
+                            Payment placeholder
+                        </div>
+                    </fieldset>
+
+                    <button type="button" className="rounded bg-blue-500 px-4 py-2 text-white">
+                        Place order
+                    </button>
+                </form>
+
+                <aside className="h-fit rounded border border-gray-300 p-4">
+                    <h2 className="mb-3 text-lg font-semibold">Order summary</h2>
+                    <ul className="divide-y divide-gray-200">
+                        {items.map((p) => (
+                            <li key={p.id} className="flex justify-between py-2 text-sm">
+                                <span>{p.name} x 1</span>
+                                <span>${p.price.toFixed(2)}</span>
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
+                        <span>Total</span>
+                        <span>${subtotal.toFixed(2)}</span>
+                    </p>
+                </aside>
+            </div>
+        </div>
+    );
+}
