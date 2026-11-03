@@ -78,7 +78,7 @@ async function OrderList({ searchParams }) {
           </table>
           <div className="m-4">
             <ReturnButton
-              fallback="/admin"
+              href="/admin"
               label="LET'S GO!"
               styles="bg-red-400 border border-white rounded p-4"
             ></ReturnButton>

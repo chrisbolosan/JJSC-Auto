@@ -1,29 +1,22 @@
 'use client';
-import { useRouter } from 'next/navigation';
-
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 type returnButtonProps = {
-  fallbackHREF?: string;
+  href?: string;
   label?: string;
   styles: string;
 };
 
-export default function ReturnButton({
-  fallbackHREF = '/',
+export default function Return({
+  href = '/',
   label = 'Go Back',
   styles = 'rounded border border-gray-300 px-3 py-1 text-sm',
 }: returnButtonProps) {
-  const router = useRouter();
-
-  function goBack() {
-    if (window.history.length > 1) {
-      router.back();
-    } else {
-      router.push(fallbackHREF);
-    }
-  }
+  const pathName = usePathname();
+  const parentPath = pathName.split('/').slice(0, -1).join('/') || '/';
   return (
-    <button type="button" onClick={goBack} className={`${styles}`}>
+    <Link href={href ?? parentPath} className={`${styles}`}>
       {label}
-    </button>
+    </Link>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { Tables } from '@/server/types/database.types';
+import ReturnButton from '@/components/returnButton';
 
 type Bracket = Tables<'SHIPPING_BRACKET'>;
 
@@ -160,6 +161,13 @@ export default function ShippingPage() {
           })}
         </tbody>
       </table>
+      <div className="m-4">
+        <ReturnButton
+          href="/admin"
+          label="LET'S GO!"
+          styles="bg-red-400 border border-white rounded p-4"
+        ></ReturnButton>
+      </div>
     </div>
   );
 }
