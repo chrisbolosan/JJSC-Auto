@@ -21,7 +21,7 @@ export async function PATCH(request: Request) {
     if (!id) {
       return NextResponse.json(
         { success: false, message: 'Shipping ID is required.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -30,8 +30,11 @@ export async function PATCH(request: Request) {
 
     if (!data || data.length === 0) {
       return NextResponse.json(
-        { success: false, message: 'Shipping record not found or no changes made.' },
-        { status: 404 }
+        {
+          success: false,
+          message: 'Shipping record not found or no changes made.',
+        },
+        { status: 404 },
       );
     }
 
@@ -40,11 +43,10 @@ export async function PATCH(request: Request) {
       message: 'Shipping updated successfully',
       data,
     });
-  } catch (error: any) {
-    console.error('Route error:', error.message);
-    return NextResponse.json(
-      { success: false, error: 'Internal Server Error' },
-      { status: 500 }
+  } catch (error) {
+    return Response.json(
+      { success: false, error: (error as Error).message },
+      { status: 500 },
     );
   }
 }

@@ -1,31 +1,25 @@
 'use client';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { Tables } from '@/server/types/database.types';
 
-type Bracket = Tables<'SHIPPING_BRACKET'>
+type Bracket = Tables<'SHIPPING_BRACKET'>;
 
 export default function ShippingPage() {
-
-
   const [brackets, setBrackets] = useState<Bracket[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
 
   const [editForm, setEditForm] = useState({
     min_weight: '',
     max_weight: '',
-    shipping_charge: ''
+    shipping_charge: '',
   });
- 
-  async function fetchBrackets() {
-    const res = await fetch('/api/shipping');
-    const data = await res.json();
-
-    setBrackets(data || []);
-  } 
 
   // Load data from Supabase when the component mounts
+  //https://react.dev/reference/react/useEffect#fetching-data-with-effects
   useEffect(() => {
-    fetchBrackets();
+    fetch('/api/shipping').then((res) =>
+      res.json().then((data: Bracket[]) => setBrackets(data ?? [])),
+    );
   }, []);
 
   // Populate form with current row values
@@ -34,23 +28,27 @@ export default function ShippingPage() {
     setEditForm({
       min_weight: String(bracket.min_weight ?? ''),
       max_weight: String(bracket.max_weight ?? ''),
-      shipping_charge: String(bracket.shipping_charge ?? '')
+      shipping_charge: String(bracket.shipping_charge ?? ''),
     });
   };
 
   // Save edits by sending a request back to API
-  const saveEdit = async (id: Bracket) => {
+  const saveEdit = async (id: number) => {
+    const updatedToNumber = {
+      min_weight: Number(editForm.min_weight),
+      max_weight: Number(editForm.max_weight),
+      shipping_charge: Number(editForm.shipping_charge),
+    };
     try {
       const res = await fetch(`/api/shipping`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
+
         body: JSON.stringify({
           id,
-          min_weight: editForm.min_weight,
-          max_weight: editForm.max_weight,
-          shipping_charge: editForm.shipping_charge
+          ...updatedToNumber,
         }),
       });
 
@@ -59,10 +57,11 @@ export default function ShippingPage() {
       }
 
       // Update local state upon successful API response
+      // Pass back to brackets as a number
       setBrackets(
-        brackets.map((bracket) => 
-          bracket.id === id ? { ...bracket, ...editForm } : bracket
-        )
+        brackets.map((bracket) =>
+          bracket.id === id ? { ...bracket, ...updatedToNumber } : bracket,
+        ),
       );
       setEditingId(null);
     } catch (error) {
@@ -74,13 +73,15 @@ export default function ShippingPage() {
   return (
     <div style={{ padding: '20px' }} className="text-green-500">
       <h2>Weight Brackets</h2>
-      
+
       <table className="table-auto w-full bg-white border border-gray-300">
         <thead className="bg-green-500 text-white">
           <tr>
             <th className="border border-gray-300 px-4 py-2">Min Weight</th>
             <th className="border border-gray-300 px-4 py-2">Max Weight</th>
-            <th className="border border-gray-300 px-4 py-2">Shipping Charge</th>
+            <th className="border border-gray-300 px-4 py-2">
+              Shipping Charge
+            </th>
             <th className="border border-gray-300 px-4 py-2">Actions</th>
           </tr>
         </thead>
@@ -96,7 +97,9 @@ export default function ShippingPage() {
                     <input
                       type="text"
                       value={editForm.min_weight}
-                      onChange={(e) => setEditForm({ ...editForm, min_weight: e.target.value })}
+                      onChange={(e) =>
+                        setEditForm({ ...editForm, min_weight: e.target.value })
+                      }
                     />
                   ) : (
                     bracket.min_weight
@@ -109,7 +112,9 @@ export default function ShippingPage() {
                     <input
                       type="text"
                       value={editForm.max_weight}
-                      onChange={(e) => setEditForm({ ...editForm, max_weight: e.target.value })}
+                      onChange={(e) =>
+                        setEditForm({ ...editForm, max_weight: e.target.value })
+                      }
                     />
                   ) : (
                     bracket.max_weight
@@ -122,7 +127,12 @@ export default function ShippingPage() {
                     <input
                       type="text"
                       value={editForm.shipping_charge}
-                      onChange={(e) => setEditForm({ ...editForm, shipping_charge: e.target.value })}
+                      onChange={(e) =>
+                        setEditForm({
+                          ...editForm,
+                          shipping_charge: e.target.value,
+                        })
+                      }
                     />
                   ) : (
                     `$${bracket.shipping_charge}`
@@ -133,7 +143,12 @@ export default function ShippingPage() {
                 <td className="border border-gray-300 px-4 py-2">
                   {isEditing ? (
                     <>
-                      <button className="px-4" onClick={() => saveEdit(bracket.id)}>Save</button>
+                      <button
+                        className="px-4"
+                        onClick={() => saveEdit(bracket.id)}
+                      >
+                        Save
+                      </button>
                       <button onClick={() => setEditingId(null)}>Cancel</button>
                     </>
                   ) : (
