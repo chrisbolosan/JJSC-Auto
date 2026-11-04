@@ -4,11 +4,11 @@ import { usePathname } from 'next/navigation';
 type returnButtonProps = {
   href?: string;
   label?: string;
-  styles: string;
+  styles?: string;
 };
 
 export default function Return({
-  href = '/',
+  href,
   label = 'Go Back',
   styles = 'rounded border border-gray-300 px-3 py-1 text-sm',
 }: returnButtonProps) {
