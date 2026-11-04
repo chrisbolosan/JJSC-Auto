@@ -3,6 +3,7 @@ import Link from "next/link";
 import { statuses, getShipmentsByStatus } from "@/lib/shipments";
 
 export const metadata = { title: "Shipping" };
+import { useEffect } from 'react';
 
 // Same structure as the other pages: the heading shows right away, the shipments table waits inside <Suspense> because it reads searchParams
 export default function ShippingPage({ searchParams }) {

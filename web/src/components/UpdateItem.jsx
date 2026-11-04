@@ -2,6 +2,7 @@
 import {useState} from 'react';
 import { getItem, setItem } from '@/app/api/utils/localStorage'
 import { useEffect } from 'react';
+import ShowItems from './ShowItems';
 
 export default function UpdateItem({itemName}){
     const [count, setCount] = useState(() => {
@@ -17,13 +18,18 @@ export default function UpdateItem({itemName}){
         setCount(count + 1);
     }
     function subtractCount(){
-        setCount(count - 1);
+        if(count<1){
+            setCount(0);
+        }else{
+            setCount(count - 1);
+        }
     }
 
     return(
         <div>
             <ItemButton count={count} onClick={subtractCount}/>
             <ItemButton count={count} onClick={addCount} />
+            <ShowItems/>
         </div>
     );
 }

@@ -1,10 +1,28 @@
 'use client';
 
+import { clearCart } from "@/app/api/utils/localStorage";
+
 export default function cardAuth(e: any){
     e.preventDefault;
 
     const form = e.target;
     const formData = new FormData(form);
+    const nameName = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const address = formData.get("address") as string;
+    const city = formData.get("city") as string;
+    const state = formData.get("state") as string;
+    const zip = formData.get("zip") as string;
+    let addressBool = false;
+    
+    if(nameName.length > 0 && email.length > 0){
+        if(address.length > 0 && city.length > 0 && state.length > 0){
+            if(!isNaN(parseInt(zip)) && zip.length == 5){
+                addressBool = true;
+            }
+        }
+    }
+
     const name = formData.get("cardName") as string;
     const cardNum = formData.get("cardNum") as string;
     const cvv = formData.get("cvv") as string;
@@ -43,11 +61,15 @@ export default function cardAuth(e: any){
       cvvBool = true;
     }
 
-    if(nameBool && cardNumBool && cvvBool && dateBool){
+    if(nameBool && cardNumBool && cvvBool && dateBool && addressBool){
       alert('Valid card');
+
+      //add to db and clear cart
+      clearCart();
     }else{
       alert('INVALID');
     }
 
     alert(`Extracted info \n Name: '${name}'\n cardNum: '${cardNum}'\n cvv: '${cvv}' \n date: '${dat}' \n ${month}/${d}/${year}`);
+    //clearCart();
   }
