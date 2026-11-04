@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Tables } from '@/server/types/database.types';
 import ReturnButton from '@/components/returnButton';
 
-type Bracket = Tables<'SHIPPING_BRACKET'>;
+type Bracket = Tables<'shipping_brackets'>;
 
 export default function ShippingPage() {
   const [brackets, setBrackets] = useState<Bracket[]>([]);

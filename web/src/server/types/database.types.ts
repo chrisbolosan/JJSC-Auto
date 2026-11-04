@@ -14,194 +14,186 @@ export type Database = {
   }
   public: {
     Tables: {
-      CUSTOMER: {
+      customers: {
         Row: {
-          city: string | null
+          city: string
           email: string
+          id: number
           name: string
-          street: string | null
-          zip_code: string | null
+          street: string
+          zip_code: string
         }
         Insert: {
-          city?: string | null
+          city: string
           email: string
+          id?: number
           name: string
-          street?: string | null
-          zip_code?: string | null
+          street: string
+          zip_code: string
         }
         Update: {
-          city?: string | null
+          city?: string
           email?: string
+          id?: number
           name?: string
-          street?: string | null
-          zip_code?: string | null
+          street?: string
+          zip_code?: string
         }
         Relationships: []
       }
-      INVENTORY: {
+      inventory: {
         Row: {
-          part_no: number
+          part_number: number
           quantity: number
         }
         Insert: {
-          part_no: number
+          part_number: number
+          quantity?: number
+        }
+        Update: {
+          part_number?: number
+          quantity?: number
+        }
+        Relationships: []
+      }
+      order_items: {
+        Row: {
+          order_id: number
+          part_number: number
+          price: number
+          quantity: number
+        }
+        Insert: {
+          order_id: number
+          part_number: number
+          price: number
           quantity: number
         }
         Update: {
-          part_no?: number
+          order_id?: number
+          part_number?: number
+          price?: number
           quantity?: number
         }
         Relationships: [
           {
-            foreignKeyName: "INVENTORY_part_no_fkey"
-            columns: ["part_no"]
-            isOneToOne: true
-            referencedRelation: "LEGACY"
-            referencedColumns: ["part_no"]
-          },
-        ]
-      }
-      LEGACY: {
-        Row: {
-          description: string
-          img_url: string | null
-          part_no: number
-          price: number | null
-          weight: number | null
-        }
-        Insert: {
-          description: string
-          img_url?: string | null
-          part_no?: number
-          price?: number | null
-          weight?: number | null
-        }
-        Update: {
-          description?: string
-          img_url?: string | null
-          part_no?: number
-          price?: number | null
-          weight?: number | null
-        }
-        Relationships: []
-      }
-      ORDER_ITEMS: {
-        Row: {
-          order_id: number
-          part_no: number
-          quantity: number | null
-        }
-        Insert: {
-          order_id: number
-          part_no: number
-          quantity?: number | null
-        }
-        Update: {
-          order_id?: number
-          part_no?: number
-          quantity?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "ORDER_ITEMS_order_id_fkey"
+            foreignKeyName: "order_items_order_id_fkey"
             columns: ["order_id"]
             isOneToOne: false
-            referencedRelation: "ORDERS"
-            referencedColumns: ["order_id"]
-          },
-          {
-            foreignKeyName: "ORDER_ITEMS_part_no_fkey"
-            columns: ["part_no"]
-            isOneToOne: false
-            referencedRelation: "LEGACY"
-            referencedColumns: ["part_no"]
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
           },
         ]
       }
-      ORDERS: {
+      orders: {
         Row: {
-          auth_number: number | null
-          email: string
-          order_id: number
-          shipping: number | null
+          auth_number: string
+          created_at: string
+          customer_id: number
+          id: number
+          shipped_at: string | null
+          shipping: number
           status: string
-          total_price: number | null
+          subtotal: number
+          total: number
           total_weight: number
         }
         Insert: {
-          auth_number?: number | null
-          email: string
-          order_id?: number
-          shipping?: number | null
-          status: string
-          total_price?: number | null
-          total_weight?: number
+          auth_number: string
+          created_at?: string
+          customer_id: number
+          id?: number
+          shipped_at?: string | null
+          shipping: number
+          status?: string
+          subtotal: number
+          total: number
+          total_weight: number
         }
         Update: {
-          auth_number?: number | null
-          email?: string
-          order_id?: number
-          shipping?: number | null
+          auth_number?: string
+          created_at?: string
+          customer_id?: number
+          id?: number
+          shipped_at?: string | null
+          shipping?: number
           status?: string
-          total_price?: number | null
+          subtotal?: number
+          total?: number
           total_weight?: number
         }
         Relationships: [
           {
-            foreignKeyName: "ORDERS_email_fkey"
-            columns: ["email"]
+            foreignKeyName: "orders_customer_id_fkey"
+            columns: ["customer_id"]
             isOneToOne: false
-            referencedRelation: "CUSTOMER"
-            referencedColumns: ["email"]
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
           },
         ]
       }
-      RECEIVING_LOG: {
+      parts: {
         Row: {
-          added: number | null
-          id: number
-          part_no: number
-          received: string | null
+          description: string
+          number: number
+          pictureURL: string | null
+          price: number
+          weight: number
         }
         Insert: {
-          added?: number | null
-          id?: number
-          part_no: number
-          received?: string | null
+          description: string
+          number: number
+          pictureURL?: string | null
+          price: number
+          weight: number
         }
         Update: {
-          added?: number | null
-          id?: number
-          part_no?: number
-          received?: string | null
+          description?: string
+          number?: number
+          pictureURL?: string | null
+          price?: number
+          weight?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: "RECEIVING_LOG_part_no_fkey"
-            columns: ["part_no"]
-            isOneToOne: false
-            referencedRelation: "LEGACY"
-            referencedColumns: ["part_no"]
-          },
-        ]
+        Relationships: []
       }
-      SHIPPING_BRACKET: {
+      receiving_log: {
+        Row: {
+          id: number
+          part_number: number
+          quantity: number
+          received_at: string
+        }
+        Insert: {
+          id?: number
+          part_number: number
+          quantity: number
+          received_at?: string
+        }
+        Update: {
+          id?: number
+          part_number?: number
+          quantity?: number
+          received_at?: string
+        }
+        Relationships: []
+      }
+      shipping_brackets: {
         Row: {
           id: number
           max_weight: number | null
-          min_weight: number | null
+          min_weight: number
           shipping_charge: number
         }
         Insert: {
           id?: number
           max_weight?: number | null
-          min_weight?: number | null
+          min_weight?: number
           shipping_charge: number
         }
         Update: {
           id?: number
           max_weight?: number | null
-          min_weight?: number | null
+          min_weight?: number
           shipping_charge?: number
         }
         Relationships: []

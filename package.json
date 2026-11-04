@@ -12,8 +12,6 @@
     "typecheck": "npm run typechecker --prefix web"
   },
   "devDependencies": {
-    "concurrently": "^10.0.6",
-    "kill-port": "^2.0.1",
     "supabase": "^2.122.0"
   }
 }
