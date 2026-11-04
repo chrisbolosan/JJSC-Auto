@@ -1,17 +1,24 @@
 //catalog api here
 import { supabaseAdmin } from '../db/supabase';
+import { getAllParts } from '../db/legacy';
 
 //https://supabase.com/docs/reference/javascript/initializing
+//parts form legacy, inventory our DB
 export async function getAllProducts() {
-  const { data, error } = await supabaseAdmin
-    .from('LEGACY')
-    .select('part_no,description, price, weight, img_url, INVENTORY(quantity)')
-    .order('part_no');
+  const parts = await getAllParts();
 
-  console.log('i am all products from the DB:', data);
+  const { data: stock, error } = await supabaseAdmin
+    .from('inventory')
+    .select('part_number, quantity');
 
   if (error) {
-    console.log('db error: ', error.message);
+    throw new Error(`db error: ${error.message}`);
   }
-  return data;
+
+  return parts.map((part) => ({
+    ...part,
+    quantity: stock.find((s) => s.part_number === part.number)?.quantity ?? 0,
+  }));
 }
+
+export type Product = Awaited<ReturnType<typeof getAllProducts>>[number];
