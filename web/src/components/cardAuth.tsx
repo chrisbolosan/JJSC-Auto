@@ -1,17 +1,17 @@
 'use client';
 
-export default function cardAuth(e: any){
-    e.preventDefault;
+export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
+    e.preventDefault();
 
-    const form = e.target;
+    const form = e.currentTarget;
     const formData = new FormData(form);
     const name = formData.get("cardName") as string;
     const cardNum = formData.get("cardNum") as string;
     const cvv = formData.get("cvv") as string;
     const dat = formData.get("dat") as string;
 
-    let month = dat.substring(0,2);
-    let year = dat.substring(3,5);
+    const month = dat.substring(0,2);
+    const year = dat.substring(3,5);
 
     let nameBool = false;
     let cardNumBool = false;
