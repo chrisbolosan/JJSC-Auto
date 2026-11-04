@@ -1,5 +1,7 @@
 // One product tile: image placeholder, name, SKU, price and stock status
 // Render it inside a <ul>, since it returns an <li>
+import UpdateItem from "@/components/UpdateItem";
+
 export default function ProductCard({ product }) {
     return (
         <li className="flex flex-col rounded border border-gray-300 p-3">
@@ -10,6 +12,12 @@ export default function ProductCard({ product }) {
             <p className="text-sm text-gray-600">SKU {product.sku}</p>
             <p className="mt-1 font-semibold">${product.price.toFixed(2)}</p>
             <p className="text-sm">{product.inStock ? "In stock" : "Out of stock"}</p>
+            <div>
+            <UpdateItem itemName={product.sku}/>
+        
+            </div>
         </li>
     );
 }
+//<button class="rounded bg-red-500 px-4 py-2 text-white">-</button>
+//<button class="rounded bg-green-500 px-4 py-2 text-white">+</button>

@@ -1,9 +1,10 @@
 import { products } from "@/lib/products";
+import cardAuth from "@/components/cardAuth";
 
 export const metadata = { title: "Checkout" };
 // A labeled text input, used to build the form below
 // autoComplete is the hint browsers use to fill in saved details (e.g. "email", "postal-code")
-function Field({ label, name, type = "text", autoComplete }) {
+function Field({ label, name, type = "text", autoComplete, pattern }) {
     return (
         <label className="block text-sm">
             {label}
@@ -12,6 +13,7 @@ function Field({ label, name, type = "text", autoComplete }) {
                 type={type}
                 autoComplete={autoComplete}
                 className="mt-1 block w-full rounded border border-gray-300 px-3 py-2"
+                pattern={pattern}
             />
         </label>
     );
@@ -29,7 +31,7 @@ export default function CheckoutPage() {
             <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">Checkout</h1>
 
             <div className="mt-6 grid gap-8 md:grid-cols-3">
-                <form className="space-y-8 md:col-span-2">
+                <form className="space-y-8 md:col-span-2" onSubmit={cardAuth} method="post">
                     <fieldset className="space-y-3">
                         <legend className="text-lg font-semibold">Contact</legend>
                         <Field label="Email" name="email" type="email" autoComplete="email" />
@@ -48,13 +50,20 @@ export default function CheckoutPage() {
 
                     <fieldset className="space-y-3">
                         <legend className="text-lg font-semibold">Payment</legend>
-                        {/*Add the payment provider's card form here later. Don't collect */}
+                        {
+                        /*Add the payment provider's card form here later. Don't collect */
+
+                        //</*form onSubmit={/*handleSubmit} method="post">*/
+                        }
                         <div className="flex h-24 items-center justify-center bg-gray-100 text-sm text-gray-500">
-                            Payment placeholder
+                          <Field label="Name on Card" name="cardName" autoComplete="name"/> 
+                          <Field label="Card Number" name="cardNum" autoComplete="" pattern="[0-9]{16}"/>
+                          <Field label="Expiration (MM/YY)" name="dat" autoComplete="" pattern="(0[0-9]|1[0-2])\/[0-9]{2}"/>
+                          <Field label="Security Code" name="cvv" autoComplete="" pattern="[0-9]{3}"/>
                         </div>
                     </fieldset>
 
-                    <button type="button" className="rounded bg-blue-500 px-4 py-2 text-white">
+                    <button type="submit" className="rounded bg-blue-500 px-4 py-2 text-white">
                         Place order
                     </button>
                 </form>
