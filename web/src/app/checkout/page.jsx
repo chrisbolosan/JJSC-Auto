@@ -1,18 +1,12 @@
 
 //import {} from //path
+
 export default function Checkout() {
   return (
     <div className="bg-white">  
       <h1 className="text-yellow-500">I am checkout page </h1>
       <form >
-        <label htmlFor="name">Name</label><br></br>
-        <input type="text" id="name" placeholder="name"></input><br></br>
-        <label htmlFor="cardNum">CardNum</label><br></br>
-        <input type="text" id="cardNum" placeholder="cardNum"></input><br></br>
-        <input type="month" id="dat"></input><br></br>
-        <label htmlFor="cvv">cvv</label><br></br>
-        <input type="text" id="cvv" hint="cvv" placeholder="cvv"></input><br></br>
-        <button type="submit" className="bg-red-500 p-5 rounded-2xl border border-amber-50">Submit</button>
+        <button><a href="/checkout/billing" className="bg-red-500 p-2 rounded-2xl border border-amber-50"> Checkout</a> </button>
       </form>
     </div>
   );
