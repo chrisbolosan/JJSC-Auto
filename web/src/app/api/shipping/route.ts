@@ -1,11 +1,11 @@
-import { getAllShipping } from '@/server/services/admin.service';
+import { getAllBrackets } from '@/server/services/admin.service';
 import { updateShipping } from '@/server/services/admin.service';
 import { NextResponse } from 'next/server';
 
-//  GET request /api/allshipping
+//  GET request for shipping brackets
 export async function GET() {
   try {
-    const brackets = await getAllShipping();
+    const brackets = await getAllBrackets();
 
     return Response.json(brackets);
   } catch (error) {
@@ -25,7 +25,7 @@ export async function PATCH(request: Request) {
       );
     }
 
-    // Call your update function, passing the integer ID and the fields to change
+    // Update function, passing the integer ID and the fields to change
     const data = await updateShipping(Number(id), updatedFields);
 
     if (!data || data.length === 0) {
