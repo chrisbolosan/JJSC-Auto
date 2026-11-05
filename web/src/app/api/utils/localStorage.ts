@@ -15,8 +15,10 @@ export function setItem(key: string, value: unknown){
 
 export function getItem(key: string){
     try{
+    if (typeof window !== 'undefined'){
         const item = window.localStorage.getItem(key);
         return item ? JSON.parse(item) : undefined;
+    }
     }catch(error){
         console.log(error);
     }
@@ -30,7 +32,7 @@ export function getFullCart(){
     try{
     var cart = [];
 
-    
+    if (typeof window !== 'undefined'){
     const end = window.localStorage.length;
     for(let i=0; i < window.localStorage.length; i++){
         let k = window.localStorage.key(i);
@@ -42,6 +44,7 @@ export function getFullCart(){
             //just to have a simple space, remove later
             cart.push(" ");
         }
+    }
     }
     
     return cart;

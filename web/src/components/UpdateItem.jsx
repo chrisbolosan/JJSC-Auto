@@ -1,6 +1,6 @@
 "use client";
 import {useState} from 'react';
-import { getItem, setItem } from '@/app/api/utils/localStorage'
+import { getFullCart, getItem, setItem } from '@/app/api/utils/localStorage'
 import { useEffect } from 'react';
 import ShowItems from './ShowItems';
 
@@ -12,11 +12,14 @@ export default function UpdateItem({itemName}){
 
     useEffect(() => {
         setItem(itemName, count);
+        getFullCart();
+        getItem(itemName)
     }, [count]);
 
     function addCount(){
         setCount(count + 1);
     }
+
     function subtractCount(){
         if(count<1){
             setCount(0);

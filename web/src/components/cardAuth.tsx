@@ -1,8 +1,21 @@
 'use client';
-
+import { useId } from 'react';
 import { clearCart } from "@/app/api/utils/localStorage";
+import { addCustomer } from '@/server/services/customer.service';
+import { saveCustomer } from '@/components/customersServer';
+
+/*
+async function addUser(city: string , email: string , id: number,
+    name: string, street: string, zip: string) {
+    'use server';
+
+    addCustomer(city, email, id, name, street, zip);
+
+}*/
 
 export default function cardAuth(e: any){
+    const id = 5781;
+
     e.preventDefault;
 
     const form = e.target;
@@ -14,7 +27,7 @@ export default function cardAuth(e: any){
     const state = formData.get("state") as string;
     const zip = formData.get("zip") as string;
     let addressBool = false;
-    
+
     if(nameName.length > 0 && email.length > 0){
         if(address.length > 0 && city.length > 0 && state.length > 0){
             if(!isNaN(parseInt(zip)) && zip.length == 5){
@@ -64,6 +77,10 @@ export default function cardAuth(e: any){
     if(nameBool && cardNumBool && cvvBool && dateBool && addressBool){
       alert('Valid card');
 
+      //saveCustomer(nameName);
+      saveCustomer(city, email, id, nameName, address, zip);
+      //addCustomer(city, email, id, nameName, address, zip);
+
       //add to db and clear cart
       clearCart();
     }else{
@@ -72,4 +89,5 @@ export default function cardAuth(e: any){
 
     alert(`Extracted info \n Name: '${name}'\n cardNum: '${cardNum}'\n cvv: '${cvv}' \n date: '${dat}' \n ${month}/${d}/${year}`);
     //clearCart();
+    //console.log(id);
   }

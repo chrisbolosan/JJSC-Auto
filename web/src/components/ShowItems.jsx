@@ -11,15 +11,15 @@ export default function ShowItems(){
 }
 
 function TheLoop({cart}){
-    let i=1;
-    for(const cor in cart){
+    //let i=1;
+    //for(const cor in cart){
         return(
-            <h2>
+            <div>
                item: {
                cart}
  
-            </h2>
+            </div>
         )
-        i++;
-    }
+        //i++;
+    //}
 }
