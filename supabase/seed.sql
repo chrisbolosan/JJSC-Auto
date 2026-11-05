@@ -11,6 +11,13 @@ insert into public.inventory (part_number, quantity) values
   (125, 12),
   (126, 0);
 
+insert into public.part_categories (part_number, category) values
+  (123, 'Fluids'),
+  (124, 'Fluids'),
+  (125, 'Brakes'),
+  (126, 'Filters'),
+  (127, 'Batteries');
+
 insert into public.shipping_brackets (min_weight, max_weight, shipping_charge) values
   (0, 10, 5.00),
   (10, 30, 12.00),

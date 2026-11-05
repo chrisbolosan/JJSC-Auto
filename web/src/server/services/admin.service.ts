@@ -1,7 +1,7 @@
 import { supabaseAdmin } from '../db/supabase';
 
 //admin services api here
-export async function getAllShipping() {
+export async function getAllBrackets() {
   const { data, error } = await supabaseAdmin
     .from('shipping_brackets')
     .select('id, shipping_charge, min_weight, max_weight')

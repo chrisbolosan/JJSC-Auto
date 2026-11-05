@@ -13,12 +13,12 @@ async function addUser(city: string , email: string , id: number,
 
 }*/
 
-export default function cardAuth(e: any){
-    const id = 5781;
+export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
+    e.preventDefault();
 
-    e.preventDefault;
+    const id = 5781; //might change to uiud, doesnt do anything at the moment
 
-    const form = e.target;
+    const form = e.currentTarget;
     const formData = new FormData(form);
     const nameName = formData.get("name") as string;
     const email = formData.get("email") as string;
@@ -41,8 +41,8 @@ export default function cardAuth(e: any){
     const cvv = formData.get("cvv") as string;
     const dat = formData.get("dat") as string;
 
-    let month = dat.substring(0,2);
-    let year = dat.substring(3,5);
+    const month = dat.substring(0,2);
+    const year = dat.substring(3,5);
 
     let nameBool = false;
     let cardNumBool = false;
