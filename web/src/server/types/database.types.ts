@@ -132,6 +132,21 @@ export type Database = {
           },
         ]
       }
+      part_categories: {
+        Row: {
+          category: string
+          part_number: number
+        }
+        Insert: {
+          category: string
+          part_number: number
+        }
+        Update: {
+          category?: string
+          part_number?: number
+        }
+        Relationships: []
+      }
       parts: {
         Row: {
           description: string

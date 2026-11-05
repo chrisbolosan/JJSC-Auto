@@ -11,7 +11,7 @@ export default function UpdateItem({itemName}){
 
     useEffect(() => {
         setItem(itemName, count);
-    }, [count]);
+    }, [count, itemName]);
 
     function addCount(){
         setCount(count + 1);

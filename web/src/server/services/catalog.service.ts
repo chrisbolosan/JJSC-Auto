@@ -3,7 +3,7 @@ import { supabaseAdmin } from '../db/supabase';
 import { getAllParts } from '../db/legacy';
 
 //https://supabase.com/docs/reference/javascript/initializing
-//parts form legacy, inventory our DB
+//parts form legacy, inventory and categories our DB
 export async function getAllProducts() {
   const parts = await getAllParts();
 
@@ -15,10 +15,22 @@ export async function getAllProducts() {
     throw new Error(`db error: ${error.message}`);
   }
 
-  return parts.map((part) => ({
-    ...part,
-    quantity: stock.find((s) => s.part_number === part.number)?.quantity ?? 0,
-  }));
-}
+  const { data: categories, error: categoryError } = await supabaseAdmin
+    .from('part_categories')
+    .select('part_number, category');
 
-export type Product = Awaited<ReturnType<typeof getAllProducts>>[number];
+  if (categoryError) {
+    throw new Error(`db error: ${categoryError.message}`);
+  }
+
+  return parts.map((part) => {
+    const stockRow = stock.find((s) => s.part_number === part.number);
+    const categoryRow = categories.find((c) => c.part_number === part.number);
+
+    return {
+      ...part,
+      quantity: stockRow ? stockRow.quantity : 0,
+      category: categoryRow ? categoryRow.category : 'Other',
+    };
+  });
+}
