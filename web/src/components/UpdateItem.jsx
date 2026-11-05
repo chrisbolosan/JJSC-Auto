@@ -12,10 +12,14 @@ export default function UpdateItem({itemName}){
 
     useEffect(() => {
         setItem(itemName, count);
-        getFullCart();
+    }, [count, itemName]);
+
+    /*
+            getFullCart();
         getItem(itemName)
     }, [count]);
-
+    }, [count, itemName]);
+    */
     function addCount(){
         setCount(count + 1);
     }

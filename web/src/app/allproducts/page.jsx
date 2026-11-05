@@ -1,10 +1,9 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import ProductCard from "@/components/ProductCard";
-import { categories, getProductsByCategory } from "@/lib/products";
+import { Suspense } from 'react';
+import Link from 'next/link';
+import ProductCard from '@/components/ProductCard';
+import { getAllProducts } from '@/server/services/catalog.service';
 
-export const metadata = { title: "All products" };
-
+export const metadata = { title: 'All products' };
 
 // Notes:
 // Async lets us use await inside the function, so we can fetch data from the server before rendering the page
@@ -18,50 +17,65 @@ export const metadata = { title: "All products" };
 // p.id is the product id, used as a key for each ProductCard component, which is a list item that shows the product name, SKU, price and stock status
 // suspense fallback is a loading message that shows while the product list is being fetched from the server, it can be replaced with a something more fancy as a loading screen
 export default function ProductsPage({ searchParams }) {
-    return (
+  return (
     <div>
-        <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">All products</h1>
+      <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">
+        All products
+      </h1>
 
-        <Suspense fallback={<p className="mt-4">Loading products...</p>}>
-            <ProductList searchParams={searchParams} />
-        </Suspense>
+      <Suspense fallback={<p className="mt-4">Loading products...</p>}>
+        <ProductList searchParams={searchParams} />
+      </Suspense>
     </div>
-    );
+  );
 }
 
-// This part reads searchParams, so it is async and sits inside <Suspense> above
+//read db
 async function ProductList({ searchParams }) {
-    const { category } = await searchParams;
-    const products = getProductsByCategory(category);
+  const { category } = await searchParams;
+  const allProducts = await getAllProducts();
 
-    return (
+  const categories = [];
+  for (const p of allProducts) {
+    if (!categories.includes(p.category)) {
+      categories.push(p.category);
+    }
+  }
+  categories.sort();
+  const products = category
+    ? allProducts.filter((p) => p.category === category)
+    : allProducts;
+
+  return (
     <>
-        <nav aria-label="Categories" className="mt-4 flex flex-wrap gap-2">
-            <Link href="/allproducts" className={`rounded border px-3 py-1 ${!category ? "bg-blue-500 text-white" : ""}`}>
-                All
-            </Link>
-            {categories.map((c) => (
-                <Link
-                    key={c.id}
-                    href={`/allproducts?category=${c.id}`}
-                    className={`rounded border px-3 py-1 ${category === c.id ? "bg-blue-500 text-white" : ""}`}
-                >
-                    {c.label}
-                </Link>
-            ))}
-        </nav>
+      <nav className="mt-4 flex flex-wrap gap-2 px-4">
+        <Link
+          href="/allproducts"
+          className={`rounded border px-3 py-1 ${!category ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'}`}
+        >
+          All
+        </Link>
+        {categories.map((c) => (
+          <Link
+            key={c}
+            href={`/allproducts?category=${encodeURIComponent(c)}`}
+            className={`rounded border px-3 py-1 ${category === c ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'}`}
+          >
+            {c}
+          </Link>
+        ))}
+      </nav>
+      <p className="mt-4 text-sm text-gray-600">{products.length} products</p>
 
-        <p className="mt-4 text-sm text-gray-600">{products.length} products</p>
-
-        {products.length === 0 ? (
-            <p className="mt-6">No products in this category.</p>
-        ) : (
-            <ul className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
-                {products.map((p) => (
-                    <ProductCard key={p.id} product={p} />
-                ))}
-            </ul>
-        )}
+      {products.length === 0 ? (
+        <p className="mt-6">No products found.</p>
+      ) : (
+        <ul className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+          {products.map((p) => (
+            <ProductCard key={p.number} product={p} />
+          ))}
+        </ul>
+      )}
     </>
-);
+  );
 }
