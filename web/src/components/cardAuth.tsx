@@ -1,8 +1,10 @@
 'use client';
 import { useId } from 'react';
-import { clearCart } from "@/app/api/utils/localStorage";
+import { clearCart, getFullCart, getItem } from "@/app/api/utils/localStorage";
 import { addCustomer } from '@/server/services/customer.service';
-import { saveCustomer } from '@/components/customersServer';
+import { saveCustomer, saveFinalOrder, saveOrder, saveOrderItem, saveSubTotal, showIndiv } from '@/components/customersServer';
+import { resolve } from 'path';
+import { setItem } from '@/app/api/utils/localStorage';
 
 /*
 async function addUser(city: string , email: string , id: number,
@@ -16,7 +18,7 @@ async function addUser(city: string , email: string , id: number,
 export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
     e.preventDefault();
 
-    const id = 5781; //might change to uiud, doesnt do anything at the moment
+    let fullCart = getFullCart();
 
     const form = e.currentTarget;
     const formData = new FormData(form);
@@ -78,11 +80,25 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
       alert('Valid card');
 
       //saveCustomer(nameName);
-      saveCustomer(city, email, id, nameName, address, zip);
+      saveCustomer(city, email, nameName, address, zip).then((num) => {
+        saveOrder(num, 10, 10, 10, 10, cardNum.substring(cardNum.length-4)).then((orderId) =>{
+          for(const c of fullCart){
+            //showIndiv(c).then((description, id, pict, price, weight))
+            saveOrderItem(orderId, c, Number(getItem(String(c))));
+          }
+          saveFinalOrder(orderId);
+          //updateSaveOrder
+
+        });
+      });
+
+      //let id = awaitid
+      //alert(`wow its real ${awaitid}`);
+      //console.log("wow its real", id);
       //addCustomer(city, email, id, nameName, address, zip);
 
       //add to db and clear cart
-      clearCart();
+      //clearCart();
     }else{
       alert('INVALID');
     }

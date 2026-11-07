@@ -1,8 +1,9 @@
 import { products } from "@/lib/products";
 import cardAuth from "@/components/cardAuth";
-import { getFullCart, getItem} from '@/app/api/utils/localStorage'
-import {ShowItems} from '@/components/ShowItems'
+import { getFullCart } from '@/app/api/utils/localStorage'
+import ShowItems from "@/components/ShowItems";
 import { get } from "http";
+import { getAllProducts } from "@/server/services/catalog.service";
 
 
 export const metadata = { title: "Checkout" };
@@ -26,32 +27,29 @@ function Field({ label, name, type = "text", autoComplete, pattern }) {
 // No proper cart page yet. 
 // Do Later: replace the placeholder items with the real cart, add form validation, connect a payment provider, and create the order when "Place order" is clicked
 export default function CheckoutPage() {
-    //const all = [0, 3]
     // Placeholder cart: the first two products, one of each
-    //const full = getFullCart;
-    //const it = getFullCart("5001");
-    const it = getFullCart();
 
-    const items = [];
+    const items = getFullCart();
 
-    for(const pid of products){
-      /*
-        if(pid.sku === full[0] || pid.sku == full[1]){
-          items.push(pid);
-          console.log(full[0]);
-        }*/
-        //console.log(pid.sku);
-        //console.log(full[0]);
-        console.log(it);
-      }
-/*
-    for(const prod of full){
-      for(const pid of products){
-        if(pid.sku == prod){
-          items.push(pid);
+    async function cartProducts() {
+        const it = getFullCart();
+        const allP = await getAllProducts();
+        for(const p of allP){
+            for(const c of it){
+                if(p.number ==  Number(c.key)){
+                    console.log("yo");
+                    console.log(c.key);
+                }
+            }
+            console.log("LOL", p.number);
         }
-      }
-    }*/
+        /*
+        for(const c of it){
+            console.log("bedtiem", String(c));
+        }
+            */
+       // console.log(it);
+    }
 
     const subtotal = items.reduce((sum, p) => sum + p.price, 0);
 
@@ -101,13 +99,17 @@ export default function CheckoutPage() {
                     <h2 className="mb-3 text-lg font-semibold">Order summary</h2>
                     
                     <ul className="divide-y divide-gray-200">
+                        
                         {items.map((p) => (
                             <li key={p.id} className="flex justify-between py-2 text-sm">
                                 <span>{p.name} x 1</span>
                                 <span>${p.price.toFixed(2)}</span>
                             </li>
-                        ))}
+                        ))
+                        }
+                        <ShowItems/>
                     </ul>
+                    
                     <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
                         <span>Total</span>
                         <span>${subtotal.toFixed(2)}</span>

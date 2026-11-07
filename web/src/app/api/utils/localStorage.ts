@@ -29,27 +29,32 @@ export function clearCart(){
 }
 
 export function getFullCart(){
-    try{
-    var cart = [];
+    //try{
+    //let cart = [];
+    let cart = [];
 
     if (typeof window !== 'undefined'){
-    const end = window.localStorage.length;
+
     for(let i=0; i < window.localStorage.length; i++){
         let k = window.localStorage.key(i);
 
         const qty = Number(getItem(String(k)));
 
         if(qty>0){
-            cart.push(k);
+            cart.push(Number(k));
             //just to have a simple space, remove later
-            cart.push(" ");
+            //cart.push(" ");
         }
     }
+
+    console.log("cart INSIDE:", cart[0]);
     }
+
+    console.log("cart:", cart[0]);
     
     return cart;
 
-    }catch(error){
-        console.log(error);
-    }
+    //}catch(error){
+     //   console.log(error);
+    //}
 }

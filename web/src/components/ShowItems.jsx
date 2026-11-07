@@ -2,24 +2,37 @@
 import {useState} from 'react';
 import { getItem, setItem, getFullCart } from '@/app/api/utils/localStorage'
 import { useEffect } from 'react';
+import { showIndiv } from './customersServer';
 
 export default function ShowItems(){
     const cart = getFullCart();
+
     return(
-        <TheLoop cart={cart}/>
+        <div>
+            {
+            cart.map((c) => (
+                <div key={c}>
+                {c} x {getItem(String(c))}
+                </div>
+            ))
+            }
+        </div>
     );
 }
 
-function TheLoop({cart}){
-    //let i=1;
-    //for(const cor in cart){
-        return(
-            <div>
-               item: {
-               cart}
- 
-            </div>
-        )
-        //i++;
-    //}
+export async function itemName({item}){
+    
+    /*
+    useEffect(() => {
+        showIndiv(item);
+    }, [item]);
+    */
+
+    //let name = await showIndiv(item);
+    
+   //showIndiv(c).then((desc) => itemName(desc))
+
+    return(
+        <p className="rounded px-4 py-2 text-black inline">{name}</p>
+    )
 }

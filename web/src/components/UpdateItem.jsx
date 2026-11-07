@@ -32,19 +32,28 @@ export default function UpdateItem({itemName}){
         }
     }
 
+    const pos = "+";
+    const les = "-"
+
     return(
         <div>
-            <ItemButton count={count} onClick={subtractCount}/>
-            <ItemButton count={count} onClick={addCount} />
-            <ShowItems/>
+            <ItemButton dis={les} onClick={subtractCount}/>
+            <TotalCount count={count}/>
+            <ItemButton dis={pos} onClick={addCount} />
         </div>
     );
 }
 
-function ItemButton({count, onClick}){
+function TotalCount({count}){
+    return(
+        <p className="rounded px-4 py-2 text-black inline">{count}</p>
+    )
+}
+
+function ItemButton({dis, onClick}){
     return(
         <button onClick={onClick} className="rounded bg-blue-500 px-4 py-2 text-white">
-            Total: {count}
+            {dis}
         </button>
     )
 }
