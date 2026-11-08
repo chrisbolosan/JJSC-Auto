@@ -37,7 +37,7 @@ export async function addOrderItem(
 
     const val = priceDat.find((item) => item.price);
     //console.log("price", val?.price);
-    let totalPrice = qty * Number(val?.price);
+    const totalPrice = qty * Number(val?.price);
 
     const  {data, error} = await supabaseAdmin
     .from('order_items')
@@ -50,13 +50,30 @@ export async function addOrderItem(
 
 export async function getTotalWeight(oderNum: number) {
     const {data, error} = await supabaseAdmin
+    //part number not foreign key ??
     .from('order_items')
     .select(
         `order_id,
-        part_number
-        parts (number, weight)`
+        part_number`
     )
-    .eq('parts.number', 'part_number')
+    .eq('order_id', oderNum);
+
+    if (error) {
+    throw new Error(`db error: ${error.message}`);
+    }
+
+    /*
+    const {data: weightData, error: weightError} = await supabaseAdmin
+    .from('parts')
+    .select(
+        'weight'
+    )
+    */
+    let total = 0;
+
+    for(const p of data){
+        total += p.part_number //change later
+    }
     
 }
 

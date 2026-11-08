@@ -31,12 +31,12 @@ export function clearCart(){
 export function getFullCart(){
     //try{
     //let cart = [];
-    let cart = [];
+    const cart = [];
 
     if (typeof window !== 'undefined'){
 
     for(let i=0; i < window.localStorage.length; i++){
-        let k = window.localStorage.key(i);
+        const k = window.localStorage.key(i);
 
         const qty = Number(getItem(String(k)));
 
