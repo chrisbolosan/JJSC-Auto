@@ -54,13 +54,27 @@ export async function getTotalWeight(oderNum: number) {
     .from('order_items')
     .select(
         `order_id,
-        part_number`
+        part_number,
+        parts(number, weight)`
     )
     .eq('order_id', oderNum);
 
     if (error) {
     throw new Error(`db error: ${error.message}`);
     }
+
+
+    /* example
+    const {data: teste,} = await supabaseAdmin
+    //part number not foreign key ??
+    .from('order_items')
+    .select(
+        `order_id,
+        part_number,
+        orders(id, customer_id, subtotal)`
+    )
+    .eq('order_id', oderNum);
+    */
 
     /*
     const {data: weightData, error: weightError} = await supabaseAdmin

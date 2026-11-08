@@ -18,7 +18,7 @@ async function addUser(city: string , email: string , id: number,
 export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
     e.preventDefault();
 
-    let fullCart = getFullCart();
+    const fullCart = getFullCart();
 
     const form = e.currentTarget;
     const formData = new FormData(form);
