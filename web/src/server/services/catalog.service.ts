@@ -1,17 +1,36 @@
 //catalog api here
 import { supabaseAdmin } from '../db/supabase';
+import { getAllParts } from '../db/legacy';
 
 //https://supabase.com/docs/reference/javascript/initializing
+//parts form legacy, inventory and categories our DB
 export async function getAllProducts() {
-  const { data, error } = await supabaseAdmin
-    .from('LEGACY')
-    .select('part_no,description, price, weight, img_url, INVENTORY(quantity)')
-    .order('part_no');
+  const parts = await getAllParts();
 
-  console.log('i am all products from the DB:', data);
+  const { data: stock, error } = await supabaseAdmin
+    .from('inventory')
+    .select('part_number, quantity');
 
   if (error) {
-    console.log('db error: ', error.message);
+    throw new Error(`db error: ${error.message}`);
   }
-  return data;
+
+  const { data: categories, error: categoryError } = await supabaseAdmin
+    .from('part_categories')
+    .select('part_number, category');
+
+  if (categoryError) {
+    throw new Error(`db error: ${categoryError.message}`);
+  }
+
+  return parts.map((part) => {
+    const stockRow = stock.find((s) => s.part_number === part.number);
+    const categoryRow = categories.find((c) => c.part_number === part.number);
+
+    return {
+      ...part,
+      quantity: stockRow ? stockRow.quantity : 0,
+      category: categoryRow ? categoryRow.category : 'Other',
+    };
+  });
 }

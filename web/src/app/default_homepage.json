@@ -19,6 +19,11 @@
       "href": "/admin/",
       "title": "Admin",
       "description": "Admin UI"
+    },
+    {
+      "href": "/email-test",
+      "title": "email testing page",
+      "description": "temporary page for sending confirmation emails and shipping confirmations"
     }
   ]
 }
