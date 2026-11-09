@@ -3,7 +3,10 @@ import Link from 'next/link';
 import { orderStatuses, getOrdersByStatus } from '@/lib/orders';
 import ReturnButton from '@/components/returnButton';
 export const metadata = { title: 'Orders' };
-
+import { getOrderById } from '@/server/services/orderDetails.service';
+//test
+getOrderById(1);
+// getOrderById('a');
 // Same structure as the other pages: the heading shows right away, the orders table waits inside <Suspense> because it reads searchParams
 export default function OrdersPage({ searchParams }) {
   return (
