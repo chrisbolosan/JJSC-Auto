@@ -2,7 +2,7 @@
 import { useId } from 'react';
 import { clearCart, getFullCart, getItem } from "@/app/api/utils/localStorage";
 import { addCustomer } from '@/server/services/customer.service';
-import { saveCustomer, saveFinalOrder, saveOrder, saveOrderItem, saveSubTotal, showIndiv } from '@/components/customersServer';
+import { saveCustomer, saveFinalOrder, saveOrder, saveOrderItem, saveSubTotal, saveWeight, setTotWeight, showIndiv } from '@/components/customersServer';
 import { resolve } from 'path';
 import { setItem } from '@/app/api/utils/localStorage';
 
@@ -79,13 +79,26 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
     if(nameBool && cardNumBool && cvvBool && dateBool && addressBool){
       alert('Valid card');
 
+      let totalWeight = 0;
       //saveCustomer(nameName);
+      //do we save the customerID for local data?
+      //or remove the unique email constraint
       saveCustomer(city, email, nameName, address, zip).then((num) => {
         saveOrder(num, 10, 10, 10, 10, cardNum.substring(cardNum.length-4)).then((orderId) =>{
           for(const c of fullCart){
             //showIndiv(c).then((description, id, pict, price, weight))
             saveOrderItem(orderId, c, Number(getItem(String(c))));
+            saveWeight(c, Number(getItem(String(c)))).then((w) =>{
+              totalWeight += w;
+              setTotWeight(orderId, totalWeight);
+              
+            })
+            //alert(`outer Weihgt ${totalWeight}`)
+           // async function gettingWeights(part_no: number, qty: number, totalW: number) {
+              
+            //}
           }
+          alert(`total Weihgt ${totalWeight}`)
           saveFinalOrder(orderId);
           //updateSaveOrder
 
