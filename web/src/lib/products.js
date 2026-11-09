@@ -13,6 +13,7 @@ export const products = [
 	{ id: "cabin-air-filter", sku: "2002", name: "Cabin air filter", category: "filters", price: 17.49, inStock: false, quantity: 0, location: "B-02" },
 	{ id: "agm-battery-group-35", sku: "3001", name: "AGM battery, group 35", category: "batteries", price: 189.0, inStock: true, quantity: 8, location: "C-01" },
 	{ id: "synthetic-5w30-5qt", sku: "5001", name: "Synthetic 5W-30 motor oil, 5 qt", category: "fluids", price: 29.99, inStock: true, quantity: 45, location: "D-01" },
+		{ id: "test", sku: "5401", name: "test", category: "fluids", price: 9.99, inStock: true, quantity: 5, location: "D-02" }
 ];
 
 // Returns the products in one category, or all products when no category is given

@@ -1,10 +1,43 @@
 'use client';
+import { useId } from 'react';
+import { clearCart, getFullCart, getItem } from "@/app/api/utils/localStorage";
+import { addCustomer } from '@/server/services/customer.service';
+import { saveCustomer, saveFinalOrder, saveOrder, saveOrderItem, saveSubTotal, showIndiv } from '@/components/customersServer';
+import { resolve } from 'path';
+import { setItem } from '@/app/api/utils/localStorage';
+
+/*
+async function addUser(city: string , email: string , id: number,
+    name: string, street: string, zip: string) {
+    'use server';
+
+    addCustomer(city, email, id, name, street, zip);
+
+}*/
 
 export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
     e.preventDefault();
 
+    const fullCart = getFullCart();
+
     const form = e.currentTarget;
     const formData = new FormData(form);
+    const nameName = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const address = formData.get("address") as string;
+    const city = formData.get("city") as string;
+    const state = formData.get("state") as string;
+    const zip = formData.get("zip") as string;
+    let addressBool = false;
+
+    if(nameName.length > 0 && email.length > 0){
+        if(address.length > 0 && city.length > 0 && state.length > 0){
+            if(!isNaN(parseInt(zip)) && zip.length == 5){
+                addressBool = true;
+            }
+        }
+    }
+
     const name = formData.get("cardName") as string;
     const cardNum = formData.get("cardNum") as string;
     const cvv = formData.get("cvv") as string;
@@ -43,11 +76,34 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
       cvvBool = true;
     }
 
-    if(nameBool && cardNumBool && cvvBool && dateBool){
+    if(nameBool && cardNumBool && cvvBool && dateBool && addressBool){
       alert('Valid card');
+
+      //saveCustomer(nameName);
+      saveCustomer(city, email, nameName, address, zip).then((num) => {
+        saveOrder(num, 10, 10, 10, 10, cardNum.substring(cardNum.length-4)).then((orderId) =>{
+          for(const c of fullCart){
+            //showIndiv(c).then((description, id, pict, price, weight))
+            saveOrderItem(orderId, c, Number(getItem(String(c))));
+          }
+          saveFinalOrder(orderId);
+          //updateSaveOrder
+
+        });
+      });
+
+      //let id = awaitid
+      //alert(`wow its real ${awaitid}`);
+      //console.log("wow its real", id);
+      //addCustomer(city, email, id, nameName, address, zip);
+
+      //add to db and clear cart
+      //clearCart();
     }else{
       alert('INVALID');
     }
 
     alert(`Extracted info \n Name: '${name}'\n cardNum: '${cardNum}'\n cvv: '${cvv}' \n date: '${dat}' \n ${month}/${d}/${year}`);
+    //clearCart();
+    //console.log(id);
   }
