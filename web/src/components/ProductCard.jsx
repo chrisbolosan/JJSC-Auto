@@ -1,5 +1,6 @@
 import Card from '@/components/Card';
 import UpdateItem from '@/components/UpdateItem';
+import AddToCartButton from "@/components/AddToCartButton";
 
 export default function ProductCard({ product }) {
   return (
@@ -13,7 +14,8 @@ export default function ProductCard({ product }) {
             ? `${product.quantity} in stock`
             : 'out of stock'}
         </p>
-        <div className="mt-auto pt-3">
+        <div className="mt-auto flex flex-col gap-2 pt-3">
+          <AddToCartButton product={product} />
           <UpdateItem itemName={String(product.number)} />
         </div>
       </Card>
