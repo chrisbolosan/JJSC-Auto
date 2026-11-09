@@ -1,7 +1,7 @@
 'use server';
 
 import { addCustomer } from '@/server/services/customer.service';
-import { addOrder, addOrderItem, finalizeOrder, indivPart, setSubtotal } from '@/server/services/order.service';
+import { addOrder, addOrderItem, finalizeOrder, getShipBrack, getWeight, indivPart, setOrderShipping, setSubtotal, setTotalWeight } from '@/server/services/order.service';
 import { setItem } from '@/app/api/utils/localStorage'
 import SaveId from '@/components/SaveId'
 
@@ -43,6 +43,27 @@ export async function showIndiv(partNum){
   return val.description;
 }
 
+export async function saveWeight(partNum, qty) {
+    let w = 0;
+    let id = await getWeight(partNum, qty).then((num) => {
+        w = Number(num);
+        console.log("noWeight", num);
+    });
+    //let val = w.find((item) => item.w)
+    console.log("weights ", w);
+    return w;
+    
+}
+
+export async function setTotWeight(orderId, w) {
+    let ship=0;
+    let id = await setTotalWeight(orderId, w);
+    let id2 = await getShipBrack(w).then((s) => {
+        ship = Number(s)
+    });
+    let id3 = await setOrderShipping(orderId, ship);
+}
+
 export async function saveSubTotal(orderNum) {
     let id = await setSubtotal(orderNum);
     console.log("TotalChecker:", id);
@@ -54,5 +75,6 @@ export async function saveFinalOrder(orderNum) {
     sub.then((subtot) => {
         finalizeOrder(orderNum, subtot);
     });
+    console.log("FINAL WEIGHT MAYBE");
     
 }
