@@ -15,10 +15,11 @@ export default function ProductCard({ product }) {
             : 'out of stock'}
         </p>
         <div className="mt-auto flex flex-col gap-2 pt-3">
-          <AddToCartButton product={product} />
+          
           <UpdateItem itemName={String(product.number)} />
         </div>
       </Card>
     </li>
   );
 }
+//<AddToCartButton product={product} /> on top of updateItem

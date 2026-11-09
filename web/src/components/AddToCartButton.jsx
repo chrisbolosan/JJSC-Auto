@@ -1,9 +1,11 @@
+/*
 "use client";
 
 import { useCart } from "./CartProvider";
 
 // Adds one unit of the product to the quote cart. Disabled when the product is out of stock
 export default function AddToCartButton({ product }) {
+    
     const { add } = useCart();
     return (
         <button
@@ -16,3 +18,4 @@ export default function AddToCartButton({ product }) {
         </button>
     );
 }
+    */

@@ -72,8 +72,9 @@ export function CartProvider({ children }) {
 }
 
 // Gives a component the cart: ( items, ready, count, add, setQty, remove, clear )
+/*
 export function useCart() {
     const ctx = useContext(CartContext);
     if (!ctx) throw new Error("useCart must be used inside CartProvider");
     return ctx;
-}
+}*/
