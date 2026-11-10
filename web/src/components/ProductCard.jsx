@@ -22,3 +22,4 @@ export default function ProductCard({ product }) {
     </li>
   );
 }
+//<AddToCartButton product={product} /> on top of updateItem
