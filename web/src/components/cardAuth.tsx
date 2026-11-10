@@ -91,7 +91,7 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
             saveWeight(c, Number(getItem(String(c)))).then((w) =>{
               totalWeight += w;
               setTotWeight(orderId, totalWeight);
-              saveFinalOrder(orderId);
+              saveFinalOrder(orderId); //have to set here otherwise it doesnt wait
             })
             //saveFinalOrder(orderId);
           }

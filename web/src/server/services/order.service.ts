@@ -107,6 +107,7 @@ export async function getShipBrack(weight: number) {
     
 }
 
+/*
 export async function getTotalWeight(oderNum: number) {
     const {data, error} = await supabaseAdmin
     //part number not foreign key ??
@@ -123,7 +124,7 @@ export async function getTotalWeight(oderNum: number) {
     }
 
 
-    /* example
+     example
     const {data: teste,} = await supabaseAdmin
     //part number not foreign key ??
     .from('order_items')
@@ -133,15 +134,15 @@ export async function getTotalWeight(oderNum: number) {
         orders(id, customer_id, subtotal)`
     )
     .eq('order_id', oderNum);
-    */
+    
 
-    /*
+    
     const {data: weightData, error: weightError} = await supabaseAdmin
     .from('parts')
     .select(
         'weight'
     )
-    */
+    
     let total = 0;
 
     for(const p of data){
@@ -149,6 +150,7 @@ export async function getTotalWeight(oderNum: number) {
     }
     
 }
+*/
 
 export async function setSubtotal(oderNum: number) {
     const {data, error} = await supabaseAdmin

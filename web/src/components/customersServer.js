@@ -40,6 +40,7 @@ export async function showIndiv(partNum){
   let id = await indivPart(partNum);
   let val = id.find((item) => item.description);
 
+  console.log("list liset ",val);
   return val.description;
 }
 
