@@ -17,6 +17,25 @@ export default function ReceivingTable() {
         className="ml-4 border border-zinc-500 p-2 rounded"
         autoComplete="off"
       ></input>
+
+      <ul className="mt-2 divide-y rounded border border-zinc-200">
+        <li className="px-3 py-2 text-sm text-zinc-500">No parts match.</li>
+
+        <li>
+          <button
+            type="button"
+            className="flex w-full justify-between gap-4 px-3 py-2 text-left hover:bg-zinc-100"
+          >
+            <span>
+              <span className="font-mono text-zinc-500">#part number</span> part
+              description
+            </span>
+            <span className="whitespace-nowrap text-sm text-zinc-600">
+              on hand
+            </span>
+          </button>
+        </li>
+      </ul>
     </div>
   );
 }
