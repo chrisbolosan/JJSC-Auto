@@ -1,7 +1,9 @@
+import ReceivingDesk from '@/components/ReceivingDesk';
+
+export const metadata = {
+  title: 'Receiving | JJSC AUTO',
+};
+
 export default function ReceivingPage() {
-  return (
-    <main>
-      <div> I am recieving page UI</div>
-    </main>
-  );
+  return <ReceivingDesk />;
 }
