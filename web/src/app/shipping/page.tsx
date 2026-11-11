@@ -1,3 +1,21 @@
+/* 
+Citation: 
+AI-Generated Code
+
+Tool/Source:
+Claude
+
+Date:
+11/11/2026
+
+Prompt:
+clean this code, eliminate statuses and getShipmentsByStatus import and the 
+related calls from it and replace it with the useEffects code for I 
+can display the data from the api call into a table
+
+Code/Resource Usage:
+had to refactor the page that had dummy data before and added data from the db.
+*/
 'use client';
 import { useEffect, useState } from 'react';
 

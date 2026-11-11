@@ -1,3 +1,23 @@
+/* 
+Jorge Ruiz
+Citation: 
+AI-Generated Code
+
+Tool/Source:
+Claude
+
+Date:
+11/11/2026
+
+Prompt:
+instead of this approach of using components can you format everything in a single page.tsx file 
+and use this as a reference of how i want it:
+
+Code/Resource Usage:
+to display orders from a admin point of view so it retrieves the data from the db via api call
+
+*/
+
 'use client';
 import { useEffect, useState } from 'react';
 import ReturnButton from '@/components/returnButton';
