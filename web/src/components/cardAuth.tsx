@@ -91,15 +91,12 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
             saveWeight(c, Number(getItem(String(c)))).then((w) =>{
               totalWeight += w;
               setTotWeight(orderId, totalWeight);
-              
+              saveFinalOrder(orderId);
             })
-            //alert(`outer Weihgt ${totalWeight}`)
-           // async function gettingWeights(part_no: number, qty: number, totalW: number) {
-              
-            //}
+            //saveFinalOrder(orderId);
           }
-          alert(`total Weihgt ${totalWeight}`)
-          saveFinalOrder(orderId);
+          //alert(`total Weihgt ${totalWeight}`)
+          //saveFinalOrder(orderId);
           //updateSaveOrder
 
         });

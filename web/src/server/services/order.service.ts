@@ -84,13 +84,15 @@ export async function setOrderShipping(orderNum: number, ship: number) {
     throw new Error(`db error: ${error.message}`);
     }
 }
+
 export async function getShipBrack(weight: number) {
     const {data, error} = await supabaseAdmin
     .from('shipping_brackets')
-    .select('shipping_charge')
-    .gt('min_weight', weight)
-    .lt('max_weight', weight)
+    .select()
+    .gt('max_weight', weight)
+    .lte('min_weight', weight)
     .single()
+    //gte lte
 
     if (error) {
     throw new Error(`db error: ${error.message}`);
@@ -98,10 +100,13 @@ export async function getShipBrack(weight: number) {
     //const charge = data[0].shipping_charge;
     const charge = data.shipping_charge;
     const ship = Number(charge);
+    //const ship = 0;
 
+    console.log("Weight", weight, "shipping bracker", data);
     return ship;
     
 }
+
 export async function getTotalWeight(oderNum: number) {
     const {data, error} = await supabaseAdmin
     //part number not foreign key ??
@@ -188,9 +193,11 @@ export async function finalizeOrder(orderNum: number, subtotal: number) {
     throw new Error(`db error: ${orderErr.message}`);
     }
 
-    
+    console.log("EVIL", order);
     const ship = order[0].shipping;
     const total = ship + subtotal;
+
+    console.log(`ship ${ship} AND subtotal ${subtotal}`);
 
     const {data: totalDat, error: totErr} = await supabaseAdmin
     .from('orders')

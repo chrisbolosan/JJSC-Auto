@@ -61,6 +61,7 @@ export async function setTotWeight(orderId, w) {
     let id2 = await getShipBrack(w).then((s) => {
         ship = Number(s)
     });
+    console.log(`weight ${w} shippin =0 ${ship}`)
     let id3 = await setOrderShipping(orderId, ship);
 }
 
