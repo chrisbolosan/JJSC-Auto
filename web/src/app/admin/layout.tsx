@@ -3,7 +3,6 @@ import Link from 'next/link';
 
 const adminPanels = [
   { href: '/admin', section: 'Dashboard' },
-  { href: '/admin/orders', section: 'Orders' },
   { href: '/admin/shipping', section: 'Shipping' },
   { href: '/admin/receiving', section: 'Receiving' },
 ];
