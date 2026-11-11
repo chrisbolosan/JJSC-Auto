@@ -16,7 +16,7 @@ export default function ShowItems(){
     */
 
     return(
-        
+        /*
         <div>
             Hi
             {
@@ -24,9 +24,10 @@ export default function ShowItems(){
                 itemName(c)
             ))}
         </div>
+        */
         
         
-        /*
+        
         <div>
             {
             cart.map((c) => (
@@ -36,7 +37,7 @@ export default function ShowItems(){
             ))
             }
         </div>
-        */
+        
         
 
         /*

@@ -95,6 +95,8 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
             })
             //saveFinalOrder(orderId);
           }
+          setItem("ID", orderId);
+          clearCart();
           //alert(`total Weihgt ${totalWeight}`)
           //saveFinalOrder(orderId);
           //updateSaveOrder
