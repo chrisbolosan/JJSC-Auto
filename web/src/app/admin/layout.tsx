@@ -2,25 +2,25 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 const adminPanels = [
-    { href: '/admin', section: 'Dashboard' },
-    { href: '/admin/orders', section: 'Orders' },
-    { href: '/admin/shipping', section: 'Shipping' },
+  { href: '/admin', section: 'Dashboard' },
+  { href: '/admin/shipping', section: 'Shipping' },
+  { href: '/admin/receiving', section: 'Receiving' },
 ];
 
 export const metadata: Metadata = {
-    title: 'Admin | JJSC AUTO',
+  title: 'Admin | JJSC AUTO',
 };
 export default function AdminLayout({ children }: LayoutProps<'/admin'>) {
-    return (
-        <div>
-            <nav>
-                {adminPanels.map((panel) => (
-                    <Link key={panel.href} href={panel.href}>
-                        {panel.section}
-                    </Link>
-                ))}
-            </nav>
-            <main>{children}</main>
-        </div>
-    );
+  return (
+    <div>
+      <nav>
+        {adminPanels.map((panel) => (
+          <Link key={panel.href} href={panel.href}>
+            {panel.section}
+          </Link>
+        ))}
+      </nav>
+      <main>{children}</main>
+    </div>
+  );
 }
