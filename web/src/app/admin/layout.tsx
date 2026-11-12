@@ -4,7 +4,6 @@ import Link from 'next/link';
 const adminPanels = [
   { href: '/admin', section: 'Dashboard' },
   { href: '/admin/shipping', section: 'Shipping' },
-  { href: '/admin/receiving', section: 'Receiving' },
 ];
 
 export const metadata: Metadata = {
