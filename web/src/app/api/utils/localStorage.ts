@@ -25,9 +25,9 @@ export function getItem(key: string){
 }
 
 export function clearCart(){
-    const orderId = Number(getItem("ID"));
+    const orderId = Number(getItem("ORDER_ID"));
     window.localStorage.clear();
-    setItem("ID", orderId);
+    setItem("ORDER_ID", orderId);
 }
 
 export function getFullCart(){

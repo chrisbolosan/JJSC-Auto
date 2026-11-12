@@ -218,8 +218,21 @@ export async function indivPart(partNum: number){
   .from('parts')
   .select()
   .eq('number', partNum)
+  .single()
+  console.log("nonono", data);
   //const val = data.find((item) => item.description);
 
-  //console.log(val);
-  return data;
+    if (error) {
+    throw new Error(`db error: ${error.message}`);
+  }
+  if (!data) {
+    return null;
+  }
+
+    return {
+    number: data.number,
+    description: data.description,
+    price: data.price,
+    weight: data.weight,
+    };
 }
