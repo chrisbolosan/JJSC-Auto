@@ -1,7 +1,33 @@
 'use client';
-// import {useState,useEffect} from 'react';
-//WIP DO NOT TOUCH - CHRIS ONLY
+
+import { useEffect, useState } from 'react';
+
+function hello() {
+  console.log('submit placeholder');
+}
 export default function ReceivingTable() {
+  const [search, setSearch] = useState('');
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState('');
+  useEffect(() => {
+    async function load() {
+      try {
+        const [productsRes, recentRes] = await Promise.all([
+          fetch('/api/products'),
+          fetch('api/receiving'),
+        ]);
+
+        const productsData = await productsRes.json();
+        const recentData = await recentRes.json();
+        console.log('im productsDatareceiving', productsData);
+        console.log('imrecent=====', recentData);
+      } catch {
+        setIsError(true);
+        setMessage('Issue loading parts. Reload page.');
+      }
+    }
+    load();
+  }, []);
   return (
     <div className="mx-auto w-full max-w-4xl px-4 py-9 border border-red-500">
       <h1 className="mb-2 border border-amber-400">Receiving</h1>
@@ -13,6 +39,8 @@ export default function ReceivingTable() {
       <input
         id="part-search"
         type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
         placeholder="Ex: battery fluid or 123"
         className="ml-4 border border-zinc-500 p-2 rounded"
         autoComplete="off"
@@ -36,6 +64,15 @@ export default function ReceivingTable() {
           </button>
         </li>
       </ul>
+
+      <form
+        onSubmit={hello}
+        className="mt-6 rounded border border-zinc-300 bg-zinc-50 p-4"
+      >
+        <div id="picture"> </div>
+        {isError}
+        {message}
+      </form>
     </div>
   );
 }
