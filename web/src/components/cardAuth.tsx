@@ -85,16 +85,23 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
       //or remove the unique email constraint
       saveCustomer(city, email, nameName, address, zip).then((num) => {
         saveOrder(num, 10, 10, 10, 10, cardNum.substring(cardNum.length-4)).then((orderId) =>{
-          for(const c of fullCart){
+          for(const [el, c] of fullCart.entries()){
             //showIndiv(c).then((description, id, pict, price, weight))
             saveOrderItem(orderId, c, Number(getItem(String(c))));
             saveWeight(c, Number(getItem(String(c)))).then((w) =>{
               totalWeight += w;
               setTotWeight(orderId, totalWeight);
-              saveFinalOrder(orderId);
+              saveFinalOrder(orderId).then(()=>{
+                if(el === fullCart.length - 1){
+                window.location.href = "/checkout/receipt";
+                //transfer page after order finalized in database
+                }
+              });
             })
             //saveFinalOrder(orderId);
           }
+          setItem("ORDER_ID", orderId);
+          clearCart();
           //alert(`total Weihgt ${totalWeight}`)
           //saveFinalOrder(orderId);
           //updateSaveOrder

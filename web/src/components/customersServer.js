@@ -4,6 +4,7 @@ import { addCustomer } from '@/server/services/customer.service';
 import { addOrder, addOrderItem, finalizeOrder, getShipBrack, getWeight, indivPart, setOrderShipping, setSubtotal, setTotalWeight } from '@/server/services/order.service';
 import { setItem } from '@/app/api/utils/localStorage'
 import SaveId from '@/components/SaveId'
+import { getAllBrackets } from '@/server/services/admin.service';
 
 export async function saveCustomer(city, email ,
     name, street, zip) {
@@ -38,9 +39,28 @@ export async function saveOrderItem(order, part,
 
 export async function showIndiv(partNum){
   let id = await indivPart(partNum);
-  let val = id.find((item) => item.description);
+  //let val = id.find((item) => item.description);
 
-  return val.description;
+  //console.log("list liset ",val);
+  //return val.description;
+  return id;
+}
+
+export async function showGroupIndiv(partNumArr){
+  const itemArr = []
+  for(const i of partNumArr){
+    const id = await indivPart(i);
+    itemArr.push(id);
+  }
+  //let val = id.find((item) => item.description);
+
+  //console.log("list liset ",val);
+  console.log("VALID ARRYAS?");
+  for(const i of itemArr){
+    console.log(i.description);
+  }
+  //return val.description;
+  return itemArr;
 }
 
 export async function saveWeight(partNum, qty) {
@@ -53,6 +73,21 @@ export async function saveWeight(partNum, qty) {
     console.log("weights ", w);
     return w;
     
+}
+
+export async function getBrack(w) {
+    let ship=0;
+    let id2 = await getShipBrack(w).then((s) => {
+        ship = Number(s)
+    });
+
+    return ship;
+}
+
+export async function getCompareBrackets() {
+    let id = await getAllBrackets();
+
+    return id;
 }
 
 export async function setTotWeight(orderId, w) {

@@ -25,7 +25,9 @@ export function getItem(key: string){
 }
 
 export function clearCart(){
+    const orderId = Number(getItem("ORDER_ID"));
     window.localStorage.clear();
+    setItem("ORDER_ID", orderId);
 }
 
 export function getFullCart(){
@@ -40,7 +42,7 @@ export function getFullCart(){
 
         const qty = Number(getItem(String(k)));
 
-        if(qty>0){
+        if(qty>0 && !isNaN(parseInt(String(k)))){
             cart.push(Number(k));
             //just to have a simple space, remove later
             //cart.push(" ");
