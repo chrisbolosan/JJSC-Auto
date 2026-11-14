@@ -18,8 +18,6 @@ export async function receiveParts(partNumber: number, qty: number) {
   if (!qty) {
     return null;
   }
-  // console.log('part found:', part, 'qty:', qty);
-  // return qty;
 
   const { data: inv, error: invError } = await supabaseAdmin
     .from('inventory')
@@ -42,6 +40,18 @@ export async function receiveParts(partNumber: number, qty: number) {
   if (saveError) {
     throw new Error(`receiving db save error : ${saveError.message}`);
   }
-  // console.log('newquantity updated?', newQuantity);
   return newQuantity;
+}
+
+export async function getReceivingLogs() {
+  const { data: log, error } = await supabaseAdmin
+    .from('receiving_log')
+    .select('id,part_number,quantity,received_at')
+    .order('received_at', { ascending: false })
+    .limit(20);
+
+  if (error) {
+    throw new Error(`db error: ${error.message}`);
+  }
+  return log;
 }

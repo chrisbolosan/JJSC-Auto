@@ -1,4 +1,16 @@
-import { receiveParts } from '@/server/services/receiving.service';
+import {
+  getReceivingLogs,
+  receiveParts,
+} from '@/server/services/receiving.service';
+
+export async function GET() {
+  try {
+    const logs = await getReceivingLogs();
+    return Response.json(logs);
+  } catch (error) {
+    return Response.json({ error: (error as Error).message }, { status: 500 });
+  }
+}
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +26,6 @@ export async function POST(request: Request) {
         { status: 404 },
       );
     }
-    console.log('onhand', onHand);
 
     return Response.json({
       message: `Received ${qty} of part #${part}. Currently now have ${onHand} on hand.`,
