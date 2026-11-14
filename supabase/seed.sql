@@ -35,3 +35,6 @@ from (values('johndoe@niu.com', 'authorized', 49.67, 54.00, 15.00, 69.00, '404',
 ) as o(email, status, total_weight, subtotal, shipping, total, auth_number, shipped_at)
 join public.customers c on c.email = o.email;
 
+insert into public.receiving_log (part_number, quantity, received_at) values
+(123,15, now() - interval '10 days'),
+(125, 5, now() - interval '8 days');
