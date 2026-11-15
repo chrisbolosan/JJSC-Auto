@@ -17,7 +17,6 @@ Code/Resource Usage:
 to display orders from a admin point of view so it retrieves the data from the db via api call
 
 */
-
 'use client';
 import { useEffect, useState } from 'react';
 import ReturnButton from '@/components/returnButton';
@@ -31,8 +30,7 @@ export type OrderData = {
   total: number;
 };
 
-const FILTERS = [
-  { label: 'All', value: 'all' },
+const STATUSES = [
   { label: 'Pending', value: 'pending' },
   { label: 'Shipped', value: 'shipped' },
   { label: 'Delivered', value: 'delivery' },
@@ -42,7 +40,13 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState<OrderData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filter, setFilter] = useState('all');
+
+  // search state
+  const [status, setStatus] = useState('all');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
 
   useEffect(() => {
     fetch('/api/admin_orders')
@@ -55,39 +59,110 @@ export default function OrdersPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const visible =
-    filter === 'all'
-      ? orders
-      : orders.filter((o) => o.status?.toLowerCase() === filter);
+  function clearFilters() {
+    setStatus('all');
+    setDateFrom('');
+    setDateTo('');
+    setMinPrice('');
+    setMaxPrice('');
+  }
+
+  const visible = orders.filter((o) => {
+    if (status !== 'all' && o.status?.toLowerCase() !== status) return false;
+
+    const day = o.created_at.slice(0, 10); // YYYY-MM-DD
+    if (dateFrom && day < dateFrom) return false;
+    if (dateTo && day > dateTo) return false;
+
+    if (minPrice !== '' && o.total < Number(minPrice)) return false;
+    if (maxPrice !== '' && o.total > Number(maxPrice)) return false;
+    return true;
+  });
 
   return (
     <div>
       <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">Orders</h1>
 
-      <nav aria-label="Order status" className="mt-4 flex flex-wrap gap-2">
-        {FILTERS.map((f) => (
-          <button
-            key={f.value}
-            type="button"
-            onClick={() => setFilter(f.value)}
-            className={`rounded border px-3 py-1 ${
-              filter === f.value ? 'bg-blue-500 text-white' : ''
-            }`}
-          >
-            {f.label}
-          </button>
-        ))}
-      </nav>
+      {/* Search panel */}
+      <div className="mt-4 rounded border border-gray-300 p-4">
+        <h2 className="mb-2 font-semibold">Search orders</h2>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <label className="flex flex-col text-sm">
+            Status
+            <select
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              className="mt-1 rounded border px-2 py-1"
+            >
+              <option value="all">All</option>
+              {STATUSES.map((s) => (
+                <option key={s.value} value={s.value}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex flex-col text-sm">
+            Date from
+            <input
+              type="date"
+              value={dateFrom}
+              onChange={(e) => setDateFrom(e.target.value)}
+              className="mt-1 rounded border px-2 py-1"
+            />
+          </label>
+          <label className="flex flex-col text-sm">
+            Date to
+            <input
+              type="date"
+              value={dateTo}
+              onChange={(e) => setDateTo(e.target.value)}
+              className="mt-1 rounded border px-2 py-1"
+            />
+          </label>
+          <label className="flex flex-col text-sm">
+            Min total ($)
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="mt-1 rounded border px-2 py-1"
+            />
+          </label>
+          <label className="flex flex-col text-sm">
+            Max total ($)
+            <input
+              type="number"
+              min="0"
+              step="0.01"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="mt-1 rounded border px-2 py-1"
+            />
+          </label>
+        </div>
+        <button
+          type="button"
+          onClick={clearFilters}
+          className="mt-3 rounded border px-3 py-1 text-sm"
+        >
+          Clear filters
+        </button>
+      </div>
 
       {loading && <p className="mt-4">Loading orders...</p>}
       {error && <p className="mt-4 text-red-600">Error: {error}</p>}
 
       {!loading && !error && (
         <>
-          <p className="mt-4 text-sm text-gray-600">{visible.length} orders</p>
+          <p className="mt-4 text-sm text-gray-600">
+            {visible.length} of {orders.length} orders
+          </p>
 
           {visible.length === 0 ? (
-            <p className="mt-6">No orders with this status.</p>
+            <p className="mt-6">No orders match your search.</p>
           ) : (
             <div className="mt-4 overflow-x-auto">
               <table className="w-full text-left text-sm">
