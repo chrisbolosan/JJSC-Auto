@@ -21,8 +21,7 @@ export default function ReceivingTable() {
 
         const productsData = await productsRes.json();
         const recentData = await recentRes.json();
-        // console.log('im productsDatareceiving', productsData);
-        // console.log('imrecent=====', recentData);
+
         setProducts(Array.isArray(productsData) ? productsData : []);
         setRecent(Array.isArray(recentData) ? recentData : []);
       } catch {
@@ -205,12 +204,13 @@ export default function ReceivingTable() {
       )}
       <h2> Recently received</h2>
       {recent.length === 0 ? (
-        <p>Nothing received yet</p>
+        <p className="text-sm text-zinc-500">Nothing received yet</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="border-b text-zinc-600">
               <tr>
+                <th className="py-2 pr-4">When</th>
                 <th className="py-2 pr-4">Part</th>
                 <th className="py-2 pr-4">Description</th>
                 <th className="py-2 text-right">Qty</th>
