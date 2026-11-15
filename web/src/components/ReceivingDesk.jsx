@@ -2,9 +2,6 @@
 
 import { useEffect, useState } from 'react';
 
-function hello() {
-  console.log('submit placeholder');
-}
 export default function ReceivingTable() {
   const [search, setSearch] = useState('');
   const [recent, setRecent] = useState([]);
@@ -139,15 +136,38 @@ export default function ReceivingTable() {
           ))}
         </ul>
       )}
-
-      <form
-        onSubmit={hello}
-        className="mt-6 rounded border border-zinc-300 bg-zinc-50 p-4"
-      >
-        <div id="picture"> </div>
-        {isError}
-        {message}
-      </form>
+      {selected && (
+        <form
+          onSubmit={receive}
+          className="mt-6 rounded border border-zinc-300 bg-zinc-50 p-4"
+        >
+          {selected.pictureURL && (
+            <div className="flex flex-col gap-4">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={selected.pictureURL}
+                alt={selected.description}
+                className="h-20 w-20 rounded object-contain"
+              />
+            </div>
+          )}
+          <div className="flex-1">
+            <p className="font-semibold">
+              #{selected.number} {selected.description}
+            </p>
+            <p className="text-sm text-zinc-600">
+              Currently on hand: <strong>{selected.quantity}</strong>
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setSelected(null)}
+            className="flex flex-col text-sm font-semibold bg-red-500 p-4 rounded-2xl"
+          >
+            Change part
+          </button>
+        </form>
+      )}
     </div>
   );
 }
