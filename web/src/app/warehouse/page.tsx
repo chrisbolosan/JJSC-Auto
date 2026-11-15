@@ -1,3 +1,19 @@
+/* 
+Citation: 
+AI-Generated Code
+
+Tool/Source:
+Claude
+
+Date:
+11/14/2026
+
+Prompt:
+reformat my page.jsx to page.tsx instead of showing dummy data use the api call '/api/warehouse' 
+
+Code/Resource Usage:
+added db connectivity to the page
+*/
 'use client';
 import { useEffect, useMemo, useState } from 'react';
 
