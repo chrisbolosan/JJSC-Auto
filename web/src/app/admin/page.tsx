@@ -31,7 +31,7 @@ export type OrderData = {
 };
 
 const STATUSES = [
-  { label: 'Pending', value: 'pending' },
+  { label: 'Pending', value: 'authorized' },
   { label: 'Shipped', value: 'shipped' },
   { label: 'Delivered', value: 'delivery' },
 ];
