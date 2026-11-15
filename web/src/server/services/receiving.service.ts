@@ -53,5 +53,20 @@ export async function getReceivingLogs() {
   if (error) {
     throw new Error(`db error: ${error.message}`);
   }
-  return log;
+
+  const partNumbers = log.map((row) => row.part_number);
+
+  const { data: parts } = await supabaseAdmin
+    .from('parts')
+    .select('number, description')
+    .in('number', partNumbers);
+
+  return log.map((row) => {
+    const part = parts?.find((p) => p.number === row.part_number);
+
+    return {
+      ...row,
+      description: part ? part.description : 'not found part',
+    };
+  });
 }
