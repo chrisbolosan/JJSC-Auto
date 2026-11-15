@@ -154,7 +154,7 @@ export default function ReceivingTable() {
             </div>
           )}
           <div className="flex-1">
-            <p className="font-semibold">
+            <p className="font-semibold text-black">
               #{selected.number} {selected.description}
             </p>
             <p className="text-sm text-zinc-600">
@@ -170,7 +170,7 @@ export default function ReceivingTable() {
           </button>
 
           <div className="mt-4 flex flex-wrap items-end gap-3">
-            <label className="flex flex-col text-sm font-semibold">
+            <label className=" text-black flex flex-col text-sm font-semibold ">
               Quantity received
             </label>
             <input
@@ -186,7 +186,7 @@ export default function ReceivingTable() {
             <button
               type="submit"
               disabled={!qty}
-              className="bg-yellow-300 p-4 rounded-2xl"
+              className="bg-yellow-300 p-4 rounded-2xl text-black"
             >
               {saving ? 'Saving' : 'Receive'}
             </button>
