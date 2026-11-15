@@ -35,21 +35,21 @@ export default function ShowItems(){
             {
               items.map((i, index) => (
                 <div key={index}>
-                    {`${i.part_number} AND ${i.price}`}
+                    {`${i.description} x ${i.quantity} = $${i.price}`}
                 </div>  
               ))
             }
-            {items[0].price}
         </div>
     );
 }
-//{itemName(orderId)}
+//KEEP NOTE, MAY HAVEN TO CHANGE DATABASE ORDERITEM PRICE SINCE I HAVE IT SET AS QTY * PRICE
 
 export function ordDet(ordID) {
     getOrderDetails(Number(ordID))
 }
 
-export async function itemName(id){
+//do not use ?
+export async function ItemName(id){
     //const orderDetails = await getOrderDetails(Number(id))
 
     const[orderDetails, setOrderDetails] = useState(null);
