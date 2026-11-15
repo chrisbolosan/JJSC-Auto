@@ -37,3 +37,34 @@ export async function updateShipping(
 
   return data;
 }
+
+export async function getAllOrders() {
+  const { data, error } = await supabaseAdmin
+    .from('orders')
+    .select('id, status, created_at, customers!customer_id(name), order_items(quantity, price)')
+    .order('id');
+
+  // console.log('i am all shipping from the DB:', data);
+
+  if (error) {
+    throw new Error(`db error: ${error.message}`);
+  }
+
+  return (data ?? []).map((o) => {
+    // generated types may type the embed as an array, so handle both shapes
+    const customer = Array.isArray(o.customers) ? o.customers[0] : o.customers;
+    const items = o.order_items ?? [];
+
+    return {
+      id: o.id,
+      status: o.status,
+      created_at: o.created_at,
+      customer_name: customer?.name ?? '',
+      item_count: items.reduce((sum, i) => sum + Number(i.quantity ?? 0), 0),
+      total: items.reduce(
+        (sum, i) => sum + Number(i.quantity ?? 0) * Number(i.price ?? 0),
+        0
+      ),
+    };
+  });
+}

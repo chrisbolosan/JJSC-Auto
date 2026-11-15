@@ -1,3 +1,21 @@
+/* 
+Jorge Ruiz
+Citation: 
+AI-Generated Code
+
+Tool/Source:
+Claude
+
+Date:
+11/11/2026
+
+Prompt:
+use the 'api/shipping' call to fetch data from supabase and diplay it in a table in typescript
+
+Code/Resource Usage:
+to figure out the layout of how my html structure should look like when it comes to calling the db and showing it in a table
+*/
+
 'use client';
 import { useState, useEffect } from 'react';
 import { Tables } from '@/server/types/database.types';
