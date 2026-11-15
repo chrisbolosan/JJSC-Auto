@@ -10,6 +10,7 @@ export default function ReceivingTable() {
   const [selected, setSelected] = useState(null);
   const [qty, setQty] = useState('');
   const [products, setProducts] = useState([]);
+  const [saving, setSaving] = useState(false);
   useEffect(() => {
     async function load() {
       try {
@@ -20,8 +21,8 @@ export default function ReceivingTable() {
 
         const productsData = await productsRes.json();
         const recentData = await recentRes.json();
-        console.log('im productsDatareceiving', productsData);
-        console.log('imrecent=====', recentData);
+        // console.log('im productsDatareceiving', productsData);
+        // console.log('imrecent=====', recentData);
         setProducts(Array.isArray(productsData) ? productsData : []);
         setRecent(Array.isArray(recentData) ? recentData : []);
       } catch {
@@ -52,6 +53,7 @@ export default function ReceivingTable() {
 
   async function receive(e) {
     e.preventDefault();
+    setSaving(true);
     setMessage('');
     try {
       const results = await fetch('/api/receiving', {
@@ -61,7 +63,6 @@ export default function ReceivingTable() {
       });
 
       const data = await results.json();
-      console.log('resultsdata', data);
 
       if (!results.ok) {
         setIsError(true);
@@ -89,11 +90,13 @@ export default function ReceivingTable() {
     } catch {
       setIsError(true);
       setMessage('Error: db server issue receive request');
+    } finally {
+      setSaving(false);
     }
   }
 
   return (
-    <div className="mx-auto w-full max-w-4xl px-4 py-9 border border-red-500">
+    <div className="mt-6 mx-auto w-full max-w-4xl px-4 py-9 border border-red-500">
       <h1 className="mb-2 border border-amber-400">Receiving</h1>
       <p className="mb-6 text sm text-white ">
         {' '}
@@ -124,8 +127,7 @@ export default function ReceivingTable() {
                 className="flex w-full justify-between gap-4 px-3 py-2 text-left hover:bg-zinc-100"
               >
                 <span>
-                  <span className="font-mono text-zinc-500">#part number</span>{' '}
-                  {/* part description */}
+                  <span className="font-mono text-zinc-500">#{p.number}</span>{' '}
                   {p.description}
                 </span>
                 <span className="whitespace-nowrap text-sm text-zinc-600">
@@ -166,7 +168,40 @@ export default function ReceivingTable() {
           >
             Change part
           </button>
+
+          <div className="mt-4 flex flex-wrap items-end gap-3">
+            <label className="flex flex-col text-sm font-semibold">
+              Quantity received
+            </label>
+            <input
+              type="number"
+              min="1"
+              max="10000"
+              step="1"
+              required
+              value={qty}
+              onChange={(e) => setQty(e.target.value)}
+              className="mt-1 w-32 rounded border border-zinc-300 px-3 py-2 font-normal"
+            />
+            <button
+              type="submit"
+              disabled={!qty}
+              className="bg-yellow-300 p-4 rounded-2xl"
+            >
+              {saving ? 'Save' : 'Receive'}
+            </button>
+          </div>
         </form>
+      )}
+
+      {message && (
+        <p
+          className={`mt-4 rounded px-3 py-2 text-sm ${
+            isError ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
+          }`}
+        >
+          {message}
+        </p>
       )}
     </div>
   );
