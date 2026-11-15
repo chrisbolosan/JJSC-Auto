@@ -188,7 +188,7 @@ export default function ReceivingTable() {
               disabled={!qty}
               className="bg-yellow-300 p-4 rounded-2xl"
             >
-              {saving ? 'Save' : 'Receive'}
+              {saving ? 'Saving' : 'Receive'}
             </button>
           </div>
         </form>
@@ -202,6 +202,34 @@ export default function ReceivingTable() {
         >
           {message}
         </p>
+      )}
+      <h2> Recently received</h2>
+      {recent.length === 0 ? (
+        <p>Nothing received yet</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead className="border-b text-zinc-600">
+              <tr>
+                <th className="py-2 pr-4">Part</th>
+                <th className="py-2 pr-4">Description</th>
+                <th className="py-2 text-right">Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recent.map((row) => (
+                <tr key={row.id} className="border-b last:border-0">
+                  <td className="py-2 pr-4">
+                    {new Date(row.received_at).toLocaleString()}
+                  </td>
+                  <td className="py-2 pr-4 ">#{row.part_number}</td>
+                  <td className="py-2 pr-4">{row.description}</td>
+                  <td className="py-2 text-right">+{row.quantity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
