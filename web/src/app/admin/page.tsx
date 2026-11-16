@@ -66,6 +66,174 @@ const STATUSES = [
 
 const money = (n: number | null | undefined) => `$${Number(n ?? 0).toFixed(2)}`;
 
+// Shows the full details of one order. The parent gives it key={id}, so picking
+// a different order remounts this component with fresh state (no resets needed).
+function OrderDetailsPanel({ id, onClose }: { id: number; onClose: () => void }) {
+  const [details, setDetails] = useState<OrderDetails | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  // setState only happens inside the fetch callbacks, which the lint rule allows
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/admin_showOrder/${id}`)
+      .then((res) => {
+        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+        return res.json();
+      })
+      .then((data: OrderDetails) => {
+        if (!cancelled) setDetails(data);
+      })
+      .catch((err: Error) => {
+        if (!cancelled) setError(err.message);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  // Scroll the panel into view when it appears
+  useEffect(() => {
+    panelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, []);
+
+  const loading = !details && !error;
+
+  return (
+    <div ref={panelRef} className="mt-6 rounded border border-gray-300 p-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-base font-semibold">Order ORD-{id} details</h2>
+        <button
+          type="button"
+          onClick={onClose}
+          className="rounded border px-3 py-1 text-sm"
+        >
+          Close
+        </button>
+      </div>
+
+      {loading && <p className="mt-3">Loading details...</p>}
+      {error && <p className="mt-3 text-red-600">Error: {error}</p>}
+
+      {details && (
+        <div className="mt-3 space-y-6">
+          <section>
+            <h3 className="mb-2 font-semibold">Order</h3>
+            <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
+              <div>
+                <dt className="text-gray-500">Status</dt>
+                <dd>{details.status}</dd>
+              </div>
+              <div>
+                <dt className="text-gray-500">Created</dt>
+                <dd>{new Date(details.created_at).toLocaleString()}</dd>
+              </div>
+              <div>
+                <dt className="text-gray-500">Shipped</dt>
+                <dd>
+                  {details.shipped_at
+                    ? new Date(details.shipped_at).toLocaleString()
+                    : 'Not shipped'}
+                </dd>
+              </div>
+              <div>
+                <dt className="text-gray-500">Authorization #</dt>
+                <dd>{details.auth_number ?? '—'}</dd>
+              </div>
+              <div>
+                <dt className="text-gray-500">Total weight</dt>
+                <dd>{details.total_weight ?? 0}</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section>
+            <h3 className="mb-2 font-semibold">Customer</h3>
+            {details.customer ? (
+              <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
+                <div>
+                  <dt className="text-gray-500">Name</dt>
+                  <dd>{details.customer.name}</dd>
+                </div>
+                <div>
+                  <dt className="text-gray-500">Email</dt>
+                  <dd>{details.customer.email}</dd>
+                </div>
+                <div>
+                  <dt className="text-gray-500">Street</dt>
+                  <dd>{details.customer.street}</dd>
+                </div>
+                <div>
+                  <dt className="text-gray-500">City</dt>
+                  <dd>{details.customer.city}</dd>
+                </div>
+                <div>
+                  <dt className="text-gray-500">Zip code</dt>
+                  <dd>{details.customer.zip_code}</dd>
+                </div>
+              </dl>
+            ) : (
+              <p className="text-sm">No customer linked to this order.</p>
+            )}
+          </section>
+
+          <section>
+            <h3 className="mb-2 font-semibold">Items</h3>
+            {details.items.length === 0 ? (
+              <p className="text-sm">This order has no items.</p>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-gray-300">
+                      <th className="py-2 pr-4">Part #</th>
+                      <th className="py-2 pr-4">Description</th>
+                      <th className="py-2 pr-4">Weight</th>
+                      <th className="py-2 pr-4">Qty</th>
+                      <th className="py-2 pr-4">Price</th>
+                      <th className="py-2">Line total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {details.items.map((item, idx) => (
+                      <tr
+                        key={`${item.part_number}-${idx}`}
+                        className="border-b border-gray-200"
+                      >
+                        <td className="py-2 pr-4">{item.part_number}</td>
+                        <td className="py-2 pr-4">{item.description}</td>
+                        <td className="py-2 pr-4">{item.weight}</td>
+                        <td className="py-2 pr-4">{item.quantity}</td>
+                        <td className="py-2 pr-4">{money(item.price)}</td>
+                        <td className="py-2">{money(item.line_total)}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <dl className="mt-3 ml-auto w-full max-w-xs text-sm">
+              <div className="flex justify-between">
+                <dt>Subtotal</dt>
+                <dd>{money(details.subtotal)}</dd>
+              </div>
+              <div className="flex justify-between">
+                <dt>Shipping</dt>
+                <dd>{money(details.shipping)}</dd>
+              </div>
+              <div className="flex justify-between font-semibold">
+                <dt>Total</dt>
+                <dd>{money(details.total)}</dd>
+              </div>
+            </dl>
+          </section>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function OrdersPage() {
   const [orders, setOrders] = useState<OrderData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,13 +246,10 @@ export default function OrdersPage() {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
 
-  // selected order state
+  // which order is selected (the panel loads its own details)
   const [selectedId, setSelectedId] = useState<number | null>(null);
-  const [details, setDetails] = useState<OrderDetails | null>(null);
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [detailError, setDetailError] = useState<string | null>(null);
-  const detailRef = useRef<HTMLDivElement>(null);
 
+  // Load the list of orders once
   useEffect(() => {
     fetch('/api/admin_orders')
       .then((res) => {
@@ -95,45 +260,6 @@ export default function OrdersPage() {
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   }, []);
-
-  // Load the full details whenever a different order is selected
-  useEffect(() => {
-    if (selectedId === null) {
-      setDetails(null);
-      return;
-    }
-    let cancelled = false;
-    setDetailLoading(true);
-    setDetailError(null);
-    setDetails(null);
-
-    fetch(`/api/admin_showOrder/${selectedId}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-        return res.json();
-      })
-      .then((data: OrderDetails) => {
-        if (!cancelled) setDetails(data);
-      })
-      .catch((err: Error) => {
-        if (!cancelled) setDetailError(err.message);
-      })
-      .finally(() => {
-        if (!cancelled) setDetailLoading(false);
-      });
-
-    // ignore a slow response if another order was clicked meanwhile
-    return () => {
-      cancelled = true;
-    };
-  }, [selectedId]);
-
-  // Scroll the details section into view once it appears
-  useEffect(() => {
-    if (selectedId !== null) {
-      detailRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }, [selectedId, details]);
 
   function clearFilters() {
     setStatus('all');
@@ -293,134 +419,11 @@ export default function OrdersPage() {
 
           {/* Order details */}
           {selectedId !== null && (
-            <div ref={detailRef} className="mt-6 rounded border border-gray-300 p-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-base font-semibold">Order ORD-{selectedId} details</h2>
-                <button
-                  type="button"
-                  onClick={() => setSelectedId(null)}
-                  className="rounded border px-3 py-1 text-sm"
-                >
-                  Close
-                </button>
-              </div>
-
-              {detailLoading && <p className="mt-3">Loading details...</p>}
-              {detailError && <p className="mt-3 text-red-600">Error: {detailError}</p>}
-
-              {details && !detailLoading && !detailError && (
-                <div className="mt-3 space-y-6">
-                  <section>
-                    <h3 className="mb-2 font-semibold">Order</h3>
-                    <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
-                      <div>
-                        <dt className="text-gray-500">Status</dt>
-                        <dd>{details.status}</dd>
-                      </div>
-                      <div>
-                        <dt className="text-gray-500">Created</dt>
-                        <dd>{new Date(details.created_at).toLocaleString()}</dd>
-                      </div>
-                      <div>
-                        <dt className="text-gray-500">Shipped</dt>
-                        <dd>
-                          {details.shipped_at
-                            ? new Date(details.shipped_at).toLocaleString()
-                            : 'Not shipped'}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="text-gray-500">Authorization #</dt>
-                        <dd>{details.auth_number ?? '—'}</dd>
-                      </div>
-                      <div>
-                        <dt className="text-gray-500">Total weight</dt>
-                        <dd>{details.total_weight ?? 0}</dd>
-                      </div>
-                    </dl>
-                  </section>
-
-                  <section>
-                    <h3 className="mb-2 font-semibold">Customer</h3>
-                    {details.customer ? (
-                      <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
-                        <div>
-                          <dt className="text-gray-500">Name</dt>
-                          <dd>{details.customer.name}</dd>
-                        </div>
-                        <div>
-                          <dt className="text-gray-500">Email</dt>
-                          <dd>{details.customer.email}</dd>
-                        </div>
-                        <div>
-                          <dt className="text-gray-500">Street</dt>
-                          <dd>{details.customer.street}</dd>
-                        </div>
-                        <div>
-                          <dt className="text-gray-500">City</dt>
-                          <dd>{details.customer.city}</dd>
-                        </div>
-                        <div>
-                          <dt className="text-gray-500">Zip code</dt>
-                          <dd>{details.customer.zip_code}</dd>
-                        </div>
-                      </dl>
-                    ) : (
-                      <p className="text-sm">No customer linked to this order.</p>
-                    )}
-                  </section>
-
-                  <section>
-                    <h3 className="mb-2 font-semibold">Items</h3>
-                    {details.items.length === 0 ? (
-                      <p className="text-sm">This order has no items.</p>
-                    ) : (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-sm">
-                          <thead>
-                            <tr className="border-b border-gray-300">
-                              <th className="py-2 pr-4">Part #</th>
-                              <th className="py-2 pr-4">Description</th>
-                              <th className="py-2 pr-4">Weight</th>
-                              <th className="py-2 pr-4">Qty</th>
-                              <th className="py-2 pr-4">Price</th>
-                              <th className="py-2">Line total</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {details.items.map((item, idx) => (
-                              <tr key={`${item.part_number}-${idx}`} className="border-b border-gray-200">
-                                <td className="py-2 pr-4">{item.part_number}</td>
-                                <td className="py-2 pr-4">{item.description}</td>
-                                <td className="py-2 pr-4">{item.weight}</td>
-                                <td className="py-2 pr-4">{item.quantity}</td>
-                                <td className="py-2 pr-4">{money(item.price)}</td>
-                                <td className="py-2">{money(item.line_total)}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-
-                    <dl className="mt-3 ml-auto w-full max-w-xs text-sm">
-                      <div className="flex justify-between">
-                        <dt>Subtotal</dt>
-                        <dd>{money(details.subtotal)}</dd>
-                      </div>
-                      <div className="flex justify-between">
-                        <dt>Shipping</dt>
-                        <dd>{money(details.shipping)}</dd>
-                      </div>
-                      <div className="flex justify-between font-semibold">
-                        <dt>Total</dt>
-                        <dd>{money(details.total)}</dd>
-                      </div>
-                    </dl>
-                  </section>
-                </div>
-              )}
-            </div>
+            <OrderDetailsPanel
+              key={selectedId}
+              id={selectedId}
+              onClose={() => setSelectedId(null)}
+            />
           )}
         </>
       )}
