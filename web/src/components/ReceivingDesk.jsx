@@ -123,7 +123,7 @@ export default function ReceivingTable() {
               <button
                 type="button"
                 onClick={() => pickPart(p)}
-                className="flex w-full justify-between gap-4 px-3 py-2 text-left hover:bg-zinc-100"
+                className="btn-primary"
               >
                 <span>
                   <span className="font-mono text-zinc-500">#{p.number}</span>{' '}
@@ -163,7 +163,7 @@ export default function ReceivingTable() {
           <button
             type="button"
             onClick={() => setSelected(null)}
-            className="flex flex-col text-sm font-semibold bg-red-500 p-4 rounded-2xl"
+            className="btn-secondary"
           >
             Change part
           </button>
@@ -185,7 +185,7 @@ export default function ReceivingTable() {
             <button
               type="submit"
               disabled={!qty || saving}
-              className="bg-yellow-300 p-4 rounded-2xl text-black"
+              className="btn-primary"
             >
               {saving ? 'Saving' : 'Receive'}
             </button>
