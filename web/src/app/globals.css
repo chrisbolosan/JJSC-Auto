@@ -6,6 +6,8 @@
 }
 
 @theme inline {
+  --color-brand: #f5b800;
+  --color-brand-dark: #d99f00;
   --color-ink: #141414;
 
   --color-background: #ffffff;
