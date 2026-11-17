@@ -80,8 +80,10 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
     const checkDate = Date.parse(`${month}/${d}/${year}`);
     const toDate = Date.parse(`${m}/${d}/${y}`);
 
+    const authNum = Math.floor(Math.random()*1000000);
+
     if(checkDate >= toDate ){
-      alert("Valid date");
+      //alert("Valid date");
       dateBool = true;
     }else{
       alert("Expired date");
@@ -98,14 +100,15 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
     }
 
     if(nameBool && cardNumBool && cvvBool && dateBool && addressBool){
-      alert('Valid card');
+      //alert('Valid card');
 
       let totalWeight = 0;
       //saveCustomer(nameName);
       //do we save the customerID for local data?
       //or remove the unique email constraint
+      //cardNum.substring(cardNum.length-4)
       saveCustomer(city, email, nameName, address, zip).then((num) => {
-        saveOrder(num, 10, 10, 10, 10, cardNum.substring(cardNum.length-4)).then((orderId) =>{
+        saveOrder(num, 10, 10, 10, 10, String(authNum)).then((orderId) =>{
           for(const [el, c] of fullCart.entries()){
             //showIndiv(c).then((description, id, pict, price, weight))
             //setOrderedId(String(orderId)); 
@@ -144,7 +147,7 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
       alert('INVALID');
     }
 
-    alert(`Extracted info \n Name: '${name}'\n cardNum: '${cardNum}'\n cvv: '${cvv}' \n date: '${dat}' \n ${month}/${d}/${year}`);
+    //alert(`Extracted info \n Name: '${name}'\n cardNum: '${cardNum}'\n cvv: '${cvv}' \n date: '${dat}' \n ${month}/${d}/${year}`);
     //clearCart();
     //console.log(id);
   }

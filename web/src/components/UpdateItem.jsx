@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import ShowItems from './ShowItems';
 
 //HYDRATION NEEDED CHECK LATER
-export default function UpdateItem({itemName}){
+export default function UpdateItem({itemName, itemStock}){
     const [count, setCount] = useState(() => {
         const itemCount = getItem(itemName);
         return (Number(itemCount)) || 0;
@@ -22,7 +22,9 @@ export default function UpdateItem({itemName}){
     }, [count, itemName]);
     */
     function addCount(){
-        setCount(count + 1);
+        if(Number(itemStock) > count){
+            setCount(count + 1);
+        }
     }
 
     function subtractCount(){

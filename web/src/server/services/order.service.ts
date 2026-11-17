@@ -39,7 +39,7 @@ export async function addOrderItem(
 
     const val = priceDat.find((item) => item.price);
     //console.log("price", val?.price);
-    const totalPrice = qty * Number(val?.price);
+    const totalPrice = Number(val?.price); //qty * 
 
     const  {data, error} = await supabaseAdmin
     .from('order_items')
@@ -156,9 +156,7 @@ export async function getTotalWeight(oderNum: number) {
 export async function setSubtotal(oderNum: number) {
     const {data, error} = await supabaseAdmin
     .from('order_items')
-    .select(
-        'price'
-    )
+    .select()
     .eq('order_id', oderNum);
 
     if (error) {
@@ -168,7 +166,7 @@ export async function setSubtotal(oderNum: number) {
     let total = 0;
 
     for(const p of data){
-        total += p.price
+        total += (p.price * p.quantity)
     }
 
     console.log("TOTAL:", total);

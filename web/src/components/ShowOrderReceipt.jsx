@@ -35,39 +35,8 @@ export default function ShowItems() {
       {orderDetails.id} {} {orderDetails.total} {'lol'} {cust.name}{' '}
       {` ${cust.email}`}
       {items.map((i, index) => (
-        <div key={index}>{`${i.description} x ${i.quantity} = $${i.price}`}</div>
+        <div key={index}>{`${i.description} x ${i.quantity} = $${(i.price * i.quantity).toFixed(2)}`}</div>
       ))}
     </div>
   );
 }
-
-
-//KEEP NOTE, MAY HAVEN TO CHANGE DATABASE ORDERITEM PRICE SINCE I HAVE IT SET AS QTY * PRICE
-/*
-export function ordDet(ordID) {
-  getOrderDetails(Number(ordID));
-}
-  */
-// //temp hide
-// export async function itemName(id){
-//     //const orderDetails = await getOrderDetails(Number(id))
-
-//     const[orderDetails, setOrderDetails] = useState(null);
-
-//     useEffect(() => {
-//         const fetchData = async () =>{
-//             const result = await getOrderDetails(id);
-//             setOrderDetails(result);
-//         };
-//         fetchData();
-//     }, [ getOrderDetails ])
-
-//     return (
-//         <div>
-//             LOLOLOL
-//             {orderDetails}
-//         </div>//{orderDetails.id} x {orderDetails.total}
-
-//     )
-
-// }
