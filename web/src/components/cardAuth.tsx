@@ -19,7 +19,7 @@ type EmailType = 'confirmation' | 'shipped';
 
 export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
       
-        async function sendMail(type: EmailType, oID: String) {
+        async function sendMail(type: EmailType, oID: string) {
         //setResult('Sending...');
         //setOrderedId(String(oID));
         const orderId = oID
@@ -99,7 +99,7 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
 
     if(nameBool && cardNumBool && cvvBool && dateBool && addressBool){
       alert('Valid card');
-      
+
       let totalWeight = 0;
       //saveCustomer(nameName);
       //do we save the customerID for local data?

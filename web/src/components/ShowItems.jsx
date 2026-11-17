@@ -65,17 +65,10 @@ export default function ShowItems() {
       shipCharge = b.shipping_charge;
     }
   }
-  //setShipDat(3);
 
   return (
     <div>
-      {/*
-            cart.map((c) => (
-                <div key={c}>
-                {c} x {getItem(String(c))}
-                </div>
-            ))
-                */}
+
       {partDat.map((p, index) => (
         <div key={index}>
           {`${p.description} x ${getItem(String(p.number))}   $${Number(p.price) * getItem(String(p.number))}`}
@@ -87,63 +80,15 @@ export default function ShowItems() {
       <div>Total: {`$${Number(total) + Number(shipCharge)}`}</div>
     </div>
 
-    /*
-        {
-            cart.map((c) => (
-                itemName(c)
-            ))}
-        */
   );
 }
 
 export async function itemName({ item }) {
-  /*
-    const [dat, setDat] = useState(async () => {
-        const response = await showIndiv(item);
-        setDat(response)
-    });
 
-    /*
-    const fetchData = useCallback(async () => {
-        const response = await showIndiv(item);
-        setDat(response.data);
-    }, [dat])
-    */
-  //const fetchData
-
-  /*
-    useEffect(async () => {
-        const response = await showIndiv(item);
-        setDat(response)
-    }, []);
-    */
   console.log('tiemz', item);
   return (
     <div key={item}>
       {item} x {getItem(String(item))}
     </div>
   );
-
-  //const cartDB = [];
-  //const carts = getFullCart();
-  /*
-    for(const c of carts){
-        cartDB.push(showIndiv(c));
-    }*/
-
-  /*
-    return(
-        <div>
-       {
-        carts.map((c) => (
-                <div key={c}>
-                {c} x {getItem(String(c))}
-                </div>
-            ))
-            }
-        <div>
-            LOL
-        </div>
-        </div>
-    )*/
 }
