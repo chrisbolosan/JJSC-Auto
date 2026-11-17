@@ -12,26 +12,29 @@ import {
 import { useCallback } from 'react';
 //import { indivPart } from '@/server/services/order.service';
 
+
+
 export default function ShowItems() {
   const cart = getFullCart();
 
-  let weightState = 0;
+  //let weightState = 0;
 
   const [partDat, setPartDat] = useState(null);
-  const [shipDat, setShipDat] = useState(weightState);
-  const [brackDat, setBrackDat] = useState(null);
+  const [shipDat, setShipDat] = useState(0);
+  const [brackDat, setBrackDat] = useState([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!mounted) {
+    //if (!mounted) {
       const fetchData = async () => {
         const result = await showGroupIndiv(cart);
         setPartDat(result);
+        setMounted(true); //allows the rendering
       };
       fetchData();
 
       const fetchShip = async () => {
-        const wresult = await getBrack(weightState);
+        const wresult = await getBrack(0);
         setShipDat(wresult);
         return wresult;
       };
@@ -43,8 +46,8 @@ export default function ShowItems() {
       };
       fetchBrack();
 
-      // setMounted(true);
-    }
+      //setMounted(true); //allows the rendering
+    //}
   }, [showGroupIndiv, getBrack, shipDat]);
 
   if (!mounted) return null; // Matches server render
@@ -55,25 +58,18 @@ export default function ShowItems() {
     total += Number(p.price) * getItem(String(p.number));
     weightT += Number(p.weight) * getItem(String(p.number));
   }
-  // weightState = weightT;
+   //weightState = weightT;
 
   let shipCharge = 0;
   for (const b of brackDat) {
-    if (b.min_weight <= weightState && weightState < b.max_weight) {
+    if (b.min_weight <= weightT && weightT < b.max_weight) {
       shipCharge = b.shipping_charge;
     }
   }
-  //setShipDat(3);
 
   return (
     <div>
-      {/*
-            cart.map((c) => (
-                <div key={c}>
-                {c} x {getItem(String(c))}
-                </div>
-            ))
-                */}
+
       {partDat.map((p, index) => (
         <div key={index}>
           {`${p.description} x ${getItem(String(p.number))}   $${Number(p.price) * getItem(String(p.number))}`}
@@ -82,65 +78,18 @@ export default function ShowItems() {
       <div>subtotal: ${total}</div>
       <div>total Weight: {weightT}</div>
       <div>shipping: {shipCharge}</div>
+      <div>Total: {`$${Number(total) + Number(shipCharge)}`}</div>
     </div>
 
-    /*
-        {
-            cart.map((c) => (
-                itemName(c)
-            ))}
-        */
   );
 }
 
 export async function itemName({ item }) {
-  /*
-    const [dat, setDat] = useState(async () => {
-        const response = await showIndiv(item);
-        setDat(response)
-    });
 
-    /*
-    const fetchData = useCallback(async () => {
-        const response = await showIndiv(item);
-        setDat(response.data);
-    }, [dat])
-    */
-  //const fetchData
-
-  /*
-    useEffect(async () => {
-        const response = await showIndiv(item);
-        setDat(response)
-    }, []);
-    */
   console.log('tiemz', item);
   return (
     <div key={item}>
       {item} x {getItem(String(item))}
     </div>
   );
-
-  //const cartDB = [];
-  //const carts = getFullCart();
-  /*
-    for(const c of carts){
-        cartDB.push(showIndiv(c));
-    }*/
-
-  /*
-    return(
-        <div>
-       {
-        carts.map((c) => (
-                <div key={c}>
-                {c} x {getItem(String(c))}
-                </div>
-            ))
-            }
-        <div>
-            LOL
-        </div>
-        </div>
-    )*/
 }

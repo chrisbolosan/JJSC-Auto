@@ -17,6 +17,7 @@ export default function ShowItems() {
     const fetchData = async () => {
       const result = await getOrderDetails(orderId);
       setOrderDetails(result);
+      setMounted(true);
     };
     fetchData();
     // setMounted(true);
@@ -24,7 +25,7 @@ export default function ShowItems() {
 
   if (!mounted) return null; // Matches server render
 
-  //const itemdat = orderDetails.order_items;
+  const itemdat = orderDetails.order_items;
   const cust = orderDetails.customer;
   const items = orderDetails.items;
   const subtotal = orderDetails.subtotal;
@@ -34,17 +35,19 @@ export default function ShowItems() {
       {orderDetails.id} {} {orderDetails.total} {'lol'} {cust.name}{' '}
       {` ${cust.email}`}
       {items.map((i, index) => (
-        <div key={index}>{`${i.part_number} AND ${i.price}`}</div>
+        <div key={index}>{`${i.description} x ${i.quantity} = $${i.price}`}</div>
       ))}
-      {items[0].price}
     </div>
   );
 }
-//{itemName(orderId)}
 
+
+//KEEP NOTE, MAY HAVEN TO CHANGE DATABASE ORDERITEM PRICE SINCE I HAVE IT SET AS QTY * PRICE
+/*
 export function ordDet(ordID) {
   getOrderDetails(Number(ordID));
 }
+  */
 // //temp hide
 // export async function itemName(id){
 //     //const orderDetails = await getOrderDetails(Number(id))

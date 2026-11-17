@@ -23,6 +23,7 @@ export async function addOrder(
     //return something?
 }
 
+//KEEP NOTE, MAY HAVEN TO CHANGE DATABASE ORDERITEM PRICE SINCE I HAVE IT SET AS QTY * PRICE
 export async function addOrderItem(
     order: number, part: number, 
     qty: number
