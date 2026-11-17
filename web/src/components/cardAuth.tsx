@@ -99,8 +99,7 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
 
     if(nameBool && cardNumBool && cvvBool && dateBool && addressBool){
       alert('Valid card');
-
-      let transferPage = false;
+      
       let totalWeight = 0;
       //saveCustomer(nameName);
       //do we save the customerID for local data?

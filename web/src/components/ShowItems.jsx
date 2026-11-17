@@ -20,7 +20,7 @@ export default function ShowItems() {
   let weightState = 0;
 
   const [partDat, setPartDat] = useState(null);
-  const [shipDat, setShipDat] = useState(weightState);
+  const [shipDat, setShipDat] = useState(0);
   const [brackDat, setBrackDat] = useState([]);
   const [mounted, setMounted] = useState(false);
 
