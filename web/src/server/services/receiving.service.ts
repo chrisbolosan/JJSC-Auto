@@ -40,6 +40,15 @@ export async function receiveParts(partNumber: number, qty: number) {
   if (saveError) {
     throw new Error(`receiving db save error : ${saveError.message}`);
   }
+
+  const { error: logError } = await supabaseAdmin
+    .from('receiving_log')
+    .insert({ part_number: partNumber, quantity: qty });
+
+  if (logError) {
+    throw new Error(`db error: ${logError.message}`);
+  }
+
   return newQuantity;
 }
 
