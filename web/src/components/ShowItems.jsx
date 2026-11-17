@@ -12,6 +12,8 @@ import {
 import { useCallback } from 'react';
 //import { indivPart } from '@/server/services/order.service';
 
+
+
 export default function ShowItems() {
   const cart = getFullCart();
 
@@ -19,11 +21,11 @@ export default function ShowItems() {
 
   const [partDat, setPartDat] = useState(null);
   const [shipDat, setShipDat] = useState(weightState);
-  const [brackDat, setBrackDat] = useState(null);
+  const [brackDat, setBrackDat] = useState([]);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (!mounted) {
+    //if (!mounted) {
       const fetchData = async () => {
         const result = await showGroupIndiv(cart);
         setPartDat(result);
@@ -43,8 +45,8 @@ export default function ShowItems() {
       };
       fetchBrack();
 
-      // setMounted(true);
-    }
+      setMounted(true); //allows the rendering
+    //}
   }, [showGroupIndiv, getBrack, shipDat]);
 
   if (!mounted) return null; // Matches server render
@@ -55,7 +57,7 @@ export default function ShowItems() {
     total += Number(p.price) * getItem(String(p.number));
     weightT += Number(p.weight) * getItem(String(p.number));
   }
-  // weightState = weightT;
+   weightState = weightT;
 
   let shipCharge = 0;
   for (const b of brackDat) {
@@ -82,6 +84,7 @@ export default function ShowItems() {
       <div>subtotal: ${total}</div>
       <div>total Weight: {weightT}</div>
       <div>shipping: {shipCharge}</div>
+      <div>Total: {`$${Number(total) + Number(shipCharge)}`}</div>
     </div>
 
     /*

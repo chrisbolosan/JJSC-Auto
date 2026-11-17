@@ -4,6 +4,7 @@ import { getFullCart, getItem, setItem } from '@/app/api/utils/localStorage'
 import { useEffect } from 'react';
 import ShowItems from './ShowItems';
 
+//HYDRATION NEEDED CHECK LATER
 export default function UpdateItem({itemName}){
     const [count, setCount] = useState(() => {
         const itemCount = getItem(itemName);

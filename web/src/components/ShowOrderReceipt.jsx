@@ -19,12 +19,12 @@ export default function ShowItems() {
       setOrderDetails(result);
     };
     fetchData();
-    // setMounted(true);
+     setMounted(true);
   }, [getOrderDetails]);
 
   if (!mounted) return null; // Matches server render
 
-  //const itemdat = orderDetails.order_items;
+  const itemdat = orderDetails.order_items;
   const cust = orderDetails.customer;
   const items = orderDetails.items;
   const subtotal = orderDetails.subtotal;
