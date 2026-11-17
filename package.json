@@ -9,7 +9,8 @@
     "generate:types": "supabase gen types typescript --linked --schema public > web/src/server/types/database.types.ts",
     "seed": "npx supabase --yes db push --linked --include-seed",
     "typecheck": "npm run typechecker --prefix web",
-    "lint": "npm run lint --prefix web && npm run build --prefix web"
+    "lint": "npm run lint --prefix web && npm run build --prefix web",
+    "test:e2e": "npm run test:e2e --prefix web"
   },
   "devDependencies": {
     "supabase": "^2.122.0"

@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "typegen": "next typegen",
-    "typechecker": "next typegen && tsc --noEmit"
+    "typechecker": "next typegen && tsc --noEmit",
+    "test:e2e": "playwright test -- project=chromium",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
@@ -19,6 +21,7 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/turbopack": "^4",
     "@types/node": "^20",
     "@types/nodemailer": "^8.0.2",
