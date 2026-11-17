@@ -17,7 +17,7 @@ import { useCallback } from 'react';
 export default function ShowItems() {
   const cart = getFullCart();
 
-  let weightState = 0;
+  //let weightState = 0;
 
   const [partDat, setPartDat] = useState(null);
   const [shipDat, setShipDat] = useState(0);
@@ -29,11 +29,12 @@ export default function ShowItems() {
       const fetchData = async () => {
         const result = await showGroupIndiv(cart);
         setPartDat(result);
+        setMounted(true); //allows the rendering
       };
       fetchData();
 
       const fetchShip = async () => {
-        const wresult = await getBrack(weightState);
+        const wresult = await getBrack(0);
         setShipDat(wresult);
         return wresult;
       };
@@ -45,7 +46,7 @@ export default function ShowItems() {
       };
       fetchBrack();
 
-      setMounted(true); //allows the rendering
+      //setMounted(true); //allows the rendering
     //}
   }, [showGroupIndiv, getBrack, shipDat]);
 
@@ -57,11 +58,11 @@ export default function ShowItems() {
     total += Number(p.price) * getItem(String(p.number));
     weightT += Number(p.weight) * getItem(String(p.number));
   }
-   weightState = weightT;
+   //weightState = weightT;
 
   let shipCharge = 0;
   for (const b of brackDat) {
-    if (b.min_weight <= weightState && weightState < b.max_weight) {
+    if (b.min_weight <= weightT && weightT < b.max_weight) {
       shipCharge = b.shipping_charge;
     }
   }

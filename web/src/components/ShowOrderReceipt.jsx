@@ -17,9 +17,10 @@ export default function ShowItems() {
     const fetchData = async () => {
       const result = await getOrderDetails(orderId);
       setOrderDetails(result);
+      setMounted(true);
     };
     fetchData();
-     setMounted(true);
+    // setMounted(true);
   }, [getOrderDetails]);
 
   if (!mounted) return null; // Matches server render
