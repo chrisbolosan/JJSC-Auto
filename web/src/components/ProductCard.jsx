@@ -16,7 +16,7 @@ export default function ProductCard({ product }) {
         </p>
         <div className="mt-auto flex flex-col gap-2 pt-3">
           {/* <AddToCartButton product={product} /> */}
-          <UpdateItem itemName={String(product.number)} />
+          <UpdateItem itemName={String(product.number)} itemStock={Number(product.quantity)}/>
         </div>
       </Card>
     </li>

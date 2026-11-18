@@ -69,21 +69,46 @@ export default function ShowItems() {
 
   return (
     <div>
-
-      {partDat.map((p, index) => (
-        <div key={index}>
-          {`${p.description} x ${getItem(String(p.number))}   $${Number(p.price) * getItem(String(p.number))}`}
+      <h2 className="mb-3 text-lg font-semibold">Order summary</h2>           
+      <ul className="divide-y divide-gray-200">
+        {partDat.map((p, index) => (
+          <div key={index} className="flex justify-between">
+            <span title={p.description}>{`${p.description.slice(0,25)}...`}</span>
+            <span>{`x ${getItem(String(p.number))} `}</span>
+            <span>${`${(Number(p.price) * getItem(String(p.number))).toFixed(2)}`}</span>
+          </div>
+        ))}
+      </ul>
+      
+      <div className="mt-4 border-t flex justify-between border-gray-300">
+            <span>Subtotal:</span>
+            <span>${total.toFixed(2)}</span>
         </div>
-      ))}
-      <div>subtotal: ${total}</div>
-      <div>total Weight: {weightT}</div>
-      <div>shipping: {shipCharge}</div>
-      <div>Total: {`$${Number(total) + Number(shipCharge)}`}</div>
+        <div className="flex justify-between border-gray-300">
+            <span>Shipping:</span>
+            <span>${shipCharge.toFixed(2)}</span>
+        </div>
+                    
+        <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
+            <span>Total</span>
+            <span>${(total+shipCharge).toFixed(2)}</span>
+        </p>
     </div>
 
   );
 }
-
+/*
+{`${p.description} x ${getItem(String(p.number))}   $${(Number(p.price) * getItem(String(p.number))).toFixed(2)}`}
+<div>Total: {`$${Number(total) + Number(shipCharge)}`}</div>
+                        
+                        {items.map((p) => (
+                            <li key={p.id} className="flex justify-between py-2 text-sm">
+                                <span>{p.name} x 1</span>
+                                <span>${p.price.toFixed(2)}</span>
+                            </li>
+                        ))
+                        }
+ */
 export async function itemName({ item }) {
 
   console.log('tiemz', item);
