@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Suspense } from 'react';
+import SubNavigation from '@/components/SubNavigation';
 
 const warehousePanels = [
-  { href: '/warehouse', section: 'Dashboard' },
-  { href: '/warehouse/labels', section: 'Labels' },
-  { href: '/warehouse/receiving', section: 'Receiving' },
+  { href: '/warehouse', label: 'Dashboard' },
+  { href: '/warehouse/labels', label: 'Labels' },
+  { href: '/warehouse/receiving', label: 'Receiving' },
 ];
 
 export const metadata: Metadata = {
@@ -15,13 +16,11 @@ export default function WarehouseLayout({
 }: LayoutProps<'/warehouse'>) {
   return (
     <div>
-      <nav>
-        {warehousePanels.map((panel) => (
-          <Link key={panel.href} href={panel.href}>
-            {panel.section}
-          </Link>
-        ))}
-      </nav>
+      <Suspense
+        fallback={<div className="h-12 border-b border-line bg-surface" />}
+      >
+        <SubNavigation title="Warehouse" links={warehousePanels} />
+      </Suspense>
       <main>{children}</main>
     </div>
   );
