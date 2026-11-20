@@ -54,7 +54,8 @@ export default function ShippingPage() {
   const saveEdit = async (id: number) => {
     const updatedToNumber = {
       min_weight: Number(editForm.min_weight),
-      max_weight: Number(editForm.max_weight),
+      max_weight:
+        editForm.max_weight.trim() === '' ? null : Number(editForm.max_weight),
       shipping_charge: Number(editForm.shipping_charge),
     };
     try {
@@ -138,7 +139,7 @@ export default function ShippingPage() {
                       }
                     />
                   ) : (
-                    bracket.max_weight
+                    (bracket.max_weight ?? 'max capacity no limit')
                   )}
                 </td>
 
