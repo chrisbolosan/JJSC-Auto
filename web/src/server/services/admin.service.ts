@@ -4,7 +4,7 @@ export async function getAllBrackets() {
   const { data, error } = await supabaseAdmin
     .from('shipping_brackets')
     .select('id, shipping_charge, min_weight, max_weight')
-    .order('id');
+    .order('min_weight');
 
   if (error) {
     throw new Error(`db error: ${error.message}`);
