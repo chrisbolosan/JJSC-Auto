@@ -109,11 +109,12 @@ export default function ShippingPage() {
 
             return (
               <tr key={bracket.id} className="hover:bg-green-100">
-                {/* Min Weight Column */}
                 <td className="border border-gray-300 px-4 py-2">
                   {isEditing ? (
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
+                      step="0.01"
                       value={editForm.min_weight}
                       onChange={(e) =>
                         setEditForm({ ...editForm, min_weight: e.target.value })
@@ -128,7 +129,9 @@ export default function ShippingPage() {
                 <td className="border border-gray-300 px-4 py-2">
                   {isEditing ? (
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
+                      step="0.01"
                       value={editForm.max_weight}
                       onChange={(e) =>
                         setEditForm({ ...editForm, max_weight: e.target.value })
@@ -143,7 +146,9 @@ export default function ShippingPage() {
                 <td className="border border-gray-300 px-4 py-2">
                   {isEditing ? (
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
+                      step="0.01"
                       value={editForm.shipping_charge}
                       onChange={(e) =>
                         setEditForm({
