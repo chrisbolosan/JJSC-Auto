@@ -17,7 +17,7 @@ export async function updateShipping(
   updatedFields: {
     shipping_charge: number;
     min_weight: number;
-    max_weight: number;
+    max_weight: number | null;
   },
 ) {
   const { data, error } = await supabaseAdmin
