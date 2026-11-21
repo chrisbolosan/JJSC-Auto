@@ -63,8 +63,6 @@ export default function ShowItems() {
   //weightState = weightT;
 
   let shipCharge = 0;
-  // console.log('default', defaultQuantity);
-  // console.log('brackship', brackDat);
   for (const b of defaultQuantity > 0 ? brackDat : []) {
     if (
       b.min_weight <= weightT &&
@@ -103,8 +101,6 @@ export default function ShowItems() {
       <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
         <span>Total</span>
         <span>${(total + shipCharge).toFixed(2)}</span>
-        {/* {console.log('imtotal', total)}
-        {console.log('imshipcharge', shipCharge)} */}
       </p>
     </div>
   );
