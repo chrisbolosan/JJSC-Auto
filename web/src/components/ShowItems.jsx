@@ -52,14 +52,20 @@ export default function ShowItems() {
 
   let total = 0;
   let weightT = 0;
+  let defaultQuantity = 0;
   for (const p of partDat) {
-    total += Number(p.price) * getItem(String(p.number));
-    weightT += Number(p.weight) * getItem(String(p.number));
+    const quantity = Number(getItem(String(p.number))) || 0;
+
+    total += Number(p.price) * quantity;
+    weightT += Number(p.weight) * quantity;
+    defaultQuantity += quantity;
   }
   //weightState = weightT;
 
   let shipCharge = 0;
-  for (const b of brackDat) {
+  // console.log('default', defaultQuantity);
+  // console.log('brackship', brackDat);
+  for (const b of defaultQuantity > 0 ? brackDat : []) {
     if (
       b.min_weight <= weightT &&
       (b.max_weight == null || weightT < b.max_weight)
@@ -97,6 +103,8 @@ export default function ShowItems() {
       <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
         <span>Total</span>
         <span>${(total + shipCharge).toFixed(2)}</span>
+        {/* {console.log('imtotal', total)}
+        {console.log('imshipcharge', shipCharge)} */}
       </p>
     </div>
   );
