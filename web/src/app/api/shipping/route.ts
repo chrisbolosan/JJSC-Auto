@@ -1,5 +1,9 @@
-import { getAllBrackets } from '@/server/services/admin.service';
-import { updateShipping } from '@/server/services/admin.service';
+import {
+  addBracket,
+  getAllBrackets,
+  updateShipping,
+} from '@/server/services/admin.service';
+
 import { NextResponse } from 'next/server';
 
 //  GET request for shipping brackets
@@ -10,6 +14,26 @@ export async function GET() {
     return Response.json(brackets);
   } catch (error) {
     return Response.json({ error: (error as Error).message }, { status: 500 });
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const body = await request.json();
+    const { min_weight, max_weight, shipping_charge } = body;
+
+    const data = await addBracket({ min_weight, max_weight, shipping_charge });
+
+    return NextResponse.json(
+      { success: true, message: 'Bracket added', data },
+      { status: 201 },
+    );
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { success: false, message: 'Not able to add new bracket' },
+      { status: 500 },
+    );
   }
 }
 

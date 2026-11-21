@@ -1,111 +1,120 @@
-import { it } from 'node:test';
+// import { it } from 'node:test';
 import { supabaseAdmin } from '../db/supabase';
 
 export async function addOrder(
-    custId: number, sub: number, weight: number, ship: number,
-    total: number, auth: string
+  custId: number,
+  sub: number,
+  weight: number,
+  ship: number,
+  total: number,
+  auth: string,
 ) {
-    const {data, error } = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from('orders')
-    .insert({customer_id: custId, subtotal: sub, total_weight: weight,
-        shipping: ship, total: total, auth_number: auth,
+    .insert({
+      customer_id: custId,
+      subtotal: sub,
+      total_weight: weight,
+      shipping: ship,
+      total: total,
+      auth_number: auth,
     })
     .select('id');
 
-    if (error) {
+  if (error) {
     throw new Error(`db error: ${error.message}`);
-    }
-    const val = data.find((item) => item.id);
+  }
+  const val = data.find((item) => item.id);
 
-    console.log(data);
-    console.log("data", val);
-    return val;
-    //return something?
+  console.log(data);
+  console.log('data', val);
+  return val;
+  //return something?
 }
 
 //KEEP NOTE, MAY HAVEN TO CHANGE DATABASE ORDERITEM PRICE SINCE I HAVE IT SET AS QTY * PRICE
-export async function addOrderItem(
-    order: number, part: number, 
-    qty: number
-) {
-    const {data: priceDat, error: partsError} = await supabaseAdmin
+export async function addOrderItem(order: number, part: number, qty: number) {
+  const { data: priceDat, error: partsError } = await supabaseAdmin
     .from('parts')
     .select('price')
-    .eq('number', part)
+    .eq('number', part);
 
-    if (partsError) {
+  if (partsError) {
     throw new Error(`db error: ${partsError.message}`);
-    }
+  }
 
-    const val = priceDat.find((item) => item.price);
-    //console.log("price", val?.price);
-    const totalPrice = Number(val?.price); //qty * 
+  const val = priceDat.find((item) => item.price);
+  //console.log("price", val?.price);
+  const totalPrice = Number(val?.price); //qty *
 
-    const  {data, error} = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from('order_items')
-    .insert({order_id: order, part_number: part, quantity: qty, price: totalPrice})
+    .insert({
+      order_id: order,
+      part_number: part,
+      quantity: qty,
+      price: totalPrice,
+    });
 
-    if (error) {
+  if (error) {
     throw new Error(`db error: ${error.message}`);
-    }
+  }
 }
 
 export async function getWeight(part_num: number, qty: number) {
-    const {data, error} = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from('parts')
     .select('weight')
-    .eq('number', part_num)
+    .eq('number', part_num);
 
-    if (error) {
+  if (error) {
     throw new Error(`db error: ${error.message}`);
-    }
-    const weight = data[0].weight;//data.find((item) => item.weight);
-    const totWeight = Number(weight) * qty;
+  }
+  const weight = data[0].weight; //data.find((item) => item.weight);
+  const totWeight = Number(weight) * qty;
 
-    return totWeight;
+  return totWeight;
 }
 
 export async function setTotalWeight(orderNum: number, weight: number) {
-    const {data, error} = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from('orders')
-    .update({'total_weight': weight})
+    .update({ total_weight: weight })
     .eq('id', orderNum);
-    
-    if (error) {
+
+  if (error) {
     throw new Error(`db error: ${error.message}`);
-    }
+  }
 }
 export async function setOrderShipping(orderNum: number, ship: number) {
-    const {data, error} = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from('orders')
-    .update({'shipping': ship})
+    .update({ shipping: ship })
     .eq('id', orderNum);
-    
-    if (error) {
+
+  if (error) {
     throw new Error(`db error: ${error.message}`);
-    }
+  }
 }
 
 export async function getShipBrack(weight: number) {
-    const {data, error} = await supabaseAdmin
+  if (typeof weight !== 'number' || !Number.isFinite(weight) || weight < 0) {
+    throw new Error('weight must be a number 0 or more');
+  }
+  const { data, error } = await supabaseAdmin
     .from('shipping_brackets')
-    .select()
-    .gt('max_weight', weight)
+    .select('shipping_charge')
     .lte('min_weight', weight)
-    .single()
-    //gte lte
+    .or(`max_weight.is.null,max_weight.gt.${weight}`)
+    .maybeSingle();
 
-    if (error) {
+  if (error) {
     throw new Error(`db error: ${error.message}`);
-    }
-    //const charge = data[0].shipping_charge;
-    const charge = data.shipping_charge;
-    const ship = Number(charge);
-    //const ship = 0;
-
-    console.log("Weight", weight, "shipping bracker", data);
-    return ship;
-    
+  }
+  if (!data) {
+    throw new Error(`no shipping bracket covers ${weight} lb`);
+  }
+  return Number(data.shipping_charge);
 }
 
 /*
@@ -154,84 +163,80 @@ export async function getTotalWeight(oderNum: number) {
 */
 
 export async function setSubtotal(oderNum: number) {
-    const {data, error} = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from('order_items')
     .select()
     .eq('order_id', oderNum);
 
-    if (error) {
+  if (error) {
     throw new Error(`db error: ${error.message}`);
-    }
+  }
 
-    let total = 0;
+  let total = 0;
 
-    for(const p of data){
-        total += (p.price * p.quantity)
-    }
+  for (const p of data) {
+    total += p.price * p.quantity;
+  }
 
-    console.log("TOTAL:", total);
-    return total;
-    
+  console.log('TOTAL:', total);
+  return total;
 }
 
 export async function finalizeOrder(orderNum: number, subtotal: number) {
-    
-    const {data, error} = await supabaseAdmin
+  const { data, error } = await supabaseAdmin
     .from('orders')
-    .update({ 'subtotal': subtotal})
-    .eq('id', orderNum)
+    .update({ subtotal: subtotal })
+    .eq('id', orderNum);
 
-    if (error) {
+  if (error) {
     throw new Error(`db error: ${error.message}`);
-    }
+  }
 
-    const {data: order, error: orderErr} = await supabaseAdmin
+  const { data: order, error: orderErr } = await supabaseAdmin
     .from('orders')
     .select()
     .eq('id', orderNum);
 
-    if (orderErr) {
+  if (orderErr) {
     throw new Error(`db error: ${orderErr.message}`);
-    }
+  }
 
-    console.log("EVIL", order);
-    const ship = order[0].shipping;
-    const total = ship + subtotal;
+  console.log('EVIL', order);
+  const ship = order[0].shipping;
+  const total = ship + subtotal;
 
-    console.log(`ship ${ship} AND subtotal ${subtotal}`);
+  console.log(`ship ${ship} AND subtotal ${subtotal}`);
 
-    const {data: totalDat, error: totErr} = await supabaseAdmin
+  const { data: totalDat, error: totErr } = await supabaseAdmin
     .from('orders')
-    .update({'total': total})
+    .update({ total: total })
     .eq('id', orderNum);
 
-    if (totErr) {
+  if (totErr) {
     throw new Error(`db error: ${totErr.message}`);
-    }
-    
-
+  }
 }
 
-export async function indivPart(partNum: number){
-  const {data, error} = await supabaseAdmin
-  .from('parts')
-  .select()
-  .eq('number', partNum)
-  .single()
-  console.log("nonono", data);
+export async function indivPart(partNum: number) {
+  const { data, error } = await supabaseAdmin
+    .from('parts')
+    .select()
+    .eq('number', partNum)
+    .single();
+  console.log('nonono', data);
   //const val = data.find((item) => item.description);
 
-    if (error) {
+  if (error) {
     throw new Error(`db error: ${error.message}`);
   }
   if (!data) {
     return null;
   }
 
-    return {
+  return {
     number: data.number,
     description: data.description,
     price: data.price,
     weight: data.weight,
-    };
+  };
 }

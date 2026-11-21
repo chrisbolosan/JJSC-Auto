@@ -1,24 +1,24 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { Suspense } from 'react';
+import SubNavigation from '@/components/SubNavigation';
 
 const adminPanels = [
-  { href: '/admin', section: 'Dashboard' },
-  { href: '/admin/shipping', section: 'Shipping' },
+  { href: '/admin', label: 'Dashboard' },
+  { href: '/admin/shipping', label: 'Shipping' },
 ];
 
 export const metadata: Metadata = {
   title: 'Admin | JJSC AUTO',
 };
+
 export default function AdminLayout({ children }: LayoutProps<'/admin'>) {
   return (
     <div>
-      <nav>
-        {adminPanels.map((panel) => (
-          <Link key={panel.href} href={panel.href}>
-            {panel.section}
-          </Link>
-        ))}
-      </nav>
+      <Suspense
+        fallback={<div className="h-12 border-b border-line bg-surface"></div>}
+      >
+        <SubNavigation title="Admin" links={adminPanels} />
+      </Suspense>
       <main>{children}</main>
     </div>
   );

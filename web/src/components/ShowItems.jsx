@@ -12,8 +12,6 @@ import {
 import { useCallback } from 'react';
 //import { indivPart } from '@/server/services/order.service';
 
-
-
 export default function ShowItems() {
   const cart = getFullCart();
 
@@ -26,27 +24,27 @@ export default function ShowItems() {
 
   useEffect(() => {
     //if (!mounted) {
-      const fetchData = async () => {
-        const result = await showGroupIndiv(cart);
-        setPartDat(result);
-        setMounted(true); //allows the rendering
-      };
-      fetchData();
+    const fetchData = async () => {
+      const result = await showGroupIndiv(cart);
+      setPartDat(result);
+      setMounted(true); //allows the rendering
+    };
+    fetchData();
 
-      const fetchShip = async () => {
-        const wresult = await getBrack(0);
-        setShipDat(wresult);
-        return wresult;
-      };
-      fetchShip();
+    const fetchShip = async () => {
+      const wresult = await getBrack(0);
+      setShipDat(wresult);
+      return wresult;
+    };
+    fetchShip();
 
-      const fetchBrack = async () => {
-        const bresult = await getCompareBrackets();
-        setBrackDat(bresult);
-      };
-      fetchBrack();
+    const fetchBrack = async () => {
+      const bresult = await getCompareBrackets();
+      setBrackDat(bresult);
+    };
+    fetchBrack();
 
-      //setMounted(true); //allows the rendering
+    //setMounted(true); //allows the rendering
     //}
   }, [showGroupIndiv, getBrack, shipDat]);
 
@@ -54,47 +52,57 @@ export default function ShowItems() {
 
   let total = 0;
   let weightT = 0;
+  let defaultQuantity = 0;
   for (const p of partDat) {
-    total += Number(p.price) * getItem(String(p.number));
-    weightT += Number(p.weight) * getItem(String(p.number));
+    const quantity = Number(getItem(String(p.number))) || 0;
+
+    total += Number(p.price) * quantity;
+    weightT += Number(p.weight) * quantity;
+    defaultQuantity += quantity;
   }
-   //weightState = weightT;
+  //weightState = weightT;
 
   let shipCharge = 0;
-  for (const b of brackDat) {
-    if (b.min_weight <= weightT && weightT < b.max_weight) {
+  for (const b of defaultQuantity > 0 ? brackDat : []) {
+    if (
+      b.min_weight <= weightT &&
+      (b.max_weight == null || weightT < b.max_weight)
+    ) {
       shipCharge = b.shipping_charge;
     }
   }
 
   return (
     <div>
-      <h2 className="mb-3 text-lg font-semibold">Order summary</h2>           
+      <h2 className="mb-3 text-lg font-semibold">Order summary</h2>
       <ul className="divide-y divide-gray-200">
         {partDat.map((p, index) => (
           <div key={index} className="flex justify-between">
-            <span title={p.description}>{`${p.description.slice(0,25)}...`}</span>
+            <span
+              title={p.description}
+            >{`${p.description.slice(0, 25)}...`}</span>
             <span>{`x ${getItem(String(p.number))} `}</span>
-            <span>${`${(Number(p.price) * getItem(String(p.number))).toFixed(2)}`}</span>
+            <span>
+              ${`${(Number(p.price) * getItem(String(p.number))).toFixed(2)}`}
+            </span>
           </div>
         ))}
       </ul>
-      
-      <div className="mt-4 border-t flex justify-between border-gray-300">
-            <span>Subtotal:</span>
-            <span>${total.toFixed(2)}</span>
-        </div>
-        <div className="flex justify-between border-gray-300">
-            <span>Shipping:</span>
-            <span>${shipCharge.toFixed(2)}</span>
-        </div>
-                    
-        <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
-            <span>Total</span>
-            <span>${(total+shipCharge).toFixed(2)}</span>
-        </p>
-    </div>
 
+      <div className="mt-4 border-t flex justify-between border-gray-300">
+        <span>Subtotal:</span>
+        <span>${total.toFixed(2)}</span>
+      </div>
+      <div className="flex justify-between border-gray-300">
+        <span>Shipping:</span>
+        <span>${shipCharge.toFixed(2)}</span>
+      </div>
+
+      <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
+        <span>Total</span>
+        <span>${(total + shipCharge).toFixed(2)}</span>
+      </p>
+    </div>
   );
 }
 /*
@@ -110,7 +118,6 @@ export default function ShowItems() {
                         }
  */
 export async function itemName({ item }) {
-
   console.log('tiemz', item);
   return (
     <div key={item}>

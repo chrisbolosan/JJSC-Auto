@@ -6,11 +6,15 @@ export const metadata = {
 
 export default function ReceivingPage() {
   return (
-    <div>
-      <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">
-        Warehouse Receiving UI
-      </h1>
-      <ReceivingDesk />
+    <div className="min-h-screen bg-white text-ink">
+      <div className="page">
+        <h1 className="page-title">Receiving</h1>
+        <span className="accent-bar" />
+        <p className="mt-3 text-sm text-steel">
+          Search for a part from the deliveries and then enter how many arrived.
+        </p>
+        <ReceivingDesk />
+      </div>
     </div>
   );
 }

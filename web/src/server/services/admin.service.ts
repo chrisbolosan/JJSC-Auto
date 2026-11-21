@@ -4,7 +4,7 @@ export async function getAllBrackets() {
   const { data, error } = await supabaseAdmin
     .from('shipping_brackets')
     .select('id, shipping_charge, min_weight, max_weight')
-    .order('id');
+    .order('min_weight');
 
   if (error) {
     throw new Error(`db error: ${error.message}`);
@@ -17,7 +17,7 @@ export async function updateShipping(
   updatedFields: {
     shipping_charge: number;
     min_weight: number;
-    max_weight: number;
+    max_weight: number | null;
   },
 ) {
   const { data, error } = await supabaseAdmin
@@ -28,6 +28,24 @@ export async function updateShipping(
 
   if (error) {
     throw new Error(`db error: ${error.message}`);
+  }
+
+  return data;
+}
+
+export async function addBracket(newBracket: {
+  shipping_charge: number;
+  min_weight: number;
+  max_weight: number | null;
+}) {
+  const { data, error } = await supabaseAdmin
+    .from('shipping_brackets')
+    .insert(newBracket)
+    .select('id,shipping_charge,min_weight,max_weight')
+    .single();
+
+  if (error) {
+    throw new Error(`database error: ${error.message}`);
   }
 
   return data;
