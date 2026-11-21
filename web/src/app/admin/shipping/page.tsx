@@ -90,11 +90,11 @@ export default function ShippingPage() {
   };
 
   return (
-    <div style={{ padding: '20px' }} className="text-green-500">
+    <div style={{ padding: '20px' }} className="text-metal">
       <h2>Weight Brackets</h2>
 
       <table className="table-auto w-full bg-white border border-gray-300">
-        <thead className="bg-green-500 text-white">
+        <thead className="bg-metal text-white">
           <tr>
             <th className="border border-gray-300 px-4 py-2">Min Weight</th>
             <th className="border border-gray-300 px-4 py-2">Max Weight</th>
@@ -182,6 +182,8 @@ export default function ShippingPage() {
               </tr>
             );
           })}
+
+          <tr className="bg-gray-50">add new bracket here</tr>
         </tbody>
       </table>
     </div>
