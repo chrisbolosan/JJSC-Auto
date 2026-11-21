@@ -183,7 +183,43 @@ export default function ShippingPage() {
             );
           })}
 
-          <tr className="bg-gray-50">add new bracket here</tr>
+          <tr className="bg-gray-50">
+            <td className="border border-gray-300 px-4 py-2">
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="Minimum"
+                aria-label="New brack min weight"
+              />
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="Max"
+                aria-label="New brack max weight"
+              />
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="Charge"
+                aria-label="New bracket charge"
+              />
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              <button
+                onClick={() => alert('new row added')}
+                className="btn-primary"
+              >
+                addrow
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
