@@ -19,7 +19,7 @@ export default function StaffLayout({ children }: LayoutProps<'/'>) {
         <NavBar
           brand="JJSC Staff"
           links={staffDestinations}
-          homeHref="/staff"
+          homeHREF="/staff"
           showCart={false}
         />
       </Suspense>

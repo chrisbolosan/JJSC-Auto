@@ -37,7 +37,7 @@ export default function ShippingPage() {
     shipping_charge: '',
   };
   const [newRowBracket, setNewRowBracket] = useState(emptyRowBracket);
-  const [isAdd, setIsAdd] = false;
+  const [isAdd, setIsAdd] = useState(false);
 
   // Load data from Supabase when the component mounts
   //https://react.dev/reference/react/useEffect#fetching-data-with-effects
