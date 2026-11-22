@@ -1,19 +1,24 @@
 {
   "sections": [
     {
-      "href": "/allproducts",
-      "title": "Shop Parts",
-      "description": "Browse the current catalog, check a stock, and/or add parts to your cart."
+      "href": "/allproducts?category=Batteries",
+      "title": "Batteries",
+      "description": "lorem"
     },
     {
-      "href": "/checkout",
-      "title": "Checkout",
+      "href": "/allproducts?category=Brakes",
+      "title": "Brakes",
       "description": "Review customer order"
     },
     {
-      "href": "/staff",
-      "title": "Staff site",
-      "description": "temporary page warehouse, shipping, and admin tools"
+      "href": "/allproducts?category=Filters",
+      "title": "Filters",
+      "description": "Review customer order"
+    },
+    {
+      "href": "/allproducts?category=Fluids",
+      "title": "Fluids",
+      "description": "Review customer order"
     }
   ]
 }
