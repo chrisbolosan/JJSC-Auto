@@ -9,13 +9,16 @@ export async function addCustomer(
 ) {
   const { data, error } = await supabaseAdmin
     .from('customers')
-    .insert({
-      city: city,
-      email: email,
-      name: name,
-      street: street,
-      zip_code: zip,
-    })
+    .upsert(
+      {
+        city: city,
+        email: email,
+        name: name,
+        street: street,
+        zip_code: zip,
+      },
+      { onConflict: 'email' },
+    )
     .select('id');
 
   if (error) {

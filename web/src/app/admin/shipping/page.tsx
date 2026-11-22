@@ -19,7 +19,6 @@ to figure out the layout of how my html structure should look like when it comes
 'use client';
 import { useState, useEffect } from 'react';
 import { Tables } from '@/server/types/database.types';
-import ReturnButton from '@/components/returnButton';
 
 type Bracket = Tables<'shipping_brackets'>;
 
@@ -55,7 +54,8 @@ export default function ShippingPage() {
   const saveEdit = async (id: number) => {
     const updatedToNumber = {
       min_weight: Number(editForm.min_weight),
-      max_weight: Number(editForm.max_weight),
+      max_weight:
+        editForm.max_weight.trim() === '' ? null : Number(editForm.max_weight),
       shipping_charge: Number(editForm.shipping_charge),
     };
     try {
@@ -90,11 +90,11 @@ export default function ShippingPage() {
   };
 
   return (
-    <div style={{ padding: '20px' }} className="text-green-500">
+    <div style={{ padding: '20px' }} className="text-metal">
       <h2>Weight Brackets</h2>
 
       <table className="table-auto w-full bg-white border border-gray-300">
-        <thead className="bg-green-500 text-white">
+        <thead className="bg-metal text-white">
           <tr>
             <th className="border border-gray-300 px-4 py-2">Min Weight</th>
             <th className="border border-gray-300 px-4 py-2">Max Weight</th>
@@ -110,11 +110,12 @@ export default function ShippingPage() {
 
             return (
               <tr key={bracket.id} className="hover:bg-green-100">
-                {/* Min Weight Column */}
                 <td className="border border-gray-300 px-4 py-2">
                   {isEditing ? (
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
+                      step="0.01"
                       value={editForm.min_weight}
                       onChange={(e) =>
                         setEditForm({ ...editForm, min_weight: e.target.value })
@@ -129,14 +130,16 @@ export default function ShippingPage() {
                 <td className="border border-gray-300 px-4 py-2">
                   {isEditing ? (
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
+                      step="0.01"
                       value={editForm.max_weight}
                       onChange={(e) =>
                         setEditForm({ ...editForm, max_weight: e.target.value })
                       }
                     />
                   ) : (
-                    bracket.max_weight
+                    (bracket.max_weight ?? 'max capacity no limit')
                   )}
                 </td>
 
@@ -144,7 +147,9 @@ export default function ShippingPage() {
                 <td className="border border-gray-300 px-4 py-2">
                   {isEditing ? (
                     <input
-                      type="text"
+                      type="number"
+                      min="0"
+                      step="0.01"
                       value={editForm.shipping_charge}
                       onChange={(e) =>
                         setEditForm({
@@ -177,15 +182,46 @@ export default function ShippingPage() {
               </tr>
             );
           })}
+
+          <tr className="bg-gray-50">
+            <td className="border border-gray-300 px-4 py-2">
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="Minimum"
+                aria-label="New brack min weight"
+              />
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="Max"
+                aria-label="New brack max weight"
+              />
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              <input
+                type="number"
+                min="0.01"
+                step="0.01"
+                placeholder="Charge"
+                aria-label="New bracket charge"
+              />
+            </td>
+            <td className="border border-gray-300 px-4 py-2">
+              <button
+                onClick={() => alert('new row added')}
+                className="btn-primary"
+              >
+                addrow
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
-      <div className="m-4">
-        <ReturnButton
-          href="/admin"
-          label="LET'S GO!"
-          styles="bg-red-400 border border-white rounded p-4"
-        ></ReturnButton>
-      </div>
     </div>
   );
 }

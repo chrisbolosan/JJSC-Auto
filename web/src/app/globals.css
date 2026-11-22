@@ -9,6 +9,12 @@
   --color-brand: #f5b800;
   --color-brand-dark: #d99f00;
   --color-ink: #141414;
+  --color-ink-light: #2a2a2a;
+  --color-metal: #5c6670;
+  --color-surface: #f4f4f2;
+  --color-line: #e2e2de;
+  --color-warning: #c62828;
+  --color-ok: #2e7d32;
 
   --color-background: #ffffff;
   --color-foreground: var(--color-ink);
@@ -17,12 +23,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   background: var(--background);
@@ -30,10 +36,36 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.btn-primary {
-  @apply inline-flex items-center justify-center gap-2 rounded bg-brand px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-ink transition-colors hover:bg-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-50;
-}
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded bg-brand px-5 py-2.5 text-sm font-bold uppercase tracking-wide text-ink transition-colors hover:bg-brand-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink disabled:cursor-not-allowed disabled:opacity-50;
+  }
 
-.btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 rounded border-2 border-ink bg-white px-5 py-2 text-sm font-bold uppercase tracking-wide text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-50;
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded border-2 border-ink bg-white px-5 py-2 text-sm font-bold uppercase tracking-wide text-ink transition-colors hover:bg-ink hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .page {
+    @apply mx-auto w-full max-w-6xl px-4 py-8;
+  }
+
+  .page-title {
+    @apply text-2xl font-black uppercase tracking-tight text-ink sm:text-3xl;
+  }
+
+  .accent-bar {
+    @apply mt-2 block h-1 w-12 bg-brand;
+  }
+
+  .card {
+    @apply rounded-lg border border-line bg-white text-ink transition-shadow hover:shadow-md;
+  }
+
+  .input {
+    @apply w-full rounded border border-line bg-white px-3 py-2 text-ink placeholder:text-metal focus:border-ink focus:outline-none focus:ring-2 focus:ring-brand;
+  }
+
+  .table-wrap {
+    @apply w-full overflow-x-auto rounded-lg border border-line;
+  }
 }

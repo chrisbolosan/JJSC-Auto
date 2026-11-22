@@ -38,7 +38,7 @@ export default function ReceivingTable() {
         .filter(
           (p) =>
             String(p.number).includes(param) ||
-            p.description.toLowerCase().includes(param),
+            (p.description ?? '').toLowerCase().includes(param),
         )
         .slice(0, 10)
     : [];
@@ -95,142 +95,160 @@ export default function ReceivingTable() {
   }
 
   return (
-    <div className="mt-6 mx-auto w-full max-w-4xl px-4 py-9 border border-red-500">
-      <h1 className="mb-2 border border-amber-400">Receiving</h1>
-      <p className="mb-6 text sm text-white ">
-        {' '}
-        Enter information to search part from the delivery
-      </p>
-      <label> Find part # or enter the description</label>
-      <input
-        id="part-search"
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Ex: battery fluid or 123"
-        className="ml-4 border border-zinc-500 p-2 rounded"
-        autoComplete="off"
-      ></input>
+    <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-5">
+      <section className="lg:col-span-2">
+        <label
+          htmlFor="part-search"
+          className="block text-sm font-bold uppercase tracking-wide text-ink"
+        >
+          Find part
+        </label>
+        <input
+          id="part-search"
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Ex: Battery"
+          className="input mt-2"
+          autoComplete="off"
+        />
 
-      {param && (
-        <ul className="mt-2 divide-y rounded border border-zinc-200">
-          {matches.length === 0 && (
-            <li className="px-3 py-2 text-sm text-zinc-500">No parts match.</li>
-          )}
+        {param && (
+          <ul className="mt-2 divide-y divide-line overflow-hidden rounded-lg border border-line bg-white">
+            {matches.length === 0 && (
+              <li className="px-3 py-3 text-sm text-metal">No parts match.</li>
+            )}
 
-          {matches.map((p) => (
-            <li key={p.number}>
+            {matches.map((p) => (
+              <li key={p.number}>
+                <button
+                  type="button"
+                  onClick={() => pickPart(p)}
+                  className="flex w-full items-center justify-between gap-3 px-3 py-2.5 text-left text-sm transition-colors hover:bg-surface focus-visible:bg-surface focus-visible:outline-none"
+                >
+                  <span>
+                    <span className="font-mono text-metal">#{p.number}</span>{' '}
+                    {p.description}
+                  </span>
+                  <span className="whitespace-nowrap text-xs text-metal">
+                    {p.quantity} on hand
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {selected && (
+          <form onSubmit={receive} className="card mt-6 p-5 hover:shadow-none">
+            <div className="flex items-start gap-4">
+              {selected.pictureURL && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={selected.pictureURL}
+                  alt={selected.description}
+                  className="h-20 w-20 shrink-0 rounded bg-surface object-contain"
+                />
+              )}
+              <div className="min-w-0 flex-1">
+                <p className="font-mono text-xs text-metal">
+                  #{selected.number}
+                </p>
+                <p className="font-bold text-ink">{selected.description}</p>
+                <p className="mt-1 text-sm text-metal">
+                  Currently on hand:{' '}
+                  <strong className="text-ink">{selected.quantity}</strong>
+                </p>
+              </div>
               <button
                 type="button"
-                onClick={() => pickPart(p)}
+                onClick={() => setSelected(null)}
+                className="shrink-0 text-xs font-bold uppercase tracking-wide text-metal underline-offset-4 hover:text-ink hover:underline"
+              >
+                Change part
+              </button>
+            </div>
+
+            <div className="mt-5 flex flex-wrap items-end gap-3">
+              <div>
+                <label
+                  htmlFor="qty"
+                  className="block text-sm font-bold uppercase tracking-wide text-ink"
+                >
+                  Quantity received
+                </label>
+                <input
+                  id="qty"
+                  type="number"
+                  min="1"
+                  max="10000"
+                  step="1"
+                  required
+                  value={qty}
+                  onChange={(e) => setQty(e.target.value)}
+                  className="input mt-2 w-32"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={!qty || saving}
                 className="btn-primary"
               >
-                <span>
-                  <span className="font-mono text-zinc-500">#{p.number}</span>{' '}
-                  {p.description}
-                </span>
-                <span className="whitespace-nowrap text-sm text-zinc-600">
-                  {p.quantity} on hand
-                </span>
+                {saving ? 'Saving...' : 'Receive'}
               </button>
-            </li>
-          ))}
-        </ul>
-      )}
-      {selected && (
-        <form
-          onSubmit={receive}
-          className="mt-6 rounded border border-zinc-300 bg-zinc-50 p-4"
-        >
-          {selected.pictureURL && (
-            <div className="flex flex-col gap-4">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={selected.pictureURL}
-                alt={selected.description}
-                className="h-20 w-20 rounded object-contain"
-              />
             </div>
-          )}
-          <div className="flex-1">
-            <p className="font-semibold text-black">
-              #{selected.number} {selected.description}
-            </p>
-            <p className="text-sm text-zinc-600">
-              Currently on hand: <strong>{selected.quantity}</strong>
-            </p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setSelected(null)}
-            className="btn-secondary"
+          </form>
+        )}
+
+        {message && (
+          <p
+            role="status"
+            className={`mt-4 rounded border-l-4 px-3 py-2 text-sm ${
+              isError
+                ? 'border-warning bg-warning text-warning'
+                : 'border-ok bg-gray-800 text-ok'
+            }`}
           >
-            Change part
-          </button>
+            {message}
+          </p>
+        )}
+      </section>
 
-          <div className="mt-4 flex flex-wrap items-end gap-3">
-            <label className=" text-black flex flex-col text-sm font-semibold ">
-              Quantity received
-            </label>
-            <input
-              type="number"
-              min="1"
-              max="10000"
-              step="1"
-              required
-              value={qty}
-              onChange={(e) => setQty(e.target.value)}
-              className="mt-1 w-32 rounded border border-zinc-300 px-3 py-2 font-normal"
-            />
-            <button
-              type="submit"
-              disabled={!qty || saving}
-              className="btn-primary"
-            >
-              {saving ? 'Saving' : 'Receive'}
-            </button>
-          </div>
-        </form>
-      )}
-
-      {message && (
-        <p
-          className={`mt-4 rounded px-3 py-2 text-sm ${
-            isError ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'
-          }`}
-        >
-          {message}
-        </p>
-      )}
-      <h2> Recently received</h2>
-      {recent.length === 0 ? (
-        <p className="text-sm text-zinc-500">Nothing received yet</p>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="border-b text-zinc-600">
-              <tr>
-                <th className="py-2 pr-4">When</th>
-                <th className="py-2 pr-4">Part</th>
-                <th className="py-2 pr-4">Description</th>
-                <th className="py-2 text-right">Qty</th>
-              </tr>
-            </thead>
-            <tbody>
-              {recent.map((row) => (
-                <tr key={row.id} className="border-b last:border-0">
-                  <td className="py-2 pr-4">
-                    {new Date(row.received_at).toLocaleString()}
-                  </td>
-                  <td className="py-2 pr-4 ">#{row.part_number}</td>
-                  <td className="py-2 pr-4">{row.description}</td>
-                  <td className="py-2 text-right">+{row.quantity}</td>
+      <section className="lg:col-span-3">
+        <h2 className="text-sm font-bold uppercase tracking-wide text-ink">
+          Recently received
+        </h2>
+        {recent.length === 0 ? (
+          <p className="mt-2 text-sm text-metal">Nothing received yet</p>
+        ) : (
+          <div className="table-wrap mt-2">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-surface text-xs uppercase tracking-wide text-metal">
+                <tr>
+                  <th className="px-3 py-2">When</th>
+                  <th className="px-3 py-2">Part</th>
+                  <th className="px-3 py-2">Description</th>
+                  <th className="px-3 py-2 text-right">Qty</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+              </thead>
+              <tbody className="divide-y divide-line">
+                {recent.map((row) => (
+                  <tr key={row.id}>
+                    <td className="whitespace-nowrap px-3 py-2 text-metal">
+                      {new Date(row.received_at).toLocaleString()}
+                    </td>
+                    <td className="px-3 py-2 font-mono">#{row.part_number}</td>
+                    <td className="px-3 py-2">{row.description}</td>
+                    <td className="px-3 py-2 text-right font-bold text-ok">
+                      +{row.quantity}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </section>
     </div>
   );
 }

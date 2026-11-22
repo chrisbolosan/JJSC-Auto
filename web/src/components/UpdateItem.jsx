@@ -4,7 +4,8 @@ import { getFullCart, getItem, setItem } from '@/app/api/utils/localStorage'
 import { useEffect } from 'react';
 import ShowItems from './ShowItems';
 
-export default function UpdateItem({itemName}){
+//HYDRATION NEEDED CHECK LATER
+export default function UpdateItem({itemName, itemStock}){
     const [count, setCount] = useState(() => {
         const itemCount = getItem(itemName);
         return (Number(itemCount)) || 0;
@@ -21,7 +22,9 @@ export default function UpdateItem({itemName}){
     }, [count, itemName]);
     */
     function addCount(){
-        setCount(count + 1);
+        if(Number(itemStock) > count){
+            setCount(count + 1);
+        }
     }
 
     function subtractCount(){
@@ -35,20 +38,32 @@ export default function UpdateItem({itemName}){
     const pos = "+";
     const les = "-"
 
+    if(itemStock > 0){
     return(
         <div>
             <ItemButton dis={les} onClick={subtractCount}/>
-            <TotalCount count={count}/>
+            <p className="rounded px-4 py-2 text-black inline">{count}</p>
+            
             <ItemButton dis={pos} onClick={addCount} />
         </div>
     );
+    }else{
+        return(
+            <div>
+                <p>Not Available</p>
+            </div>
+        )
+    }
 }
 
+//dont use 
+/*
 function TotalCount({count}){
     return(
         <p className="rounded px-4 py-2 text-black inline">{count}</p>
     )
 }
+*/
 
 function ItemButton({dis, onClick}){
     return(

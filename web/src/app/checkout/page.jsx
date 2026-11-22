@@ -96,24 +96,7 @@ export default function CheckoutPage() {
                 </form>
 
                 <aside className="h-fit rounded border border-gray-300 p-4">
-                    <h2 className="mb-3 text-lg font-semibold">Order summary</h2>
-                    
-                    <ul className="divide-y divide-gray-200">
-                        
-                        {items.map((p) => (
-                            <li key={p.id} className="flex justify-between py-2 text-sm">
-                                <span>{p.name} x 1</span>
-                                <span>${p.price.toFixed(2)}</span>
-                            </li>
-                        ))
-                        }
-                        <ShowItems/>
-                    </ul>
-                    
-                    <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
-                        <span>Total</span>
-                        <span>${subtotal.toFixed(2)}</span>
-                    </p>
+                    <ShowItems/>
                 </aside>
             </div>
         </div>

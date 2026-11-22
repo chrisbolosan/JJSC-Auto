@@ -23,7 +23,7 @@ export async function getOrderById(id: number) {
   // console.log('=========partnumber data=========', partNumbers);
   const { data: parts, error: partsError } = await supabaseAdmin
     .from('parts')
-    .select('number, description, weight')
+    .select('number, description, weight, pictureURL')
     .in('number', partNumbers);
 
   if (partsError) {
@@ -40,6 +40,7 @@ export async function getOrderById(id: number) {
       quantity: item.quantity,
       price: item.price,
       line_total: item.price * item.quantity,
+      pictureURL: part?.pictureURL
     };
   });
 
