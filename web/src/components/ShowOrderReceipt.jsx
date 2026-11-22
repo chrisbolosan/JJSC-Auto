@@ -7,23 +7,29 @@ import { useCallback, useEffect, useState } from 'react';
 //import { indivPart } from '@/server/services/order.service';
 import { getOrderDetails } from '@/components/showOrdersReceiptsServer';
 
-export default function ShowItems() {
-  const orderId = getItem('ORDER_ID');
-
+// orderId: optional, defaults to the ORDER_ID saved at checkout
+// title: heading shown above the order (e.g. "Invoice" in the warehouse)
+export default function ShowOrderReceipt({ orderId: orderIdProp, title = 'Order Details' }) {
   const [orderDetails, setOrderDetails] = useState(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    const orderId = orderIdProp ?? getItem('ORDER_ID');
+    let ignore = false;
     const fetchData = async () => {
       const result = await getOrderDetails(orderId);
+      if (ignore) return;
       setOrderDetails(result);
       setMounted(true);
     };
     fetchData();
-    // setMounted(true);
-  }, [getOrderDetails]);
+    return () => {
+      ignore = true;
+    };
+  }, [orderIdProp]);
 
   if (!mounted) return null; // Matches server render
+  if (!orderDetails) return <p className="pt-2">Order not found.</p>;
 
   const itemdat = orderDetails.order_items;
   const cust = orderDetails.customer;
@@ -38,7 +44,7 @@ export default function ShowItems() {
  //format date later
   return (
     <div>
-      <h1 className="pt-2 font-semibold">Order Details</h1>
+      <h1 className="pt-2 font-semibold">{title}</h1>
       <h2>Order placed {orderDate} | Order # {orderDetails.id}</h2>
       <div className="mt-4 border-t justify-between border-gray-300" >
 
