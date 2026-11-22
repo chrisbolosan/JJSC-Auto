@@ -1,6 +1,6 @@
 'use client';
 import Card from '@/components/Card';
-import defaultHomepage from './default_homepage.json'; //temp homepage with route links
+import defaultHomepage from './default_homepage.json';
 
 export default function Home() {
   return (
