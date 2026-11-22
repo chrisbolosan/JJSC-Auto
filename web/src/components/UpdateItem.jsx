@@ -38,20 +38,32 @@ export default function UpdateItem({itemName, itemStock}){
     const pos = "+";
     const les = "-"
 
+    if(itemStock > 0){
     return(
         <div>
             <ItemButton dis={les} onClick={subtractCount}/>
-            <TotalCount count={count}/>
+            <p className="rounded px-4 py-2 text-black inline">{count}</p>
+            
             <ItemButton dis={pos} onClick={addCount} />
         </div>
     );
+    }else{
+        return(
+            <div>
+                <p>Not Available</p>
+            </div>
+        )
+    }
 }
 
+//dont use 
+/*
 function TotalCount({count}){
     return(
         <p className="rounded px-4 py-2 text-black inline">{count}</p>
     )
 }
+*/
 
 function ItemButton({dis, onClick}){
     return(

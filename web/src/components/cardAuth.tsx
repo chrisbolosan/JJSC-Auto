@@ -15,6 +15,8 @@ async function addUser(city: string , email: string , id: number,
     addCustomer(city, email, id, name, street, zip);
 
 }*/
+
+//usestate false to true to prevent more submissions
 type EmailType = 'confirmation' | 'shipped';
 
 export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
@@ -149,5 +151,8 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
 
     //alert(`Extracted info \n Name: '${name}'\n cardNum: '${cardNum}'\n cvv: '${cvv}' \n date: '${dat}' \n ${month}/${d}/${year}`);
     //clearCart();
-    //console.log(id);
+    //console.log(id); 
+
+    //hardcode example of sendOrderConfirmation
+    //then dyanmic
   }
