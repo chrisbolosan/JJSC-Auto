@@ -30,13 +30,13 @@ Client LIVE MAIN Site
 https://jjsc-auto.vercel.app/
 
 Client Development Site
-http://localhost:3000/
+https://jjsc-auto-dev.vercel.app/
 
 LIVE MAIN Staff
 https://jjsc-auto.vercel.app/staff
 
 Development Staff
-http://localhost:3000/staff
+https://jjsc-auto-dev.vercel.app/staff
 
 ## Docs
 
