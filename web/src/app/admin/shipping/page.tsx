@@ -25,12 +25,19 @@ type Bracket = Tables<'shipping_brackets'>;
 export default function ShippingPage() {
   const [brackets, setBrackets] = useState<Bracket[]>([]);
   const [editingId, setEditingId] = useState<number | null>(null);
-
   const [editForm, setEditForm] = useState({
     min_weight: '',
     max_weight: '',
     shipping_charge: '',
   });
+
+  const emptyRowBracket = {
+    min_weight: '',
+    max_weight: '',
+    shipping_charge: '',
+  };
+  const [newRowBracket, setNewRowBracket] = useState(emptyRowBracket);
+  const [isAdd, setIsAdd] = false;
 
   // Load data from Supabase when the component mounts
   //https://react.dev/reference/react/useEffect#fetching-data-with-effects
@@ -86,6 +93,16 @@ export default function ShippingPage() {
     } catch (error) {
       console.error('Error saving bracket:', error);
       alert('Failed to save changes.');
+    }
+  };
+
+  const addRow = async () => {
+    if (
+      newRowBracket.min_weight.trim() === '' ||
+      newRowBracket.shipping_charge.trim() === ''
+    ) {
+      alert('Enter a proper minimum weight and a shipping charge');
+      return;
     }
   };
 
