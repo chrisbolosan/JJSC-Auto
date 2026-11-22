@@ -68,6 +68,48 @@ export async function sendOrderConfirmation(orderId: number, to?: string) {
   return sendTo;
 }
 
+// Sent by the warehouse when an order is packed and shipped.
+// Goes to the customer's email unless `to` overrides it. Returns the address used.
+export async function sendShipmentNotice(orderId: number, to?: string) {
+  const order = await getOrderById(orderId);
+  if (!order) {
+    return null;
+  }
+
+  const itemLines = order.items.map(
+    (item) => `  ${item.quantity} x ${item.description} (#${item.part_number})`,
+  );
+  const shippedOn = new Date(order.shipped_at ?? Date.now()).toLocaleDateString(
+    'en-US',
+    { month: 'short', day: 'numeric', year: 'numeric' },
+  );
+
+  const text = [
+    `Hi ${order.customer.name},`,
+    '',
+    `Good news! Order #${order.id} shipped on ${shippedOn}.`,
+    '',
+    'In this package:',
+    ...itemLines,
+    '',
+    `Package weight: ${order.total_weight} lbs`,
+    `Order total: ${money(order.total)}`,
+    '',
+    'Shipping to:',
+    `  ${order.customer.name}`,
+    `  ${order.customer.street}`,
+    `  ${order.customer.city} ${order.customer.zip_code}`,
+    '',
+    'Thank you for shopping with us.',
+    '',
+    'JJSC Auto',
+  ].join('\n');
+
+  const sendTo = to ?? order.customer.email;
+  await sendEmail(sendTo, `JJSC Auto - Order #${order.id} has shipped`, text);
+  return sendTo;
+}
+
 export async function sendOrderShipped(to: string, orderId: number) {
   await sendEmail(
     to,
