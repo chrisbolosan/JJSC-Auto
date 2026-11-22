@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { ShoppingCart } from 'lucide-react';
 type NavLink = { href: string; label: string };
 
 type NavBarProps = {
@@ -43,8 +44,13 @@ export default function NavBar({
           <span>{brand.replace(/^JJSC\s*/i, '') || 'Auto'}</span>
         </Link>
         {showCart && (
-          <Link href="/checkout" className="text-sm hover:text-red-400">
-            Cart
+          <Link
+            href="/checkout"
+            aria-label="Cart"
+            title="Cart"
+            className="rounded p-2 transition-colors hover:text-brand"
+          >
+            <ShoppingCart size={24} aria-hidden="true" />
           </Link>
         )}
       </div>
