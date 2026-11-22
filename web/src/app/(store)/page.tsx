@@ -9,7 +9,7 @@ export default function Home() {
       <section className="bg-ink text-white">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 sm:px-6 md:grid-cols-2 md:items-center md:py-24">
           <div>
-            left
+            Shop our Black Friday Deals today!
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/allproducts" className="btn-primary">
                 Shop parts
@@ -23,7 +23,14 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="">right</div>
+          <div className="hidden md:block">
+            <div className="relative ml-auto aspect-square w-full max-w-sm">
+              <div className="absolute inset-0 rotate-12 rounded-2xl bg-brand" />
+              <div className="absolute inset-4 flex items-center justify-center rounded-2xl bg-ink-light">
+                <span className="text-7xl font-black text-brand">JJSC</span>
+              </div>
+            </div>
+          </div>
         </div>
         <div className="h-2 bg-brand" />
       </section>
