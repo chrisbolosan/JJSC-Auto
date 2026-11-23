@@ -21,14 +21,14 @@ type EmailType = 'confirmation' | 'shipped';
 
 export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
       
-        async function sendMail(type: EmailType, oID: string) {
+        async function sendMail(type: EmailType, oID: string, customerInbox: string) {
         //setResult('Sending...');
         //setOrderedId(String(oID));
         const orderId = oID
-        const res = await fetch('/api/email/send', {
+        const res = await fetch('/api/checkout/send', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ type, orderId }),
+          body: JSON.stringify({ type, orderId, customerInbox }),
         });
     
         const data = await res.json();
@@ -121,7 +121,7 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
               setTotWeight(orderId, totalWeight);
               saveFinalOrder(orderId).then(()=>{
                 if(el === fullCart.length - 1){
-                  sendMail('confirmation', String(orderId)).then((a) => {
+                  sendMail('confirmation', String(orderId), email).then((a) => {
                     window.location.href = "/checkout/receipt";
                   })
                 }
