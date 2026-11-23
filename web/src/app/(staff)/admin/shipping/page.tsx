@@ -104,6 +104,34 @@ export default function ShippingPage() {
       alert('Enter a proper minimum weight and a shipping charge');
       return;
     }
+    const isNewBracket = {
+      min_weight: Number(newRowBracket.min_weight),
+      max_weight:
+        newRowBracket.max_weight.trim() === ''
+          ? null
+          : Number(newRowBracket.max_weight),
+      shipping_charge: Number(newRowBracket.shipping_charge),
+    };
+    setIsAdd(true);
+    try {
+      const results = await fetch('/api/shipping', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(isNewBracket),
+      });
+
+      const data = await results.json();
+      if (!results) {
+        throw new Error(data.message ?? 'API issue backend backet addition');
+      }
+      setBrackets((bracketList) => [...bracketList, data.data]);
+      setNewRowBracket(emptyRowBracket);
+    } catch (error) {
+      console.error('Issue adding new bracket', error);
+      alert('Failure adding bracket');
+    } finally {
+      setIsAdd(false);
+    }
   };
 
   return (
@@ -208,6 +236,13 @@ export default function ShippingPage() {
                 step="0.01"
                 placeholder="Minimum"
                 aria-label="New brack min weight"
+                value={newRowBracket.min_weight}
+                onChange={(e) =>
+                  setNewRowBracket({
+                    ...newRowBracket,
+                    min_weight: e.target.value,
+                  })
+                }
               />
             </td>
             <td className="border border-gray-300 px-4 py-2">
@@ -216,6 +251,13 @@ export default function ShippingPage() {
                 min="0.01"
                 step="0.01"
                 placeholder="Max"
+                value={newRowBracket.max_weight}
+                onChange={(e) =>
+                  setNewRowBracket({
+                    ...newRowBracket,
+                    max_weight: e.target.value,
+                  })
+                }
                 aria-label="New brack max weight"
               />
             </td>
@@ -225,15 +267,19 @@ export default function ShippingPage() {
                 min="0.01"
                 step="0.01"
                 placeholder="Charge"
+                value={newRowBracket.shipping_charge}
                 aria-label="New bracket charge"
+                onChange={(e) =>
+                  setNewRowBracket({
+                    ...newRowBracket,
+                    shipping_charge: e.target.value,
+                  })
+                }
               />
             </td>
             <td className="border border-gray-300 px-4 py-2">
-              <button
-                onClick={() => alert('new row added')}
-                className="btn-primary"
-              >
-                addrow
+              <button onClick={addRow} disabled={isAdd} className="btn-primary">
+                {isAdd ? 'Adding...' : 'Add'}
               </button>
             </td>
           </tr>
