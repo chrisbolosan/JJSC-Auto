@@ -48,9 +48,6 @@ export default function Home() {
               description={section.description}
             />
           ))}
-          <p className="mt-12 text-sm text-zinc-500">
-            Team JJSC Under Construction
-          </p>
         </div>
       </section>
     </main>
