@@ -121,7 +121,7 @@ export default function ShippingPage() {
       });
 
       const data = await results.json();
-      if (!results) {
+      if (!results.ok) {
         throw new Error(data.message ?? 'API issue backend backet addition');
       }
       setBrackets((bracketList) => [...bracketList, data.data]);
