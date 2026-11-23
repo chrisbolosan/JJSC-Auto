@@ -1,4 +1,5 @@
 /* 
+Jorge Ruiz
 Citation: 
 AI-Generated Code
 
@@ -59,7 +60,9 @@ export default function ShippingPage() {
 
   return (
     <div>
-      <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">Shipping</h1>
+      <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">
+        Shipping
+      </h1>
 
       <nav aria-label="Shipment status" className="mt-4 flex flex-wrap gap-2">
         {FILTERS.map((f) => (
@@ -81,7 +84,9 @@ export default function ShippingPage() {
 
       {!loading && !error && (
         <>
-          <p className="mt-4 text-sm text-gray-600">{visible.length} shipments</p>
+          <p className="mt-4 text-sm text-gray-600">
+            {visible.length} shipments
+          </p>
 
           {visible.length === 0 ? (
             <p className="mt-6">No shipments with this status.</p>
@@ -104,7 +109,9 @@ export default function ShippingPage() {
                       <td className="py-2 pr-4">{s.name}</td>
                       <td className="py-2 pr-4">{s.city}</td>
                       <td className="py-2 pr-4">
-                        {s.shipped_at ? new Date(s.shipped_at).toLocaleDateString() : 'Not shipped'}
+                        {s.shipped_at
+                          ? new Date(s.shipped_at).toLocaleDateString()
+                          : 'Not shipped'}
                       </td>
                       <td className="py-2">{s.status}</td>
                     </tr>

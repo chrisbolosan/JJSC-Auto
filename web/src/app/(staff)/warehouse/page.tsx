@@ -1,4 +1,5 @@
 /* 
+Jorge Ruiz
 Citation: 
 AI-Generated Code
 
@@ -52,8 +53,9 @@ export default function WarehousePage() {
 
   // Build the filter buttons from the categories that actually exist in the data
   const categories = useMemo(
-    () => Array.from(new Set(items.map((i) => i.category).filter(Boolean))).sort(),
-    [items]
+    () =>
+      Array.from(new Set(items.map((i) => i.category).filter(Boolean))).sort(),
+    [items],
   );
 
   const visible =

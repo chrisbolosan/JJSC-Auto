@@ -2,23 +2,26 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { ShoppingCart } from 'lucide-react';
 type NavLink = { href: string; label: string };
 
 type NavBarProps = {
   brand?: string;
   links?: NavLink[];
+  homeHREF?: string;
+  showCart?: boolean;
 };
 
 const defaultLinks: NavLink[] = [
   { href: '/allproducts', label: 'Shop Parts' },
   { href: '/checkout', label: 'Checkout' },
-  { href: '/warehouse', label: 'Warehouse' },
-  { href: '/admin', label: 'Admin' },
 ];
 
 export default function NavBar({
   brand = 'JJSC Auto',
   links = defaultLinks,
+  homeHREF = '/',
+  showCart = true,
 }: NavBarProps) {
   const pathName = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
@@ -31,7 +34,7 @@ export default function NavBar({
       <div className="h-1 bg-brand" />
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link
-          href="/"
+          href={homeHREF}
           onClick={() => setMenuOpen(false)}
           className="text-xl font-extrabold uppercase tracking-wide"
         >
@@ -40,9 +43,16 @@ export default function NavBar({
           </span>
           <span>{brand.replace(/^JJSC\s*/i, '') || 'Auto'}</span>
         </Link>
-        <Link href="/checkout" className="text-sm hover:text-red-400">
-          Cart
-        </Link>
+        {showCart && (
+          <Link
+            href="/checkout"
+            aria-label="Cart"
+            title="Cart"
+            className="rounded p-2 transition-colors hover:text-brand"
+          >
+            <ShoppingCart size={24} aria-hidden="true" />
+          </Link>
+        )}
       </div>
 
       <nav className="flex-1">

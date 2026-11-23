@@ -1,0 +1,24 @@
+{
+  "sections": [
+    {
+      "href": "/allproducts?category=Batteries",
+      "title": "Batteries",
+      "description": "Replacement batteries and hardware"
+    },
+    {
+      "href": "/allproducts?category=Brakes",
+      "title": "Brakes",
+      "description": "Pads, rotors, calipers, and brake hardware"
+    },
+    {
+      "href": "/allproducts?category=Filters",
+      "title": "Filters",
+      "description": "Oil, air, cabin, and fuel filters"
+    },
+    {
+      "href": "/allproducts?category=Fluids",
+      "title": "Fluids",
+      "description": "Motor oil, coolant, and brake fluid"
+    }
+  ]
+}
