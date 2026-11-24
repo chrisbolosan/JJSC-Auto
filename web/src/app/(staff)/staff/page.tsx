@@ -15,12 +15,7 @@ const staffSections = [
     href: '/admin',
     title: 'Admin',
     description: 'Admin UI',
-  },
-  {
-    href: '/email-test',
-    title: 'Email testing',
-    description: 'temporary page for sending test emails',
-  },
+  }
 ];
 
 export default function StaffHome() {
