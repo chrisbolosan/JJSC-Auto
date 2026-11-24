@@ -6,6 +6,7 @@ import ShowItems from './ShowItems';
 
 //HYDRATION NEEDED CHECK LATER
 export default function UpdateItem({itemName, itemStock}){
+    /*
     const [count, setCount] = useState(0);
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -21,8 +22,8 @@ export default function UpdateItem({itemName, itemStock}){
             setItem(itemName, count);
         }
     }, [count, itemName, isLoaded]);
-
-    /*
+    */
+    
     const [count, setCount] = useState(() => {
         const itemCount = getItem(itemName);
         return (Number(itemCount)) || 0;
@@ -36,10 +37,10 @@ export default function UpdateItem({itemName, itemStock}){
             setCount(Number(getItem(itemName)));
         }
         load();
-        *
-    }, [itemName]);
+        */
+    }, [count, itemName]);
     //, itemName
-    */
+    
 
     function addCount(){
         if(Number(itemStock) > count){
