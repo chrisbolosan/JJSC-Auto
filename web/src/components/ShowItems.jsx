@@ -24,10 +24,11 @@ export default function ShowItems() {
 
   useEffect(() => {
     //if (!mounted) {
+
     const fetchData = async () => {
       const result = await showGroupIndiv(cart);
       setPartDat(result);
-      setMounted(true); //allows the rendering
+      //setMounted(true); //allows the rendering
     };
     fetchData();
 
@@ -44,6 +45,10 @@ export default function ShowItems() {
     };
     fetchBrack();
 
+    const mountdat = async () => {
+      setMounted(true);
+    }
+    mountdat();
     //setMounted(true); //allows the rendering
     //}
   }, [showGroupIndiv, getBrack, shipDat]);
