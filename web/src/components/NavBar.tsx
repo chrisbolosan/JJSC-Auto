@@ -13,8 +13,7 @@ type NavBarProps = {
 };
 
 const defaultLinks: NavLink[] = [
-  { href: '/allproducts', label: 'Shop Parts' },
-  { href: '/checkout', label: 'Checkout' },
+  { href: '/allproducts', label: 'Shop Parts' }
 ];
 
 export default function NavBar({
