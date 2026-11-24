@@ -43,29 +43,28 @@ async function ProductList({ searchParams }) {
     ? allProducts.filter((p) => p.category === category)
     : allProducts;
 
+  const capsule = (active) =>
+    `rounded-full border-2 px-4 py-1.5 text-sm font-bold uppercase tracking-wide transition-colors ${active ? `border-brand bg-brand text-ink` : 'border-line bg-white text-ink hover:border-ink'}`;
   return (
     <>
-      <nav className="mt-4 flex flex-wrap gap-2 px-4">
-        <Link
-          href="/allproducts"
-          className={`rounded border px-3 py-1 ${!category ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'}`}
-        >
+      <nav aria-label="Categories" className="flex flex-wrap gap-2">
+        <Link href="/allproducts" className={capsule(!category)}>
           All
         </Link>
         {categories.map((c) => (
           <Link
             key={c}
             href={`/allproducts?category=${encodeURIComponent(c)}`}
-            className={`rounded border px-3 py-1 ${category === c ? 'bg-blue-500 text-white' : 'hover:bg-gray-100'}`}
+            className={capsule(category === c)}
           >
             {c}
           </Link>
         ))}
       </nav>
-      <p className="mt-4 text-sm text-gray-600">{products.length} products</p>
+      <p className="mt-4 text-sm text-metal">{products.length} products</p>
 
       {products.length === 0 ? (
-        <p className="mt-6">No products found.</p>
+        <p className="mt-6 text-metal">No products found.</p>
       ) : (
         <ul className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {products.map((p) => (
