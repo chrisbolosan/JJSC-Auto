@@ -24,6 +24,7 @@ function Field({ label, name, type = 'text', autoComplete, pattern }) {
 export default function CheckoutPage() {
   const items = getFullCart();
 
+
   const subtotal = items.reduce((sum, p) => sum + p.price, 0);
 
   return (
