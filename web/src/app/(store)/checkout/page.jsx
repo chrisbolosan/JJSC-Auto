@@ -2,6 +2,7 @@ import cardAuth from '@/components/cardAuth';
 import { getFullCart } from '@/app/api/utils/localStorage';
 import ShowItems from '@/components/ShowItems';
 import { getAllProducts } from '@/server/services/catalog.service';
+import { Suspense } from 'react';
 
 export const metadata = { title: 'Checkout' };
 
@@ -23,29 +24,10 @@ function Field({ label, name, type = 'text', autoComplete, pattern }) {
 export default function CheckoutPage() {
   const items = getFullCart();
 
-  async function cartProducts() {
-    const it = getFullCart();
-    const allP = await getAllProducts();
-    for (const p of allP) {
-      for (const c of it) {
-        if (p.number == Number(c.key)) {
-          console.log('yo');
-          console.log(c.key);
-        }
-      }
-      console.log('LOL', p.number);
-    }
-    /*
-        for(const c of it){
-            console.log("bedtiem", String(c));
-        }
-            */
-    // console.log(it);
-  }
-
   const subtotal = items.reduce((sum, p) => sum + p.price, 0);
 
   return (
+    <main>
     <div>
       <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">
         Checkout
@@ -116,10 +98,13 @@ export default function CheckoutPage() {
           </button>
         </form>
 
+        <Suspense fallback={<p className="mt-4">Loading cart...</p>}>
         <aside className="h-fit rounded border border-gray-300 p-4">
-          <ShowItems />
+            <ShowItems />
         </aside>
+        </Suspense>
       </div>
     </div>
+    </main>
   );
 }

@@ -7,16 +7,7 @@ import { resolve } from 'path';
 import { setItem } from '@/app/api/utils/localStorage';
 import { useState } from 'react';
 
-/*
-async function addUser(city: string , email: string , id: number,
-    name: string, street: string, zip: string) {
-    'use server';
 
-    addCustomer(city, email, id, name, street, zip);
-
-}*/
-
-//usestate false to true to prevent more submissions
 type EmailType = 'confirmation' | 'shipped';
 
 export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
@@ -110,7 +101,7 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
       //or remove the unique email constraint
       //cardNum.substring(cardNum.length-4)
       saveCustomer(city, email, nameName, address, zip).then((num) => {
-        saveOrder(num, 10, 10, 10, 10, String(authNum)).then((orderId) =>{
+        saveOrder(num, 10, 10, 0, 10, String(authNum)).then((orderId) =>{
           for(const [el, c] of fullCart.entries()){
             //showIndiv(c).then((description, id, pict, price, weight))
             //setOrderedId(String(orderId)); 
@@ -138,21 +129,9 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
         });
       });
 
-      //let id = awaitid
-      //alert(`wow its real ${awaitid}`);
-      //console.log("wow its real", id);
-      //addCustomer(city, email, id, nameName, address, zip);
 
-      //add to db and clear cart
-      //clearCart();
     }else{
       alert('INVALID');
     }
 
-    //alert(`Extracted info \n Name: '${name}'\n cardNum: '${cardNum}'\n cvv: '${cvv}' \n date: '${dat}' \n ${month}/${d}/${year}`);
-    //clearCart();
-    //console.log(id); 
-
-    //hardcode example of sendOrderConfirmation
-    //then dyanmic
   }

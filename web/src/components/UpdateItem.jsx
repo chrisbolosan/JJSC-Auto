@@ -6,21 +6,42 @@ import ShowItems from './ShowItems';
 
 //HYDRATION NEEDED CHECK LATER
 export default function UpdateItem({itemName, itemStock}){
+    /*
+    const [count, setCount] = useState(0);
+    const [isLoaded, setIsLoaded] = useState(false);
+
+    
+    useEffect(() => {
+        const savedCount = Number(getItem(itemName)) || 0;
+        setCount(savedCount);
+        setIsLoaded(true);
+    }, [itemName]);
+
+    useEffect(() => {
+        if (isLoaded) {
+            setItem(itemName, count);
+        }
+    }, [count, itemName, isLoaded]);
+    */
+    
     const [count, setCount] = useState(() => {
         const itemCount = getItem(itemName);
         return (Number(itemCount)) || 0;
     });
 
     useEffect(() => {
+        //setCount(Number(getItem(itemName)));
         setItem(itemName, count);
+        /*
+        async function load() {
+            setCount(Number(getItem(itemName)));
+        }
+        load();
+        */
     }, [count, itemName]);
+    //, itemName
+    
 
-    /*
-            getFullCart();
-        getItem(itemName)
-    }, [count]);
-    }, [count, itemName]);
-    */
     function addCount(){
         if(Number(itemStock) > count){
             setCount(count + 1);
