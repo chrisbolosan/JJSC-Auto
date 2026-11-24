@@ -3,6 +3,30 @@ import {useState} from 'react';
 import { getFullCart, getItem, setItem } from '@/app/api/utils/localStorage'
 import { useEffect } from 'react';
 import ShowItems from './ShowItems';
+import { useSyncExternalStore } from "react";
+
+
+export function useLocalStorageNumber(key, def = 0){
+  const sub = (callback) => {
+    window.addEventListener("storage", callback);
+    return () => window.removeEventListener("storage", callback);
+  }
+
+  const getSnapshot = () => {
+    const val = localStorage.getItem(key);
+    return val !== null ? Number(val) : def
+  }
+
+  const getServerSnap = () => def;
+  const val = useSyncExternalStore(sub, getSnapshot, getServerSnap);
+  const setVal = (newVal) => {
+    localStorage.setItem(key, newVal);
+
+    window.dispatchEvent(new StorageEvent("storage", {key}));
+  }
+
+  return [val, setVal];
+}
 
 //HYDRATION NEEDED CHECK LATER
 export default function UpdateItem({itemName, itemStock}){
@@ -23,7 +47,8 @@ export default function UpdateItem({itemName, itemStock}){
         }
     }, [count, itemName, isLoaded]);
     */
-    
+   const [count, setCount] = useLocalStorageNumber(itemName, 0);
+    /*
     const [count, setCount] = useState(() => {
         const itemCount = getItem(itemName);
         return (Number(itemCount)) || 0;
@@ -37,10 +62,10 @@ export default function UpdateItem({itemName, itemStock}){
             setCount(Number(getItem(itemName)));
         }
         load();
-        */
+        *
     }, [count, itemName]);
     //, itemName
-    
+    */
 
     function addCount(){
         if(Number(itemStock) > count){
