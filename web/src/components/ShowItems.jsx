@@ -18,7 +18,7 @@ export default function ShowItems() {
   //let weightState = 0;
 
   const [partDat, setPartDat] = useState(null);
-  const [shipDat, setShipDat] = useState(0);
+  //const [shipDat, setShipDat] = useState(0);
   const [brackDat, setBrackDat] = useState([]);
   const [mounted, setMounted] = useState(false);
 
@@ -32,12 +32,14 @@ export default function ShowItems() {
     };
     fetchData();
 
+    /*
     const fetchShip = async () => {
       const wresult = await getBrack(0);
       setShipDat(wresult);
       return wresult;
     };
     fetchShip();
+    */
 
     const fetchBrack = async () => {
       const bresult = await getCompareBrackets();
@@ -51,7 +53,8 @@ export default function ShowItems() {
     mountdat();
     //setMounted(true); //allows the rendering
     //}
-  }, [showGroupIndiv, getBrack, shipDat]);
+  }, [partDat]);
+  //showGroupIndiv, getBrack, shipDat, 
 
   if (!mounted) return null; // Matches server render
 
