@@ -101,7 +101,7 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
       //or remove the unique email constraint
       //cardNum.substring(cardNum.length-4)
       saveCustomer(city, email, nameName, address, zip).then((num) => {
-        saveOrder(num, 10, 10, 10, 10, String(authNum)).then((orderId) =>{
+        saveOrder(num, 10, 10, 0, 10, String(authNum)).then((orderId) =>{
           for(const [el, c] of fullCart.entries()){
             //showIndiv(c).then((description, id, pict, price, weight))
             //setOrderedId(String(orderId)); 
