@@ -52,10 +52,7 @@ export async function showGroupIndiv(partNumArr){
     const id = await indivPart(i);
     itemArr.push(id);
   }
-  //let val = id.find((item) => item.description);
 
-  //console.log("list liset ",val);
-  console.log("VALID ARRYAS?");
   for(const i of itemArr){
     console.log(i.description);
   }

@@ -13,50 +13,26 @@ import { useCallback } from 'react';
 //import { indivPart } from '@/server/services/order.service';
 
 export default function ShowItems() {
-  const cart = getFullCart();
-
-  //let weightState = 0;
-
   const [partDat, setPartDat] = useState(null);
-  //const [shipDat, setShipDat] = useState(0);
   const [brackDat, setBrackDat] = useState([]);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    //if (!mounted) {
+    const cart = getFullCart();
 
     const fetchData = async () => {
       const result = await showGroupIndiv(cart);
       setPartDat(result);
-      //setMounted(true); //allows the rendering
     };
     fetchData();
-
-    /*
-    const fetchShip = async () => {
-      const wresult = await getBrack(0);
-      setShipDat(wresult);
-      return wresult;
-    };
-    fetchShip();
-    */
 
     const fetchBrack = async () => {
       const bresult = await getCompareBrackets();
       setBrackDat(bresult);
     };
     fetchBrack();
+  }, []);
 
-    const mountdat = async () => {
-      setMounted(true);
-    }
-    mountdat();
-    //setMounted(true); //allows the rendering
-    //}
-  }, [partDat]);
-  //showGroupIndiv, getBrack, shipDat, 
-
-  if (!mounted) return null; // Matches server render
+  if (!partDat) return null; // nothing until cart data loads (matches server render)
 
   let total = 0;
   let weightT = 0;
