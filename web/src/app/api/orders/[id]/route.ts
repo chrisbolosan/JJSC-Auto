@@ -21,7 +21,6 @@ export async function GET(
       return Response.json({ error: 'order not found' }, { status: 404 });
     }
 
-    console.log('order route get order by id', order);
     return Response.json(order);
   } catch (error) {
     return Response.json({ error: (error as Error).message }, { status: 500 });

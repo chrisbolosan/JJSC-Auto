@@ -49,14 +49,11 @@ export function getFullCart(){
         }
     }
 
-    console.log("cart INSIDE:", cart[0]);
     }
 
-    console.log("cart:", cart[0]);
     
     return cart;
 
     //}catch(error){
-     //   console.log(error);
     //}
 }

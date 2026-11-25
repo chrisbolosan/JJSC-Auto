@@ -11,7 +11,6 @@ export async function saveCustomer(city, email ,
 
         let id = await addCustomer(city, email, name, street, zip);
         let val = id.id
-        console.log("check", val);
 
         //SaveId(val);
         //setItem("ID", val); maybe worked
@@ -26,7 +25,6 @@ export async function saveOrder(custId, sub, weight, ship,
 
     let val = id.id;
 
-    console.log("saveOrder", val);
     return Number(val);
 }
 
@@ -34,14 +32,12 @@ export async function saveOrderItem(order, part,
     qty) {
     let id = await addOrderItem(order, part, 
     qty);
-    console.log(id);
 }
 
 export async function showIndiv(partNum){
   let id = await indivPart(partNum);
   //let val = id.find((item) => item.description);
 
-  //console.log("list liset ",val);
   //return val.description;
   return id;
 }
@@ -53,9 +49,6 @@ export async function showGroupIndiv(partNumArr){
     itemArr.push(id);
   }
 
-  for(const i of itemArr){
-    console.log(i.description);
-  }
   //return val.description;
   return itemArr;
 }
@@ -64,10 +57,8 @@ export async function saveWeight(partNum, qty) {
     let w = 0;
     let id = await getWeight(partNum, qty).then((num) => {
         w = Number(num);
-        console.log("noWeight", num);
     });
     //let val = w.find((item) => item.w)
-    console.log("weights ", w);
     return w;
     
 }
@@ -93,13 +84,11 @@ export async function setTotWeight(orderId, w) {
     let id2 = await getShipBrack(w).then((s) => {
         ship = Number(s)
     });
-    console.log(`weight ${w} shippin =0 ${ship}`)
     let id3 = await setOrderShipping(orderId, ship);
 }
 
 export async function saveSubTotal(orderNum) {
     let id = await setSubtotal(orderNum);
-    console.log("TotalChecker:", id);
     return id;
 }
 
@@ -108,6 +97,5 @@ export async function saveFinalOrder(orderNum) {
     sub.then((subtot) => {
         finalizeOrder(orderNum, subtot);
     });
-    console.log("FINAL WEIGHT MAYBE");
     
 }

@@ -11,7 +11,6 @@ export async function getOrderById(id: number) {
     )
     .eq('id', id)
     .maybeSingle();
-  console.log('=========data single order=========', order);
   if (error) {
     throw new Error(`db error: ${error.message}`);
   }
@@ -20,7 +19,6 @@ export async function getOrderById(id: number) {
   }
 
   const partNumbers = order.order_items.map((item) => item.part_number);
-  // console.log('=========partnumber data=========', partNumbers);
   const { data: parts, error: partsError } = await supabaseAdmin
     .from('parts')
     .select('number, description, weight, pictureURL')
@@ -32,7 +30,6 @@ export async function getOrderById(id: number) {
 
   const items = order.order_items.map((item) => {
     const part = parts.find((p) => p.number === item.part_number);
-    // console.log('=========orderid part=========', items);
     return {
       part_number: item.part_number,
       description: part ? part.description : 'not a known part',

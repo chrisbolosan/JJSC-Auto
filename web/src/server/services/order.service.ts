@@ -26,8 +26,6 @@ export async function addOrder(
   }
   const val = data.find((item) => item.id);
 
-  console.log(data);
-  console.log('data', val);
   return val;
   //return something?
 }
@@ -44,7 +42,6 @@ export async function addOrderItem(order: number, part: number, qty: number) {
   }
 
   const val = priceDat.find((item) => item.price);
-  //console.log("price", val?.price);
   const totalPrice = Number(val?.price); //qty *
 
   const { data, error } = await supabaseAdmin
@@ -178,7 +175,6 @@ export async function setSubtotal(oderNum: number) {
     total += p.price * p.quantity;
   }
 
-  console.log('TOTAL:', total);
   return total;
 }
 
@@ -201,11 +197,9 @@ export async function finalizeOrder(orderNum: number, subtotal: number) {
     throw new Error(`db error: ${orderErr.message}`);
   }
 
-  console.log('EVIL', order);
   const ship = order[0].shipping;
   const total = ship + subtotal;
 
-  console.log(`ship ${ship} AND subtotal ${subtotal}`);
 
   const { data: totalDat, error: totErr } = await supabaseAdmin
     .from('orders')
@@ -223,7 +217,6 @@ export async function indivPart(partNum: number) {
     .select()
     .eq('number', partNum)
     .single();
-  console.log('nonono', data);
   //const val = data.find((item) => item.description);
 
   if (error) {

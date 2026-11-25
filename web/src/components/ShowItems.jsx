@@ -102,7 +102,6 @@ export default function ShowItems() {
                         }
  */
 export async function itemName({ item }) {
-  console.log('tiemz', item);
   return (
     <div key={item}>
       {item} x {getItem(String(item))}

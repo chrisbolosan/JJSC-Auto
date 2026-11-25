@@ -26,7 +26,6 @@ export default function cardAuth(e: React.SubmitEvent<HTMLFormElement>){
         return data;
         //setResult(data.message ?? `Error: ${data.error}`);
       }
-    //console.log("RESULT", result);
     
     e.preventDefault();
 
