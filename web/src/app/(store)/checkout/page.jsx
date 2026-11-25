@@ -30,7 +30,7 @@ export default function CheckoutPage() {
   return (
     <main>
     <div>
-      <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">
+      <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
         Checkout
       </h1>
 
@@ -93,7 +93,7 @@ export default function CheckoutPage() {
 
           <button
             type="submit"
-            className="rounded bg-blue-500 px-4 py-2 text-white"
+            className="rounded bg-yellow-400 px-4 py-2 text-black"
           >
             Place order
           </button>

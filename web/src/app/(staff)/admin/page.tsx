@@ -283,7 +283,7 @@ export default function OrdersPage() {
 
   return (
     <div>
-      <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">Orders</h1>
+      <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">Orders</h1>
 
       {/* Search panel */}
       <div className="mt-4 rounded border border-gray-300 p-4">
@@ -407,13 +407,7 @@ export default function OrdersPage() {
                 </tbody>
               </table>
 
-              <div className="m-4">
-                <ReturnButton
-                  href="/admin"
-                  label="LET'S GO!"
-                  styles="bg-red-400 border border-white rounded p-4"
-                />
-              </div>
+ 
             </div>
           )}
 

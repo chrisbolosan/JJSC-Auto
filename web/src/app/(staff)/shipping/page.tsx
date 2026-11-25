@@ -32,7 +32,7 @@ export type ShipData = {
 const FILTERS = [
   { label: 'All', value: 'all' },
   { label: 'Shipped', value: 'shipped' },
-  { label: 'Pending', value: 'pending' },
+  { label: 'Pending', value: 'authorized' },
   { label: 'Delivery', value: 'delivery' },
 ];
 
@@ -60,7 +60,7 @@ export default function ShippingPage() {
 
   return (
     <div>
-      <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">
+      <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
         Shipping
       </h1>
 
@@ -71,7 +71,7 @@ export default function ShippingPage() {
             type="button"
             onClick={() => setFilter(f.value)}
             className={`rounded border px-3 py-1 ${
-              filter === f.value ? 'bg-blue-500 text-white' : ''
+              filter === f.value ? 'bg-yellow-500 text-black' : ''
             }`}
           >
             {f.label}

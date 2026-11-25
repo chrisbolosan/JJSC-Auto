@@ -116,7 +116,7 @@ export default function WarehouseLabelsPage() {
       `}</style>
 
       <div className="print:hidden">
-        <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">
+        <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
           Packing &amp; Shipping Station
         </h1>
 
@@ -165,7 +165,7 @@ export default function WarehouseLabelsPage() {
                     setSelectedId(null);
                   }}
                   className={`flex-1 px-3 py-2 text-sm font-semibold ${
-                    view === value ? 'bg-blue-500 text-white' : ''
+                    view === value ? 'bg-yellow-400 text-black' : ''
                   }`}
                 >
                   {label}

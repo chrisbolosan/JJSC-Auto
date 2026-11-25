@@ -63,7 +63,7 @@ export default function WarehousePage() {
 
   return (
     <div>
-      <h1 className="text-lg font-bold bg-blue-500 text-white px-4 py-2">
+      <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
         Warehouse Inventory
       </h1>
 
@@ -74,7 +74,7 @@ export default function WarehousePage() {
             type="button"
             onClick={() => setCategory(c)}
             className={`rounded border px-3 py-1 ${
-              category === c ? 'bg-blue-500 text-white' : ''
+              category === c ? 'bg-yellow-400 text-black' : ''
             }`}
           >
             {c === 'all' ? 'All' : c}
