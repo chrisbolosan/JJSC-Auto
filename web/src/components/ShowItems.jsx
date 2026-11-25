@@ -1,6 +1,12 @@
 'use client';
 import { useState } from 'react';
-import { getItem, setItem, getFullCart } from '@/app/api/utils/localStorage';
+import Link from 'next/link';
+import {
+  getItem,
+  getFullCart,
+  removeFromCart,
+  emptyCart,
+} from '@/app/api/utils/localStorage';
 import { useEffect } from 'react';
 import {
   showIndiv,
@@ -15,6 +21,7 @@ import { useCallback } from 'react';
 export default function ShowItems() {
   const [partDat, setPartDat] = useState(null);
   const [brackDat, setBrackDat] = useState([]);
+  const [confirmEmpty, setConfirmEmpty] = useState(false);
 
   useEffect(() => {
     const cart = getFullCart();
@@ -33,6 +40,29 @@ export default function ShowItems() {
   }, []);
 
   if (!partDat) return null; // nothing until cart data loads (matches server render)
+
+  if (partDat.length === 0) {
+    return (
+      <div>
+        <h2 className="mb-3 text-lg font-semibold">Order summary</h2>
+        <p className="text-sm text-metal">Your cart is empty.</p>
+        <Link href="/allproducts" className="btn-primary mt-4 w-full">
+          Shop parts
+        </Link>
+      </div>
+    );
+  }
+
+  function removeLine(part) {
+    removeFromCart(part);
+    setPartDat((prev) => prev.filter((x) => x.number !== part));
+  }
+
+  function clearAll() {
+    emptyCart();
+    setPartDat([]);
+    setConfirmEmpty(false);
+  }
 
   let total = 0;
   let weightT = 0;
@@ -60,8 +90,8 @@ export default function ShowItems() {
     <div>
       <h2 className="mb-3 text-lg font-semibold">Order summary</h2>
       <ul className="divide-y divide-gray-200">
-        {partDat.map((p, index) => (
-          <div key={index} className="flex justify-between">
+        {partDat.map((p) => (
+          <li key={p.number} className="flex items-center justify-between gap-2 py-1">
             <span
               title={p.description}
             >{`${p.description.slice(0, 25)}...`}</span>
@@ -69,7 +99,15 @@ export default function ShowItems() {
             <span>
               ${`${(Number(p.price) * getItem(String(p.number))).toFixed(2)}`}
             </span>
-          </div>
+            <button
+              type="button"
+              onClick={() => removeLine(p.number)}
+              className="text-xs text-warning underline hover:no-underline"
+              aria-label={`Remove ${p.description} from cart`}
+            >
+              Remove
+            </button>
+          </li>
         ))}
       </ul>
 
@@ -86,6 +124,38 @@ export default function ShowItems() {
         <span>Total</span>
         <span>${(total + shipCharge).toFixed(2)}</span>
       </p>
+
+      <div className="mt-4">
+        {confirmEmpty ? (
+          <div role="alertdialog" aria-label="Empty cart" className="space-y-2">
+            <p className="text-sm font-semibold">Empty your cart?</p>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={clearAll}
+                className="btn-primary flex-1"
+              >
+                Yes, empty
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmEmpty(false)}
+                className="btn-secondary flex-1"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={() => setConfirmEmpty(true)}
+            className="btn-secondary w-full"
+          >
+            Empty cart
+          </button>
+        )}
+      </div>
     </div>
   );
 }
