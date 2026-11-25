@@ -248,7 +248,6 @@ function PackingStation({
   const [order, setOrder] = useState<OrderDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [printing, setPrinting] = useState<PrintDoc | null>(null);
-  const [picked, setPicked] = useState<Set<number>>(new Set());
   const [shipping, setShipping] = useState(false);
 
   useEffect(() => {
@@ -280,15 +279,6 @@ function PackingStation({
   if (!order) return <p>Loading order #{orderId}…</p>;
 
   const alreadyShipped = order.status === 'shipped';
-
-  function togglePicked(part: number) {
-    setPicked((prev) => {
-      const next = new Set(prev);
-      if (next.has(part)) next.delete(part);
-      else next.add(part);
-      return next;
-    });
-  }
 
   async function completeOrder() {
     setShipping(true);
@@ -350,22 +340,17 @@ function PackingStation({
 
       <ul className="divide-y divide-gray-200 rounded border border-gray-300">
         {order.items.map((i) => (
-          <li key={i.part_number}>
-            <label className="flex cursor-pointer items-center gap-3 px-3 py-2">
-              <input
-                type="checkbox"
-                className="h-5 w-5"
-                checked={picked.has(i.part_number)}
-                onChange={() => togglePicked(i.part_number)}
-              />
-              <span className="w-10 text-lg font-bold">{i.quantity}×</span>
-              <span className="flex-1">
-                {i.description}
-                <span className="block text-xs text-gray-600">
-                  Part #{i.part_number} · {i.weight} lbs each
-                </span>
+          <li
+            key={i.part_number}
+            className="flex items-center gap-3 px-3 py-2"
+          >
+            <span className="w-10 text-lg font-bold">{i.quantity}×</span>
+            <span className="flex-1">
+              {i.description}
+              <span className="block text-xs text-gray-600">
+                Part #{i.part_number} · {i.weight} lbs each
               </span>
-            </label>
+            </span>
           </li>
         ))}
       </ul>
