@@ -105,7 +105,7 @@ export default function ShowItems() {
             <button
               type="button"
               onClick={() => removeLine(p.number)}
-              className="text-xs text-warning underline hover:no-underline"
+              className="text-xs error-text underline hover:no-underline"
               aria-label={`Remove ${p.description} from cart`}
             >
               Remove

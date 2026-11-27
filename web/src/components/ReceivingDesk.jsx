@@ -97,10 +97,7 @@ export default function ReceivingTable() {
   return (
     <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-5">
       <section className="lg:col-span-2">
-        <label
-          htmlFor="part-search"
-          className="block text-sm font-bold uppercase tracking-wide text-ink"
-        >
+        <label htmlFor="part-search" className="label">
           Find part
         </label>
         <input
@@ -171,10 +168,7 @@ export default function ReceivingTable() {
 
             <div className="mt-5 flex flex-wrap items-end gap-3">
               <div>
-                <label
-                  htmlFor="qty"
-                  className="block text-sm font-bold uppercase tracking-wide text-ink"
-                >
+                <label htmlFor="qty" className="label">
                   Quantity received
                 </label>
                 <input
@@ -205,7 +199,7 @@ export default function ReceivingTable() {
             role="status"
             className={`mt-4 rounded border-l-4 px-3 py-2 text-sm ${
               isError
-                ? 'border-warning bg-warning text-warning'
+                ? 'border-warning bg-warning error-text'
                 : 'border-ok bg-gray-800 text-ok'
             }`}
           >

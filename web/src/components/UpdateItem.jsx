@@ -33,7 +33,7 @@ export default function UpdateItem({ itemName, itemStock }) {
   const available = Math.max(stock - inCart, 0);
 
   if (stock <= 0) {
-    return <p className="text-sm font-semibold text-warning">Not available</p>;
+    return <p className="text-sm font-semibold error-text">Not available</p>;
   }
 
   function openPrompt() {

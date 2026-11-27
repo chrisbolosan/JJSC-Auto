@@ -127,7 +127,7 @@ export default function WarehouseLabelsPage() {
               className={`mx-4 mt-4 rounded border px-4 py-3 text-sm ${
                 notice.emailed && !notice.inventoryError
                   ? 'border-ok bg-green-50 text-ok'
-                  : 'border-warning bg-red-50 text-warning'
+                  : 'border-warning bg-red-50 error-text'
               }`}
             >
               <strong>Order #{notice.id} shipped.</strong>{' '}
@@ -185,9 +185,7 @@ export default function WarehouseLabelsPage() {
                 </button>
               </div>
 
-              {error && (
-                <p className="px-3 pb-3 text-warning">Error: {error}</p>
-              )}
+              {error && <p className="px-3 pb-3 error-text">Error: {error}</p>}
 
               {!loading && !error && orders.length === 0 && (
                 <p className="px-3 pb-3 text-sm">
@@ -283,7 +281,7 @@ function PackingStation({
     };
   }, [printing]);
 
-  if (error) return <p className="text-warning">Error: {error}</p>;
+  if (error) return <p className="error-text">Error: {error}</p>;
   if (!order) return <p>Loading order #{orderId}…</p>;
 
   const alreadyShipped = order.status === 'shipped';

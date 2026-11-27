@@ -84,7 +84,7 @@ export default function WarehousePage() {
         </nav>
 
         {loading && <p className="mt-4">Loading inventory...</p>}
-        {error && <p className="mt-4 text-warning">Error: {error}</p>}
+        {error && <p className="mt-4 error-text">Error: {error}</p>}
 
         {!loading && !error && (
           <>
