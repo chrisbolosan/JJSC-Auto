@@ -216,12 +216,12 @@ export default function ReceivingTable() {
           <p className="mt-2 text-sm text-metal">Nothing received yet</p>
         ) : (
           <div className="table-wrap mt-2">
-            <table className="w-full text-left text-sm">
+            <table className="table">
               <thead className="bg-surface text-xs uppercase tracking-wide text-metal">
                 <tr>
-                  <th className="px-3 py-2">When</th>
-                  <th className="px-3 py-2">Part</th>
-                  <th className="px-3 py-2">Description</th>
+                  <th>When</th>
+                  <th>Part</th>
+                  <th>Description</th>
                   <th className="px-3 py-2 text-right">Qty</th>
                 </tr>
               </thead>
@@ -232,7 +232,7 @@ export default function ReceivingTable() {
                       {new Date(row.received_at).toLocaleString()}
                     </td>
                     <td className="px-3 py-2 font-mono">#{row.part_number}</td>
-                    <td className="px-3 py-2">{row.description}</td>
+                    <td>{row.description}</td>
                     <td className="px-3 py-2 text-right font-bold text-ok">
                       +{row.quantity}
                     </td>

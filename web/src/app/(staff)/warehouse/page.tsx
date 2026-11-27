@@ -94,23 +94,23 @@ export default function WarehousePage() {
               <p className="mt-6">No items in this category.</p>
             ) : (
               <div className="mt-4 overflow-x-auto">
-                <table className="w-full text-left text-sm">
+                <table className="table">
                   <thead>
                     <tr className="border-b border-line">
-                      <th className="py-2 pr-4">SKU</th>
-                      <th className="py-2 pr-4">Name</th>
-                      <th className="py-2 pr-4">Category</th>
-                      <th className="py-2 pr-4">Quantity</th>
+                      <th>SKU</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Quantity</th>
                       <th className="py-2">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {visible.map((p) => (
                       <tr key={p.number} className="border-b border-line">
-                        <td className="py-2 pr-4">{p.number}</td>
-                        <td className="py-2 pr-4">{p.description}</td>
-                        <td className="py-2 pr-4">{p.category}</td>
-                        <td className="py-2 pr-4">{p.quantity}</td>
+                        <td>{p.number}</td>
+                        <td>{p.description}</td>
+                        <td>{p.category}</td>
+                        <td>{p.quantity}</td>
                         <td className="py-2">{stockStatus(p.quantity)}</td>
                       </tr>
                     ))}

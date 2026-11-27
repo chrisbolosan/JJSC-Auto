@@ -189,14 +189,14 @@ function OrderDetailsPanel({
               <p className="text-sm">This order has no items.</p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
+                <table className="table">
                   <thead>
                     <tr className="border-b border-line">
-                      <th className="py-2 pr-4">Part #</th>
-                      <th className="py-2 pr-4">Description</th>
-                      <th className="py-2 pr-4">Weight</th>
-                      <th className="py-2 pr-4">Qty</th>
-                      <th className="py-2 pr-4">Price</th>
+                      <th>Part #</th>
+                      <th>Description</th>
+                      <th>Weight</th>
+                      <th>Qty</th>
+                      <th>Price</th>
                       <th className="py-2">Line total</th>
                     </tr>
                   </thead>
@@ -206,11 +206,11 @@ function OrderDetailsPanel({
                         key={`${item.part_number}-${idx}`}
                         className="border-b border-line"
                       >
-                        <td className="py-2 pr-4">{item.part_number}</td>
-                        <td className="py-2 pr-4">{item.description}</td>
-                        <td className="py-2 pr-4">{item.weight}</td>
-                        <td className="py-2 pr-4">{item.quantity}</td>
-                        <td className="py-2 pr-4">{money(item.price)}</td>
+                        <td>{item.part_number}</td>
+                        <td>{item.description}</td>
+                        <td>{item.weight}</td>
+                        <td>{item.quantity}</td>
+                        <td>{money(item.price)}</td>
                         <td className="py-2">{money(item.line_total)}</td>
                       </tr>
                     ))}
@@ -377,14 +377,14 @@ export default function OrdersPage() {
               <p className="mt-6">No orders match your search.</p>
             ) : (
               <div className="mt-4 overflow-x-auto">
-                <table className="w-full text-left text-sm">
+                <table className="table">
                   <thead>
                     <tr className="border-b border-line">
-                      <th className="py-2 pr-4">Order</th>
-                      <th className="py-2 pr-4">Customer</th>
-                      <th className="py-2 pr-4">Date</th>
-                      <th className="py-2 pr-4">Items</th>
-                      <th className="py-2 pr-4">Total</th>
+                      <th>Order</th>
+                      <th>Customer</th>
+                      <th>Date</th>
+                      <th>Items</th>
+                      <th>Total</th>
                       <th className="py-2">Status</th>
                     </tr>
                   </thead>
@@ -404,14 +404,12 @@ export default function OrdersPage() {
                           selectedId === o.id ? 'bg-blue-50' : ''
                         }`}
                       >
-                        <td className="py-2 pr-4">ORD-{o.id}</td>
-                        <td className="py-2 pr-4">{o.customer_name}</td>
-                        <td className="py-2 pr-4">
-                          {new Date(o.created_at).toLocaleDateString()}
-                        </td>
-                        <td className="py-2 pr-4">{o.item_count}</td>
-                        <td className="py-2 pr-4">${o.total.toFixed(2)}</td>
-                        <td className="py-2">{o.status}</td>
+                        <td>ORD-{o.id}</td>
+                        <td>{o.customer_name}</td>
+                        <td>{new Date(o.created_at).toLocaleDateString()}</td>
+                        <td>{o.item_count}</td>
+                        <td>${o.total.toFixed(2)}</td>
+                        <td>{o.status}</td>
                       </tr>
                     ))}
                   </tbody>

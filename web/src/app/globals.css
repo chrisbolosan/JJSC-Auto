@@ -71,7 +71,23 @@ body {
     @apply block text-sm font-bold uppercase tracking-wide text-ink;
   }
 
+  .table {
+    @apply w-full text-left text-sm;
+  }
+  .table thead {
+    @apply bg-surface text-xs uppercase tracking-wide text-metal;
+  }
+  .table th,
+  .table td {
+    @apply px-3 py-2;
+  }
+  .table tbody {
+    @apply divide-y divide-line;
+  }
   .table-wrap {
     @apply w-full overflow-x-auto rounded-lg border border-line;
+  }
+  .row-selected {
+    @apply bg-brand/10 font-semibold;
   }
 }

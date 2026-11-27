@@ -93,23 +93,23 @@ export default function ShippingPage() {
               <p className="mt-6">No shipments with this status.</p>
             ) : (
               <div className="mt-4 overflow-x-auto">
-                <table className="w-full text-left text-sm">
+                <table className="table">
                   <thead>
                     <tr className="border-b border-line">
-                      <th className="py-2 pr-4">Order</th>
-                      <th className="py-2 pr-4">Customer</th>
-                      <th className="py-2 pr-4">Destination</th>
-                      <th className="py-2 pr-4">Ship date</th>
+                      <th>Order</th>
+                      <th>Customer</th>
+                      <th>Destination</th>
+                      <th>Ship date</th>
                       <th className="py-2">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {visible.map((s) => (
                       <tr key={s.id} className="border-b border-line">
-                        <td className="py-2 pr-4">ORD-{s.id}</td>
-                        <td className="py-2 pr-4">{s.name}</td>
-                        <td className="py-2 pr-4">{s.city}</td>
-                        <td className="py-2 pr-4">
+                        <td>ORD-{s.id}</td>
+                        <td>{s.name}</td>
+                        <td>{s.city}</td>
+                        <td>
                           {s.shipped_at
                             ? new Date(s.shipped_at).toLocaleDateString()
                             : 'Not shipped'}
