@@ -29,7 +29,7 @@ export default function CheckoutPage() {
   return (
     <main>
       <div className="page">
-        <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
+        <h1 className="text-lg font-bold bg-brand text-ink px-4 py-2">
           Checkout
         </h1>
 
@@ -73,7 +73,7 @@ export default function CheckoutPage() {
             <fieldset className="space-y-3">
               <legend className="text-lg font-semibold">Payment</legend>
 
-              <div className="flex h-24 items-center justify-center bg-gray-100 text-sm text-gray-500">
+              <div className="flex h-24 items-center justify-center bg-surface text-sm text-metal">
                 <Field
                   label="Name on Card"
                   name="cardName"
@@ -102,7 +102,7 @@ export default function CheckoutPage() {
 
             <button
               type="submit"
-              className="rounded bg-yellow-400 px-4 py-2 text-black"
+              className="rounded bg-brand px-4 py-2 text-ink"
             >
               Place order
             </button>

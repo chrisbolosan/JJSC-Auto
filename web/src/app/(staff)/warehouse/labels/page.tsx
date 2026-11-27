@@ -117,7 +117,7 @@ export default function WarehouseLabelsPage() {
       `}</style>
 
         <div className="print:hidden">
-          <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
+          <h1 className="text-lg font-bold bg-brand text-ink px-4 py-2">
             Packing &amp; Shipping Station
           </h1>
 
@@ -166,7 +166,7 @@ export default function WarehouseLabelsPage() {
                       setSelectedId(null);
                     }}
                     className={`flex-1 px-3 py-2 text-sm font-semibold ${
-                      view === value ? 'bg-yellow-400 text-black' : ''
+                      view === value ? 'bg-brand text-ink' : ''
                     }`}
                   >
                     {label}
@@ -174,7 +174,7 @@ export default function WarehouseLabelsPage() {
                 ))}
               </div>
 
-              <div className="flex items-center justify-between px-3 py-2 text-sm text-gray-600">
+              <div className="flex items-center justify-between px-3 py-2 text-sm text-metal">
                 <span>{loading ? 'Loading…' : `${orders.length} orders`}</span>
                 <button
                   type="button"
@@ -186,7 +186,7 @@ export default function WarehouseLabelsPage() {
               </div>
 
               {error && (
-                <p className="px-3 pb-3 text-red-600">Error: {error}</p>
+                <p className="px-3 pb-3 text-warning">Error: {error}</p>
               )}
 
               {!loading && !error && orders.length === 0 && (
@@ -203,19 +203,19 @@ export default function WarehouseLabelsPage() {
                     <button
                       type="button"
                       onClick={() => setSelectedId(o.id)}
-                      className={`w-full border-t border-line px-3 py-2 text-left text-sm hover:bg-gray-50 ${
+                      className={`w-full border-t border-line px-3 py-2 text-left text-sm hover:bg-surface ${
                         selectedId === o.id ? 'bg-blue-50 font-semibold' : ''
                       }`}
                     >
                       <div className="flex justify-between">
                         <span>Order #{o.id}</span>
-                        <span className="text-gray-600">
+                        <span className="text-metal">
                           {fmtDate(
                             view === 'shipped' ? o.shipped_at : o.created_at,
                           )}
                         </span>
                       </div>
-                      <div className="text-gray-600">
+                      <div className="text-metal">
                         {o.customer_name} · {o.city} · {o.item_count} item
                         {o.item_count === 1 ? '' : 's'} · {o.total_weight} lbs
                       </div>
@@ -228,7 +228,7 @@ export default function WarehouseLabelsPage() {
             {/* Workflow for the selected order */}
             <section>
               {selectedId === null ? (
-                <p className="rounded border border-dashed border-line p-6 text-center text-gray-600">
+                <p className="rounded border border-dashed border-line p-6 text-center text-metal">
                   Select an order from the list to start packing.
                 </p>
               ) : (
@@ -283,7 +283,7 @@ function PackingStation({
     };
   }, [printing]);
 
-  if (error) return <p className="text-red-600">Error: {error}</p>;
+  if (error) return <p className="text-warning">Error: {error}</p>;
   if (!order) return <p>Loading order #{orderId}…</p>;
 
   const alreadyShipped = order.status === 'shipped';
@@ -309,7 +309,7 @@ function PackingStation({
     <div className="space-y-4">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 className="text-xl font-bold">Order #{order.id}</h2>
-        <span className="text-sm text-gray-600">
+        <span className="text-sm text-metal">
           {order.customer.name} · {order.total_weight} lbs ·{' '}
           {alreadyShipped
             ? `Shipped ${fmtDate(order.shipped_at)}`
@@ -339,7 +339,7 @@ function PackingStation({
         )}
       </div>
       {!alreadyShipped && (
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-metal">
           Completing marks the order as shipped, takes the items out of
           inventory and emails a shipping confirmation to {order.customer.email}
           .
@@ -352,7 +352,7 @@ function PackingStation({
             <span className="w-10 text-lg font-bold">{i.quantity}×</span>
             <span className="flex-1">
               {i.description}
-              <span className="block text-xs text-gray-600">
+              <span className="block text-xs text-metal">
                 Part #{i.part_number} · {i.weight} lbs each
               </span>
             </span>
@@ -409,7 +409,7 @@ function PrintButton({
 function PackingList({ order }: { order: OrderDetails }) {
   const totalQty = order.items.reduce((s, i) => s + i.quantity, 0);
   return (
-    <div className="p-6 text-black">
+    <div className="p-6 text-ink">
       <h1 className="text-2xl font-bold">Packing List</h1>
       <p>
         Order #{order.id} · Placed {fmtDate(order.created_at)}
@@ -453,7 +453,7 @@ function PackingList({ order }: { order: OrderDetails }) {
 
 function ShippingLabel({ order }: { order: OrderDetails }) {
   return (
-    <div className="m-6 w-[4in] border-2 border-black p-4 text-black">
+    <div className="m-6 w-[4in] border-2 border-black p-4 text-ink">
       <div className="text-xs">
         FROM:
         {SHIP_FROM.map((line) => (

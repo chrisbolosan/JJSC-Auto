@@ -64,7 +64,7 @@ export default function WarehousePage() {
   return (
     <section>
       <div className="container page">
-        <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
+        <h1 className="text-lg font-bold bg-brand text-ink px-4 py-2">
           Warehouse Inventory
         </h1>
 
@@ -75,7 +75,7 @@ export default function WarehousePage() {
               type="button"
               onClick={() => setCategory(c)}
               className={`rounded border px-3 py-1 ${
-                category === c ? 'bg-yellow-400 text-black' : ''
+                category === c ? 'bg-brand text-ink' : ''
               }`}
             >
               {c === 'all' ? 'All' : c}
@@ -84,11 +84,11 @@ export default function WarehousePage() {
         </nav>
 
         {loading && <p className="mt-4">Loading inventory...</p>}
-        {error && <p className="mt-4 text-red-600">Error: {error}</p>}
+        {error && <p className="mt-4 text-warning">Error: {error}</p>}
 
         {!loading && !error && (
           <>
-            <p className="mt-4 text-sm text-gray-600">{visible.length} items</p>
+            <p className="mt-4 text-sm text-metal">{visible.length} items</p>
 
             {visible.length === 0 ? (
               <p className="mt-6">No items in this category.</p>

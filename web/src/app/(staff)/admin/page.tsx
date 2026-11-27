@@ -68,7 +68,13 @@ const money = (n: number | null | undefined) => `$${Number(n ?? 0).toFixed(2)}`;
 
 // Shows the full details of one order. The parent gives it key={id}, so picking
 // a different order remounts this component with fresh state (no resets needed).
-function OrderDetailsPanel({ id, onClose }: { id: number; onClose: () => void }) {
+function OrderDetailsPanel({
+  id,
+  onClose,
+}: {
+  id: number;
+  onClose: () => void;
+}) {
   const [details, setDetails] = useState<OrderDetails | null>(null);
   const [error, setError] = useState<string | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -100,7 +106,7 @@ function OrderDetailsPanel({ id, onClose }: { id: number; onClose: () => void })
   const loading = !details && !error;
 
   return (
-    <div ref={panelRef} className="mt-6 rounded border border-gray-300 p-4">
+    <div ref={panelRef} className="mt-6 rounded border border-line p-4">
       <div className="flex items-center justify-between">
         <h2 className="text-base font-semibold">Order ORD-{id} details</h2>
         <button
@@ -121,15 +127,15 @@ function OrderDetailsPanel({ id, onClose }: { id: number; onClose: () => void })
             <h3 className="mb-2 font-semibold">Order</h3>
             <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
               <div>
-                <dt className="text-gray-500">Status</dt>
+                <dt className="text-metal">Status</dt>
                 <dd>{details.status}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Created</dt>
+                <dt className="text-metal">Created</dt>
                 <dd>{new Date(details.created_at).toLocaleString()}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Shipped</dt>
+                <dt className="text-metal">Shipped</dt>
                 <dd>
                   {details.shipped_at
                     ? new Date(details.shipped_at).toLocaleString()
@@ -137,11 +143,11 @@ function OrderDetailsPanel({ id, onClose }: { id: number; onClose: () => void })
                 </dd>
               </div>
               <div>
-                <dt className="text-gray-500">Authorization #</dt>
+                <dt className="text-metal">Authorization #</dt>
                 <dd>{details.auth_number ?? '—'}</dd>
               </div>
               <div>
-                <dt className="text-gray-500">Total weight</dt>
+                <dt className="text-metal">Total weight</dt>
                 <dd>{details.total_weight ?? 0}</dd>
               </div>
             </dl>
@@ -152,23 +158,23 @@ function OrderDetailsPanel({ id, onClose }: { id: number; onClose: () => void })
             {details.customer ? (
               <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-2 lg:grid-cols-3">
                 <div>
-                  <dt className="text-gray-500">Name</dt>
+                  <dt className="text-metal">Name</dt>
                   <dd>{details.customer.name}</dd>
                 </div>
                 <div>
-                  <dt className="text-gray-500">Email</dt>
+                  <dt className="text-metal">Email</dt>
                   <dd>{details.customer.email}</dd>
                 </div>
                 <div>
-                  <dt className="text-gray-500">Street</dt>
+                  <dt className="text-metal">Street</dt>
                   <dd>{details.customer.street}</dd>
                 </div>
                 <div>
-                  <dt className="text-gray-500">City</dt>
+                  <dt className="text-metal">City</dt>
                   <dd>{details.customer.city}</dd>
                 </div>
                 <div>
-                  <dt className="text-gray-500">Zip code</dt>
+                  <dt className="text-metal">Zip code</dt>
                   <dd>{details.customer.zip_code}</dd>
                 </div>
               </dl>
@@ -185,7 +191,7 @@ function OrderDetailsPanel({ id, onClose }: { id: number; onClose: () => void })
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead>
-                    <tr className="border-b border-gray-300">
+                    <tr className="border-b border-line">
                       <th className="py-2 pr-4">Part #</th>
                       <th className="py-2 pr-4">Description</th>
                       <th className="py-2 pr-4">Weight</th>
@@ -198,7 +204,7 @@ function OrderDetailsPanel({ id, onClose }: { id: number; onClose: () => void })
                     {details.items.map((item, idx) => (
                       <tr
                         key={`${item.part_number}-${idx}`}
-                        className="border-b border-gray-200"
+                        className="border-b border-line"
                       >
                         <td className="py-2 pr-4">{item.part_number}</td>
                         <td className="py-2 pr-4">{item.description}</td>
@@ -282,145 +288,148 @@ export default function OrdersPage() {
   });
 
   return (
-    <div>
-      <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">Orders</h1>
+    <section>
+      <div className="container page">
+        <h1 className="text-lg font-bold bg-brand text-ink px-4 py-2">
+          Orders
+        </h1>
 
-      {/* Search panel */}
-      <div className="mt-4 rounded border border-gray-300 p-4">
-        <h2 className="mb-2 font-semibold">Search orders</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          <label className="flex flex-col text-sm">
-            Status
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="mt-1 rounded border px-2 py-1"
-            >
-              <option value="all">All</option>
-              {STATUSES.map((s) => (
-                <option key={s.value} value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col text-sm">
-            Date from
-            <input
-              type="date"
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              className="mt-1 rounded border px-2 py-1"
-            />
-          </label>
-          <label className="flex flex-col text-sm">
-            Date to
-            <input
-              type="date"
-              value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              className="mt-1 rounded border px-2 py-1"
-            />
-          </label>
-          <label className="flex flex-col text-sm">
-            Min total ($)
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={minPrice}
-              onChange={(e) => setMinPrice(e.target.value)}
-              className="mt-1 rounded border px-2 py-1"
-            />
-          </label>
-          <label className="flex flex-col text-sm">
-            Max total ($)
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              value={maxPrice}
-              onChange={(e) => setMaxPrice(e.target.value)}
-              className="mt-1 rounded border px-2 py-1"
-            />
-          </label>
+        {/* Search panel */}
+        <div className="mt-4 rounded border border-line p-4">
+          <h2 className="mb-2 font-semibold">Search orders</h2>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <label className="flex flex-col text-sm">
+              Status
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+                className="mt-1 rounded border px-2 py-1"
+              >
+                <option value="all">All</option>
+                {STATUSES.map((s) => (
+                  <option key={s.value} value={s.value}>
+                    {s.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="flex flex-col text-sm">
+              Date from
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="mt-1 rounded border px-2 py-1"
+              />
+            </label>
+            <label className="flex flex-col text-sm">
+              Date to
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="mt-1 rounded border px-2 py-1"
+              />
+            </label>
+            <label className="flex flex-col text-sm">
+              Min total ($)
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+                className="mt-1 rounded border px-2 py-1"
+              />
+            </label>
+            <label className="flex flex-col text-sm">
+              Max total ($)
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+                className="mt-1 rounded border px-2 py-1"
+              />
+            </label>
+          </div>
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="mt-3 rounded border px-3 py-1 text-sm"
+          >
+            Clear filters
+          </button>
         </div>
-        <button
-          type="button"
-          onClick={clearFilters}
-          className="mt-3 rounded border px-3 py-1 text-sm"
-        >
-          Clear filters
-        </button>
-      </div>
 
-      {loading && <p className="mt-4">Loading orders...</p>}
-      {error && <p className="mt-4 text-red-600">Error: {error}</p>}
+        {loading && <p className="mt-4">Loading orders...</p>}
+        {error && <p className="mt-4 text-red-600">Error: {error}</p>}
 
-      {!loading && !error && (
-        <>
-          <p className="mt-4 text-sm text-gray-600">
-            {visible.length} of {orders.length} orders · click a row to see its details
-          </p>
+        {!loading && !error && (
+          <>
+            <p className="mt-4 text-sm text-metal">
+              {visible.length} of {orders.length} orders · click a row to see
+              its details
+            </p>
 
-          {visible.length === 0 ? (
-            <p className="mt-6">No orders match your search.</p>
-          ) : (
-            <div className="mt-4 overflow-x-auto">
-              <table className="w-full text-left text-sm">
-                <thead>
-                  <tr className="border-b border-gray-300">
-                    <th className="py-2 pr-4">Order</th>
-                    <th className="py-2 pr-4">Customer</th>
-                    <th className="py-2 pr-4">Date</th>
-                    <th className="py-2 pr-4">Items</th>
-                    <th className="py-2 pr-4">Total</th>
-                    <th className="py-2">Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {visible.map((o) => (
-                    <tr
-                      key={o.id}
-                      tabIndex={0}
-                      onClick={() => setSelectedId(o.id)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setSelectedId(o.id);
-                        }
-                      }}
-                      className={`cursor-pointer border-b border-gray-200 hover:bg-gray-100 ${
-                        selectedId === o.id ? 'bg-blue-50' : ''
-                      }`}
-                    >
-                      <td className="py-2 pr-4">ORD-{o.id}</td>
-                      <td className="py-2 pr-4">{o.customer_name}</td>
-                      <td className="py-2 pr-4">
-                        {new Date(o.created_at).toLocaleDateString()}
-                      </td>
-                      <td className="py-2 pr-4">{o.item_count}</td>
-                      <td className="py-2 pr-4">${o.total.toFixed(2)}</td>
-                      <td className="py-2">{o.status}</td>
+            {visible.length === 0 ? (
+              <p className="mt-6">No orders match your search.</p>
+            ) : (
+              <div className="mt-4 overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-line">
+                      <th className="py-2 pr-4">Order</th>
+                      <th className="py-2 pr-4">Customer</th>
+                      <th className="py-2 pr-4">Date</th>
+                      <th className="py-2 pr-4">Items</th>
+                      <th className="py-2 pr-4">Total</th>
+                      <th className="py-2">Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {visible.map((o) => (
+                      <tr
+                        key={o.id}
+                        tabIndex={0}
+                        onClick={() => setSelectedId(o.id)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setSelectedId(o.id);
+                          }
+                        }}
+                        className={`cursor-pointer border-b border-line hover:bg-gray-100 ${
+                          selectedId === o.id ? 'bg-blue-50' : ''
+                        }`}
+                      >
+                        <td className="py-2 pr-4">ORD-{o.id}</td>
+                        <td className="py-2 pr-4">{o.customer_name}</td>
+                        <td className="py-2 pr-4">
+                          {new Date(o.created_at).toLocaleDateString()}
+                        </td>
+                        <td className="py-2 pr-4">{o.item_count}</td>
+                        <td className="py-2 pr-4">${o.total.toFixed(2)}</td>
+                        <td className="py-2">{o.status}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
 
- 
-            </div>
-          )}
-
-          {/* Order details */}
-          {selectedId !== null && (
-            <OrderDetailsPanel
-              key={selectedId}
-              id={selectedId}
-              onClose={() => setSelectedId(null)}
-            />
-          )}
-        </>
-      )}
-    </div>
+            {/* Order details */}
+            {selectedId !== null && (
+              <OrderDetailsPanel
+                key={selectedId}
+                id={selectedId}
+                onClose={() => setSelectedId(null)}
+              />
+            )}
+          </>
+        )}
+      </div>
+    </section>
   );
 }
