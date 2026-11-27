@@ -153,7 +153,7 @@ export default function ShippingPage() {
               const isEditing = editingId === bracket.id;
 
               return (
-                <tr key={bracket.id} className="hover:bg-blue-100">
+                <tr key={bracket.id} className="hover:bg-surface">
                   <td className="border border-line px-4 py-2">
                     {isEditing ? (
                       <input

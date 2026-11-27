@@ -27,7 +27,7 @@ export default function NavBar({
     return pathName === href || pathName.startsWith(`${href}/`);
   }
   return (
-    <header className="bg-zinc-900 text-white">
+    <header className="bg-ink text-white">
       <div className="h-1 bg-brand" />
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link

@@ -126,8 +126,8 @@ export default function WarehouseLabelsPage() {
               role="status"
               className={`mx-4 mt-4 rounded border px-4 py-3 text-sm ${
                 notice.emailed && !notice.inventoryError
-                  ? 'border-ok bg-green-50 text-ok'
-                  : 'border-warning bg-red-50 error-text'
+                  ? 'border-ok bg-ok/10 text-ok'
+                  : 'border-warning bg-warning/10 error-text'
               }`}
             >
               <strong>Order #{notice.id} shipped.</strong>{' '}

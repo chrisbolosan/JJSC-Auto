@@ -200,7 +200,7 @@ export default function ReceivingTable() {
             className={`mt-4 rounded border-l-4 px-3 py-2 text-sm ${
               isError
                 ? 'border-warning bg-warning error-text'
-                : 'border-ok bg-gray-800 text-ok'
+                : 'border-ok bg-ok/10 text-ok'
             }`}
           >
             {message}

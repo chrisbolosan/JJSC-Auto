@@ -72,7 +72,7 @@ export default function ShippingPage() {
               type="button"
               onClick={() => setFilter(f.value)}
               className={`rounded border px-3 py-1 ${
-                filter === f.value ? 'bg-yellow-500 text-ink' : ''
+                filter === f.value ? 'bg-brand text-ink' : ''
               }`}
             >
               {f.label}

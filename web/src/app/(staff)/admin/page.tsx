@@ -119,7 +119,7 @@ function OrderDetailsPanel({
       </div>
 
       {loading && <p className="mt-3">Loading details...</p>}
-      {error && <p className="mt-3 text-red-600">Error: {error}</p>}
+      {error && <p className="mt-3 error-text">Error: {error}</p>}
 
       {details && (
         <div className="mt-3 space-y-6">
@@ -364,7 +364,7 @@ export default function OrdersPage() {
         </div>
 
         {loading && <p className="mt-4">Loading orders...</p>}
-        {error && <p className="mt-4 text-red-600">Error: {error}</p>}
+        {error && <p className="mt-4 error-text">Error: {error}</p>}
 
         {!loading && !error && (
           <>
