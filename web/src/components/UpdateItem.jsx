@@ -72,7 +72,7 @@ export default function UpdateItem({ itemName, itemStock }) {
             max={available}
             value={qty}
             onChange={(e) => setQty(Number(e.target.value))}
-            className="w-16 rounded border border-gray-300 px-2 py-2 text-center"
+            className="w-16 rounded border border-line px-2 py-2 text-center"
             autoFocus
           />
           <button

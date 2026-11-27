@@ -106,135 +106,143 @@ export default function WarehouseLabelsPage() {
   }
 
   return (
-    <div>
-      {/* When printing, hide everything on the page except #print-area,
+    <section>
+      <div className="page">
+        {/* When printing, hide everything on the page except #print-area,
           which is rendered directly under <body> */}
-      <style>{`
+        <style>{`
         @media print {
           body > *:not(#print-area) { display: none !important; }
         }
       `}</style>
 
-      <div className="print:hidden">
-        <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
-          Packing &amp; Shipping Station
-        </h1>
+        <div className="print:hidden">
+          <h1 className="text-lg font-bold bg-yellow-400 text-black px-4 py-2">
+            Packing &amp; Shipping Station
+          </h1>
 
-        {notice && (
-          <div
-            role="status"
-            className={`mx-4 mt-4 rounded border px-4 py-3 text-sm ${
-              notice.emailed && !notice.inventoryError
-                ? 'border-ok bg-green-50 text-ok'
-                : 'border-warning bg-red-50 text-warning'
-            }`}
-          >
-            <strong>Order #{notice.id} shipped.</strong>{' '}
-            {notice.emailed
-              ? `Shipping confirmation emailed to ${notice.emailedTo}.`
-              : `The order is marked shipped, but the email failed: ${notice.emailError}`}
-            {notice.inventoryError &&
-              ` Inventory was not updated: ${notice.inventoryError}`}
-            <button
-              type="button"
-              onClick={() => setNotice(null)}
-              className="ml-3 underline"
+          {notice && (
+            <div
+              role="status"
+              className={`mx-4 mt-4 rounded border px-4 py-3 text-sm ${
+                notice.emailed && !notice.inventoryError
+                  ? 'border-ok bg-green-50 text-ok'
+                  : 'border-warning bg-red-50 text-warning'
+              }`}
             >
-              Dismiss
-            </button>
-          </div>
-        )}
-
-        <div className="grid gap-4 p-4 lg:grid-cols-[20rem_1fr]">
-          {/* Order queue */}
-          <aside className="rounded border border-gray-300">
-            <div className="flex border-b border-gray-300">
-              {(
-                [
-                  ['authorized', 'To pack'],
-                  ['shipped', 'Recently shipped'],
-                ] as const
-              ).map(([value, label]) => (
-                <button
-                  key={value}
-                  type="button"
-                  onClick={() => {
-                    if (value === view) return;
-                    setLoading(true);
-                    setView(value);
-                    setSelectedId(null);
-                  }}
-                  className={`flex-1 px-3 py-2 text-sm font-semibold ${
-                    view === value ? 'bg-yellow-400 text-black' : ''
-                  }`}
-                >
-                  {label}
-                </button>
-              ))}
-            </div>
-
-            <div className="flex items-center justify-between px-3 py-2 text-sm text-gray-600">
-              <span>{loading ? 'Loading…' : `${orders.length} orders`}</span>
-              <button type="button" onClick={loadOrders} className="underline">
-                Refresh
+              <strong>Order #{notice.id} shipped.</strong>{' '}
+              {notice.emailed
+                ? `Shipping confirmation emailed to ${notice.emailedTo}.`
+                : `The order is marked shipped, but the email failed: ${notice.emailError}`}
+              {notice.inventoryError &&
+                ` Inventory was not updated: ${notice.inventoryError}`}
+              <button
+                type="button"
+                onClick={() => setNotice(null)}
+                className="ml-3 underline"
+              >
+                Dismiss
               </button>
             </div>
+          )}
 
-            {error && <p className="px-3 pb-3 text-red-600">Error: {error}</p>}
-
-            {!loading && !error && orders.length === 0 && (
-              <p className="px-3 pb-3 text-sm">
-                {view === 'authorized'
-                  ? 'No orders waiting to be packed.'
-                  : 'No shipped orders yet.'}
-              </p>
-            )}
-
-            <ul className="max-h-[70vh] overflow-y-auto">
-              {orders.map((o) => (
-                <li key={o.id}>
+          <div className="grid gap-4 p-4 lg:grid-cols-[20rem_1fr]">
+            {/* Order queue */}
+            <aside className="rounded border border-line">
+              <div className="flex border-b border-line">
+                {(
+                  [
+                    ['authorized', 'To pack'],
+                    ['shipped', 'Recently shipped'],
+                  ] as const
+                ).map(([value, label]) => (
                   <button
+                    key={value}
                     type="button"
-                    onClick={() => setSelectedId(o.id)}
-                    className={`w-full border-t border-gray-200 px-3 py-2 text-left text-sm hover:bg-gray-50 ${
-                      selectedId === o.id ? 'bg-blue-50 font-semibold' : ''
+                    onClick={() => {
+                      if (value === view) return;
+                      setLoading(true);
+                      setView(value);
+                      setSelectedId(null);
+                    }}
+                    className={`flex-1 px-3 py-2 text-sm font-semibold ${
+                      view === value ? 'bg-yellow-400 text-black' : ''
                     }`}
                   >
-                    <div className="flex justify-between">
-                      <span>Order #{o.id}</span>
-                      <span className="text-gray-600">
-                        {fmtDate(
-                          view === 'shipped' ? o.shipped_at : o.created_at,
-                        )}
-                      </span>
-                    </div>
-                    <div className="text-gray-600">
-                      {o.customer_name} · {o.city} · {o.item_count} item
-                      {o.item_count === 1 ? '' : 's'} · {o.total_weight} lbs
-                    </div>
+                    {label}
                   </button>
-                </li>
-              ))}
-            </ul>
-          </aside>
+                ))}
+              </div>
 
-          {/* Workflow for the selected order */}
-          <section>
-            {selectedId === null ? (
-              <p className="rounded border border-dashed border-gray-300 p-6 text-center text-gray-600">
-                Select an order from the list to start packing.
-              </p>
-            ) : (
-              <PackingStation
-                key={selectedId}
-                orderId={selectedId}
-                onShipped={handleShipped}
-              />
-            )}
-          </section>
+              <div className="flex items-center justify-between px-3 py-2 text-sm text-gray-600">
+                <span>{loading ? 'Loading…' : `${orders.length} orders`}</span>
+                <button
+                  type="button"
+                  onClick={loadOrders}
+                  className="underline"
+                >
+                  Refresh
+                </button>
+              </div>
+
+              {error && (
+                <p className="px-3 pb-3 text-red-600">Error: {error}</p>
+              )}
+
+              {!loading && !error && orders.length === 0 && (
+                <p className="px-3 pb-3 text-sm">
+                  {view === 'authorized'
+                    ? 'No orders waiting to be packed.'
+                    : 'No shipped orders yet.'}
+                </p>
+              )}
+
+              <ul className="max-h-[70vh] overflow-y-auto">
+                {orders.map((o) => (
+                  <li key={o.id}>
+                    <button
+                      type="button"
+                      onClick={() => setSelectedId(o.id)}
+                      className={`w-full border-t border-line px-3 py-2 text-left text-sm hover:bg-gray-50 ${
+                        selectedId === o.id ? 'bg-blue-50 font-semibold' : ''
+                      }`}
+                    >
+                      <div className="flex justify-between">
+                        <span>Order #{o.id}</span>
+                        <span className="text-gray-600">
+                          {fmtDate(
+                            view === 'shipped' ? o.shipped_at : o.created_at,
+                          )}
+                        </span>
+                      </div>
+                      <div className="text-gray-600">
+                        {o.customer_name} · {o.city} · {o.item_count} item
+                        {o.item_count === 1 ? '' : 's'} · {o.total_weight} lbs
+                      </div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+
+            {/* Workflow for the selected order */}
+            <section>
+              {selectedId === null ? (
+                <p className="rounded border border-dashed border-line p-6 text-center text-gray-600">
+                  Select an order from the list to start packing.
+                </p>
+              ) : (
+                <PackingStation
+                  key={selectedId}
+                  orderId={selectedId}
+                  onShipped={handleShipped}
+                />
+              )}
+            </section>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -338,12 +346,9 @@ function PackingStation({
         </p>
       )}
 
-      <ul className="divide-y divide-gray-200 rounded border border-gray-300">
+      <ul className="divide-y divide-line rounded border border-line">
         {order.items.map((i) => (
-          <li
-            key={i.part_number}
-            className="flex items-center gap-3 px-3 py-2"
-          >
+          <li key={i.part_number} className="flex items-center gap-3 px-3 py-2">
             <span className="w-10 text-lg font-bold">{i.quantity}×</span>
             <span className="flex-1">
               {i.description}
@@ -355,7 +360,7 @@ function PackingStation({
         ))}
       </ul>
 
-      <details className="rounded border border-gray-300 p-3">
+      <details className="rounded border border-line p-3">
         <summary className="cursor-pointer font-semibold">
           Order details
         </summary>

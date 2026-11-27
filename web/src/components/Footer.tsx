@@ -7,10 +7,10 @@ const shopLinks = [
 
 export default function Footer() {
   return (
-    <footer className="mt-auto bg-ink text-zinc-400">
+    <footer className="mt-auto bg-ink text-surface">
       <div className="h-1 bg-brand" />
 
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 sm:px-6">
+      <div className="page grid gap-8 grid-cols-2">
         <div>
           <Link
             href="/"
@@ -19,7 +19,7 @@ export default function Footer() {
             <span className="rounded-sm bg-brand px-1.5 py-0.5 text-ink">
               JJSC
             </span>
-            <span>Auto</span>
+            <span className="px-2">Auto</span>
           </Link>
           <p className="mt-3 max-w-xs text-sm">
             Quality auto parts, shipped straight to your door.

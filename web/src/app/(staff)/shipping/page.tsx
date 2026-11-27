@@ -94,7 +94,7 @@ export default function ShippingPage() {
             <div className="mt-4 overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-gray-300">
+                  <tr className="border-b border-line">
                     <th className="py-2 pr-4">Order</th>
                     <th className="py-2 pr-4">Customer</th>
                     <th className="py-2 pr-4">Destination</th>
@@ -104,7 +104,7 @@ export default function ShippingPage() {
                 </thead>
                 <tbody>
                   {visible.map((s) => (
-                    <tr key={s.id} className="border-b border-gray-200">
+                    <tr key={s.id} className="border-b border-line">
                       <td className="py-2 pr-4">ORD-{s.id}</td>
                       <td className="py-2 pr-4">{s.name}</td>
                       <td className="py-2 pr-4">{s.city}</td>

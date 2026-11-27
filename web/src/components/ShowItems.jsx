@@ -89,9 +89,12 @@ export default function ShowItems() {
   return (
     <div>
       <h2 className="mb-3 text-lg font-semibold">Order summary</h2>
-      <ul className="divide-y divide-gray-200">
+      <ul className="divide-y divide-line">
         {partDat.map((p) => (
-          <li key={p.number} className="flex items-center justify-between gap-2 py-1">
+          <li
+            key={p.number}
+            className="flex items-center justify-between gap-2 py-1"
+          >
             <span
               title={p.description}
             >{`${p.description.slice(0, 25)}...`}</span>
@@ -111,16 +114,16 @@ export default function ShowItems() {
         ))}
       </ul>
 
-      <div className="mt-4 border-t flex justify-between border-gray-300">
+      <div className="mt-4 border-t flex justify-between border-line">
         <span>Subtotal:</span>
         <span>${total.toFixed(2)}</span>
       </div>
-      <div className="flex justify-between border-gray-300">
+      <div className="flex justify-between border-line">
         <span>Shipping:</span>
         <span>${shipCharge.toFixed(2)}</span>
       </div>
 
-      <p className="mt-4 flex justify-between border-t border-gray-300 pt-2 font-semibold">
+      <p className="mt-4 flex justify-between border-t border-line pt-2 font-semibold">
         <span>Total</span>
         <span>${(total + shipCharge).toFixed(2)}</span>
       </p>

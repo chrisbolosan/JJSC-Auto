@@ -138,15 +138,13 @@ export default function ShippingPage() {
     <div style={{ padding: '20px' }} className="text-metal">
       <h2>Weight Brackets</h2>
 
-      <table className="table-auto w-full bg-white border border-gray-300">
+      <table className="table-auto w-full bg-white border border-line">
         <thead className="bg-metal text-white">
           <tr>
-            <th className="border border-gray-300 px-4 py-2">Min Weight</th>
-            <th className="border border-gray-300 px-4 py-2">Max Weight</th>
-            <th className="border border-gray-300 px-4 py-2">
-              Shipping Charge
-            </th>
-            <th className="border border-gray-300 px-4 py-2">Actions</th>
+            <th className="border border-line px-4 py-2">Min Weight</th>
+            <th className="border border-line px-4 py-2">Max Weight</th>
+            <th className="border border-line px-4 py-2">Shipping Charge</th>
+            <th className="border border-line px-4 py-2">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -155,7 +153,7 @@ export default function ShippingPage() {
 
             return (
               <tr key={bracket.id} className="hover:bg-blue-100">
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-line px-4 py-2">
                   {isEditing ? (
                     <input
                       type="number"
@@ -172,7 +170,7 @@ export default function ShippingPage() {
                 </td>
 
                 {/* Max Weight Column */}
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-line px-4 py-2">
                   {isEditing ? (
                     <input
                       type="number"
@@ -189,7 +187,7 @@ export default function ShippingPage() {
                 </td>
 
                 {/* Shipping Charge Column */}
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-line px-4 py-2">
                   {isEditing ? (
                     <input
                       type="number"
@@ -209,7 +207,7 @@ export default function ShippingPage() {
                 </td>
 
                 {/* Action Buttons */}
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-line px-4 py-2">
                   {isEditing ? (
                     <>
                       <button
@@ -229,7 +227,7 @@ export default function ShippingPage() {
           })}
 
           <tr className="bg-gray-50">
-            <td className="border border-gray-300 px-4 py-2">
+            <td className="border border-line px-4 py-2">
               <input
                 type="number"
                 min="0.01"
@@ -245,7 +243,7 @@ export default function ShippingPage() {
                 }
               />
             </td>
-            <td className="border border-gray-300 px-4 py-2">
+            <td className="border border-line px-4 py-2">
               <input
                 type="number"
                 min="0.01"
@@ -261,7 +259,7 @@ export default function ShippingPage() {
                 aria-label="New brack max weight"
               />
             </td>
-            <td className="border border-gray-300 px-4 py-2">
+            <td className="border border-line px-4 py-2">
               <input
                 type="number"
                 min="0.01"
@@ -277,7 +275,7 @@ export default function ShippingPage() {
                 }
               />
             </td>
-            <td className="border border-gray-300 px-4 py-2">
+            <td className="border border-line px-4 py-2">
               <button onClick={addRow} disabled={isAdd} className="btn-primary">
                 {isAdd ? 'Adding...' : 'Add'}
               </button>

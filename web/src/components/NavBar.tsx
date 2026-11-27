@@ -12,9 +12,7 @@ type NavBarProps = {
   showCart?: boolean;
 };
 
-const defaultLinks: NavLink[] = [
-  { href: '/allproducts', label: 'Shop Parts' }
-];
+const defaultLinks: NavLink[] = [{ href: '/allproducts', label: 'Shop Parts' }];
 
 export default function NavBar({
   brand = 'JJSC Auto',
@@ -40,7 +38,9 @@ export default function NavBar({
           <span className="rounded-sm bg-brand px-1.5 py-0.5 text-ink">
             JJSC
           </span>
-          <span>{brand.replace(/^JJSC\s*/i, '') || 'Auto'}</span>
+          <span className="px-2">
+            {brand.replace(/^JJSC\s*/i, '') || 'Auto'}
+          </span>
         </Link>
         {showCart && (
           <Link
@@ -54,7 +54,7 @@ export default function NavBar({
         )}
       </div>
 
-      <nav className="flex-1">
+      <nav className="flex-1 page">
         <ul className="flex gap-1">
           {links.map((link) => (
             <li key={link.href}>
