@@ -11,7 +11,7 @@ export default function ProductCard({ product }) {
         </p>
         <p className="text-sm text-metal">{product.weight} lbs</p>
         <p
-          className={`mt-1 text-sm font-semibold ${product.quantity > 0 ? 'text-ok' : 'text-warning'}`}
+          className={`mt-1 text-sm font-semibold ${product.quantity > 0 ? 'text-ok' : 'error-text'}`}
         >
           {product.quantity > 0
             ? `${product.quantity} in stock`

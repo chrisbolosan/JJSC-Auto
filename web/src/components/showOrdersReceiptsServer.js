@@ -9,7 +9,5 @@ import {getOrderById} from '@/server/services/orderDetails.service'
 export async function getOrderDetails(orderID){
     const order = await getOrderById(Number(orderID));
     //const cust = order.customer_id;
-    //console(`Read cust ${cust[1]}`);
-    console.log(`ID: ${order.id} total ${order.total} in ${order.city}`);
     return order;
 }

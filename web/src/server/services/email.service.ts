@@ -31,7 +31,6 @@ export async function sendOrderConfirmation(orderId: number, to?: string) {
   if (!order) {
     return null;
   }
-  console.log('order object', order);
   const itemLines = order.items.map(
     (item) =>
       `  ${item.quantity} x ${item.description} (#${item.part_number}) @ ${money(item.price)} = ${money(item.line_total)}`,
@@ -39,7 +38,6 @@ export async function sendOrderConfirmation(orderId: number, to?: string) {
   if (itemLines.length === 0) {
     itemLines.push(` No items found in order.`);
   }
-  console.log('itemline', itemLines);
 
   const text = [
     `Hi ${order.customer.name},`,

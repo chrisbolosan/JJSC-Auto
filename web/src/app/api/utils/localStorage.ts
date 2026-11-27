@@ -30,6 +30,25 @@ export function clearCart(){
     setItem("ORDER_ID", orderId);
 }
 
+// Tell listeners (e.g. useLocalStorageNumber in UpdateItem) the cart changed.
+function notifyCartChange(){
+    window.dispatchEvent(new StorageEvent('storage'));
+}
+
+// Remove one part from the cart.
+export function removeFromCart(part: number | string){
+    window.localStorage.removeItem(String(part));
+    notifyCartChange();
+}
+
+// Remove every part from the cart, keeping other keys like ORDER_ID.
+export function emptyCart(){
+    for (const part of getFullCart()){
+        window.localStorage.removeItem(String(part));
+    }
+    notifyCartChange();
+}
+
 export function getFullCart(){
     //try{
     //let cart = [];
@@ -49,14 +68,11 @@ export function getFullCart(){
         }
     }
 
-    console.log("cart INSIDE:", cart[0]);
     }
 
-    console.log("cart:", cart[0]);
     
     return cart;
 
     //}catch(error){
-     //   console.log(error);
     //}
 }

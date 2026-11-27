@@ -97,10 +97,7 @@ export default function ReceivingTable() {
   return (
     <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-5">
       <section className="lg:col-span-2">
-        <label
-          htmlFor="part-search"
-          className="block text-sm font-bold uppercase tracking-wide text-ink"
-        >
+        <label htmlFor="part-search" className="label">
           Find part
         </label>
         <input
@@ -171,10 +168,7 @@ export default function ReceivingTable() {
 
             <div className="mt-5 flex flex-wrap items-end gap-3">
               <div>
-                <label
-                  htmlFor="qty"
-                  className="block text-sm font-bold uppercase tracking-wide text-ink"
-                >
+                <label htmlFor="qty" className="label">
                   Quantity received
                 </label>
                 <input
@@ -205,8 +199,8 @@ export default function ReceivingTable() {
             role="status"
             className={`mt-4 rounded border-l-4 px-3 py-2 text-sm ${
               isError
-                ? 'border-warning bg-warning text-warning'
-                : 'border-ok bg-gray-800 text-ok'
+                ? 'border-warning bg-warning error-text'
+                : 'border-ok bg-ok/10 text-ok'
             }`}
           >
             {message}
@@ -222,12 +216,12 @@ export default function ReceivingTable() {
           <p className="mt-2 text-sm text-metal">Nothing received yet</p>
         ) : (
           <div className="table-wrap mt-2">
-            <table className="w-full text-left text-sm">
+            <table className="table">
               <thead className="bg-surface text-xs uppercase tracking-wide text-metal">
                 <tr>
-                  <th className="px-3 py-2">When</th>
-                  <th className="px-3 py-2">Part</th>
-                  <th className="px-3 py-2">Description</th>
+                  <th>When</th>
+                  <th>Part</th>
+                  <th>Description</th>
                   <th className="px-3 py-2 text-right">Qty</th>
                 </tr>
               </thead>
@@ -238,7 +232,7 @@ export default function ReceivingTable() {
                       {new Date(row.received_at).toLocaleString()}
                     </td>
                     <td className="px-3 py-2 font-mono">#{row.part_number}</td>
-                    <td className="px-3 py-2">{row.description}</td>
+                    <td>{row.description}</td>
                     <td className="px-3 py-2 text-right font-bold text-ok">
                       +{row.quantity}
                     </td>

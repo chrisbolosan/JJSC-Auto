@@ -10,7 +10,7 @@ type returnButtonProps = {
 export default function Return({
   href,
   label = 'Go Back',
-  styles = 'rounded border border-gray-300 px-3 py-1 text-sm',
+  styles = 'rounded border border-line px-3 py-1 text-sm',
 }: returnButtonProps) {
   const pathName = usePathname();
   const parentPath = pathName.split('/').slice(0, -1).join('/') || '/';

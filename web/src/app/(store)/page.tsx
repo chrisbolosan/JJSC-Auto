@@ -35,7 +35,7 @@ export default function Home() {
         <div className="h-2 bg-brand" />
       </section>
       <section>
-        <p className="text-sm font-semibold uppercase text-zinc-500">
+        <p className="text-sm font-semibold uppercase text-metal">
           Categories{' '}
         </p>
 
